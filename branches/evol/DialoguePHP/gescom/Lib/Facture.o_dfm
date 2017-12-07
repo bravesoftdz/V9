@@ -1,0 +1,5125 @@
+object FFacture: TFFacture
+  Left = 14
+  Top = 112
+  Width = 770
+  Height = 469
+  HelpContext = 119000017
+  ActiveControl = GP_DATEPIECE
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Saisie de pièce'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = True
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TDescriptif: TToolWindow97
+    Left = 6
+    Top = 88
+    ClientHeight = 259
+    ClientWidth = 315
+    Caption = 'Descriptif détaillé'
+    ClientAreaHeight = 259
+    ClientAreaWidth = 315
+    TabOrder = 14
+    Visible = False
+    OnClose = TDescriptifClose
+    object Descriptif: THRichEditOLE
+      Left = 0
+      Top = 0
+      Width = 315
+      Height = 259
+      Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Times New Roman'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnKeyDown = DescriptifKeyDown
+      Margins.Top = 0
+      Margins.Bottom = 0
+      Margins.Left = 0
+      Margins.Right = 0
+      ContainerName = 'Document'
+      ObjectMenuPrefix = '&Object'
+      LinesRTF.Strings = (
+        
+          '{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fnil Time' +
+          's New Roman;}}'
+        '\viewkind4\uc1\pard\f0\fs20 '
+        '\par '
+        '\par }')
+    end
+  end
+  object Descriptif1: THRichEditOLE
+    Left = 144
+    Top = 168
+    Width = 229
+    Height = 94
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Times New Roman'
+    Font.Style = []
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 24
+    Visible = False
+    WantTabs = True
+    OnKeyDown = Descriptif1KeyDown
+    Margins.Top = 0
+    Margins.Bottom = 0
+    Margins.Left = 0
+    Margins.Right = 0
+    ContainerName = 'Document'
+    ObjectMenuPrefix = '&Object'
+    LinesRTF.Strings = (
+      '{\rtf1\ansi\deff0{\fonttbl{\f0\fnil Times New Roman;}}'
+      '\viewkind4\uc1\pard\lang1036\f0\fs20 Descriptif1'
+      '\par }')
+  end
+  object PEnteteAffaire: THPanel
+    Left = 0
+    Top = 120
+    Width = 693
+    Height = 113
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    Caption = ' '
+    FullRepaint = False
+    TabOrder = 2
+    Visible = False
+    OnExit = PEnteteExit
+    BackGroundEffect = bdFond
+    ColorShadow = clWindowText
+    ColorStart = clBtnFace
+    ColorNb = 2
+    TextEffect = tenone
+    object HGP_NUMPIECE__: THLabel
+      Left = 7
+      Top = 28
+      Width = 12
+      Height = 13
+      Caption = 'N°'
+      Transparent = True
+    end
+    object HGP_REFINTERNE__: THLabel
+      Left = 250
+      Top = 52
+      Width = 50
+      Height = 13
+      Caption = 'Référence'
+      FocusControl = GP_REFINTERNE__
+      Transparent = True
+    end
+    object HGP_TIERS__: THLabel
+      Left = 250
+      Top = 7
+      Width = 26
+      Height = 13
+      Caption = 'Client'
+      FocusControl = GP_TIERS__
+      Transparent = True
+    end
+    object HGP_DATEPIECE__: THLabel
+      Left = 120
+      Top = 28
+      Width = 12
+      Height = 13
+      Caption = 'du'
+      FocusControl = GP_DATEPIECE__
+      Transparent = True
+    end
+    object HGP_REPRESENTANT__: THLabel
+      Left = 479
+      Top = 52
+      Width = 54
+      Height = 13
+      Caption = 'Commercial'
+      FocusControl = GP_REPRESENTANT__
+      Transparent = True
+    end
+    object HGP_ETABLISSEMENT__: THLabel
+      Left = 479
+      Top = 7
+      Width = 65
+      Height = 13
+      Caption = 'Etablissement'
+      FocusControl = GP_ETABLISSEMENT__
+      Transparent = True
+    end
+    object FTitrePiece__: THLabel
+      Left = 5
+      Top = 2
+      Width = 242
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'PIECE COMMERCIALE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+      Ombre = True
+      OmbreDecalX = 1
+      OmbreDecalY = 1
+      OmbreColor = clGray
+    end
+    object HGP_DEPOT__: THLabel
+      Left = 479
+      Top = 74
+      Width = 29
+      Height = 13
+      Caption = 'Dépôt'
+      FocusControl = GP_DEPOT__
+      Transparent = True
+    end
+    object BRechAffaire__: TToolbarButton97
+      Left = 288
+      Top = 26
+      Width = 23
+      Height = 22
+      Hint = 'Rechercher client/affaire'
+      Glyph.Data = {
+        76050000424D7605000000000000360400002800000013000000100000000100
+        0800000000004001000000000000000000000001000000010000000000004000
+        000080000000FF000000002000004020000080200000FF200000004000004040
+        000080400000FF400000006000004060000080600000FF600000008000004080
+        000080800000FF80000000A0000040A0000080A00000FFA0000000C0000040C0
+        000080C00000FFC0000000FF000040FF000080FF0000FFFF0000000020004000
+        200080002000FF002000002020004020200080202000FF202000004020004040
+        200080402000FF402000006020004060200080602000FF602000008020004080
+        200080802000FF80200000A0200040A0200080A02000FFA0200000C0200040C0
+        200080C02000FFC0200000FF200040FF200080FF2000FFFF2000000040004000
+        400080004000FF004000002040004020400080204000FF204000004040004040
+        400080404000FF404000006040004060400080604000FF604000008040004080
+        400080804000FF80400000A0400040A0400080A04000FFA0400000C0400040C0
+        400080C04000FFC0400000FF400040FF400080FF4000FFFF4000000060004000
+        600080006000FF006000002060004020600080206000FF206000004060004040
+        600080406000FF406000006060004060600080606000FF606000008060004080
+        600080806000FF80600000A0600040A0600080A06000FFA0600000C0600040C0
+        600080C06000FFC0600000FF600040FF600080FF6000FFFF6000000080004000
+        800080008000FF008000002080004020800080208000FF208000004080004040
+        800080408000FF408000006080004060800080608000FF608000008080004080
+        800080808000FF80800000A0800040A0800080A08000FFA0800000C0800040C0
+        800080C08000FFC0800000FF800040FF800080FF8000FFFF80000000A0004000
+        A0008000A000FF00A0000020A0004020A0008020A000FF20A0000040A0004040
+        A0008040A000FF40A0000060A0004060A0008060A000FF60A0000080A0004080
+        A0008080A000FF80A00000A0A00040A0A00080A0A000FFA0A00000C0A00040C0
+        A00080C0A000FFC0A00000FFA00040FFA00080FFA000FFFFA0000000C0004000
+        C0008000C000FF00C0000020C0004020C0008020C000FF20C0000040C0004040
+        C0008040C000FF40C0000060C0004060C0008060C000FF60C0000080C0004080
+        C0008080C000FF80C00000A0C00040A0C00080A0C000FFA0C00000C0C00040C0
+        C00080C0C000FFC0C00000FFC00040FFC00080FFC000FFFFC0000000FF004000
+        FF008000FF00FF00FF000020FF004020FF008020FF00FF20FF000040FF004040
+        FF008040FF00FF40FF000060FF004060FF008060FF00FF60FF000080FF004080
+        FF008080FF00FF80FF0000A0FF0040A0FF0080A0FF00FFA0FF0000C0FF0040C0
+        FF0080C0FF00FFC0FF0000FFFF0040FFFF0080FFFF00FFFFFF00B6B6B60000B6
+        B6B6B60000B6B6B6B6B6B6B6B600B6B600B6B600B6B600B6B600B6B6B6B6B6B6
+        B600B6B6001FFF00B6B6001FFF00B6B6B6B6B6B6B600B6B6001F1F000000001F
+        1F00000000000000B600B6B60000006DFFFFFF000000FFFFFFFFFF00B600B6B6
+        B600B66DFFB6B6B6FFFF00FFFF00FF00B600B6B6B6B6006DFF00FFB6FFFFB600
+        FF00FF00B600B6B6B6B6B600FF00FFB6FFFFB6FF0000FF00B600B6B6B6B6B66D
+        0000FFB6FFFFB6FFFFB6FF00B600B6B6B6B6B66DFFB6B6B6B6B6B6B6B6B6FF00
+        B600B6B6B6B6B66DFFFFFFFFFFFFFFFFFFFFFF00B600B6B6B6B6B66DFFFFFFFF
+        FFFF6D6D6D6DFF00B600B6B6B6B6B66DFFFFFFFFFFFFFFFFFFFFFF00B600B6B6
+        B6B6B66D6D6D6D6D6D6D6D6D6D6D6D00B600B6B6B6B6B66D6D6D6D6D6D6D6D6D
+        6D6D6D6DB600B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B600}
+      Opaque = False
+      OnClick = BRechAffaire__Click
+    end
+    object HGP_AFFAIRE__: THLabel
+      Left = 250
+      Top = 30
+      Width = 30
+      Height = 13
+      Caption = 'Affaire'
+      Transparent = True
+    end
+    object BDevise__: TToolbarButton97
+      Tag = -100
+      Left = 468
+      Top = 26
+      Width = 61
+      Height = 21
+      Alignment = taLeftJustify
+      DisplayMode = dmTextOnly
+      DropdownArrow = True
+      DropdownMenu = PopD
+      Caption = 'Devise'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Layout = blGlyphTop
+      Opaque = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Spacing = -1
+      IsControl = True
+    end
+    object ISigneEuro__: TImage
+      Left = 531
+      Top = 29
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        07544269746D6170F6000000424DF60000000000000076000000280000001000
+        0000100000000100040000000000800000000000000000000000100000001000
+        0000000000000000BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0
+        C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF
+        FF00FFFFFFFFFFFFFFFFFFFFFFF44444444FFFFFF44444444444FFFF4444FFFF
+        FFF4FFFF444FFFFFFFFFFFFF44FFFFFFFFFFF44444444444FFFFFF4444444444
+        4FFFFFF44FFFFFFFFFFFF444444444444FFFFF444444444444FFFFFF44FFFFFF
+        FFF4FFFF444FFFFFFF44FFFFF444FFFFF444FFFFFF4444444444FFFFFFF44444
+        4FF4}
+      Stretch = True
+      Transparent = True
+      Visible = False
+    end
+    object BRazAffaire: TToolbarButton97
+      Left = 288
+      Top = 3
+      Width = 23
+      Height = 22
+      Hint = 'Effacer sélection client/affaire'
+      Glyph.Data = {
+        B2050000424DB205000000000000360400002800000014000000130000000100
+        0800000000007C01000000000000000000000001000000010000000000000000
+        80000080000000808000800000008000800080800000C0C0C000C0DCC000F0C8
+        A400FFFF80008080400000FF8000004040000080FF0000408000FF8080006020
+        8000C0FFFF00E0E0A000800060008080FF00C0800000FFC0C000FFCF0000FFFF
+        6900E0FFE000B39CDD00EE8FB300F96F2A00CDB83F0036844800418C9500425E
+        8E007A62A000AC4F6200BE2F1D007666280000450000013E450013286A006A39
+        850085324A00040404000C0C0C0011111100161616001C1C1C00222222003030
+        30005F5F5F0029292900555555004D4D4D00424242000007000000000D003939
+        39008199B700B499840090BDBD00607F7F007F606000000E000000001B000000
+        28002B090800001D0000000039009B00000000250000000049003B111100002F
+        000000005D0045171700003A000011114900531C1C00FF160000FF002B006C21
+        210014145900005100006A1A47006732190000610000FF310000FF0061007B20
+        530067431600E22E2E001659260004465100492E68008F520700B8186A001523
+        9000FF530000FF00A300124A6A006C3375009A414A000B653700152CA400B11F
+        8300FF2C4E00B6512000926408000B566F00AD435900127236001733B00000A1
+        00001F5F7700714789001C43B0007D2DB70095860000236E7A00009F260001A9
+        7300FF00800040008000FF8040008040000000CA0000015BAC00C21D20007052
+        94004CAA240089940A007B6E360090754400A800FF00FF710000FF00DF004A91
+        5600F84834008232CC007041E40001CA680042BC3600FF9A0000B7229600337D
+        85008CB72500ED5A360000FF5C000048FF00A29B22004DCF42005258C20095D3
+        2000E024A500B556730000A9A9003C6FD000589F67000BCF890000ACFF00FE2E
+        A7007F59E20067DC4C00FF18FF00FF7D3A0018D0B10000FFC70000E2FF003D9A
+        DF009F815600BA43C6008B71AF00C9A23800CE53D100659AFF00DBCA4600FF4D
+        FF006AE9C800E0DE4C00FF98FF0082C0DF00A5ECE900CDF6F500FFD0FF005AAC
+        B100AE91630008080800654C22003F4E8D0070705000FFFFD000FFE7FF006969
+        69007777770086868600969696009D9D9D00A4A4A400B2B2B200CBCBCB00D7D7
+        D700DDDDDD00E3E3E300EAEAEA00F1F1F100F8F8F80066C1B20078BF8000F0F0
+        C600FFA4B200FFB3FF00A38ED10037DCC300549EA00070AE7600C19E7800BF64
+        8300D383A400323FD100007DFF0023784400605F24002C0E0E000000BE00001F
+        FF00003931003E85D9008577020081D8B0001D21560030000000B3C888000079
+        A0008170EA0069F1510080FFFF00CD749100FF7CFF00FFFFA200392910003962
+        9400FFFFF600F6FFFF00083100006A8B2900F0FBFF00A4A0A000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00070707070707
+        0707070707070707070707070707070707070707070707070707070707070707
+        0707FF070707FF070707070707070707070707070707FF0707FFFFFF0707FF07
+        07070707070707070707FFFFFFFFFFFFFFFFFFFF07070707070707070707FFFF
+        FFFFFFFFFFFFF80101010707070707070707FFFFFFFFFFFFFFF8F9FDFD050107
+        070707070707FFFFFFFFFFFFFFF9FDF9FDFD0501070707070707FFFFFFFFFFFF
+        07FDF9FFF9FDFD05000707070707FFFF07FFFFFF07F9FDFFFDF9FD0006000707
+        0707FF070707FF070707F9FDFFFD0002040600070707FF0707070707070707F9
+        FD00FA020204060007070707070707070707070700FAFBFA020200F800070707
+        07070707070707070700FAFBFA0004F8F80007070707070707070707070700FA
+        0007FB04F8F8070707070707070707070707070007FFFBFB04F8070707070707
+        070707070707070700FFFFFBFB0407070707070707070707070707070700FFFF
+        FBFB0707070707070707070707070707070700FFFFFB}
+      Opaque = False
+      OnClick = BRazAffaireClick
+    end
+    object LibComplAffaire: THLabel
+      Left = 5
+      Top = 30
+      Width = 207
+      Height = 13
+      AutoSize = False
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object HGP_DOMAINE__: THLabel
+      Left = 250
+      Top = 74
+      Width = 63
+      Height = 13
+      Caption = 'Domaine act.'
+      FocusControl = GP_DOMAINE__
+      Transparent = True
+      Visible = False
+    end
+    object HGP_DATELIVRAISON__: THLabel
+      Left = 250
+      Top = 74
+      Width = 53
+      Height = 13
+      Caption = 'Livraison le'
+      FocusControl = GP_DATELIVRAISON__
+      Transparent = True
+    end
+    object GP_REFEXTERNE__: TEdit
+      Left = 314
+      Top = 48
+      Width = 137
+      Height = 21
+      TabOrder = 20
+    end
+    object GP_REFINTERNE__: TEdit
+      Left = 314
+      Top = 48
+      Width = 137
+      Height = 21
+      TabOrder = 13
+    end
+    object GP_TIERS__: THCritMaskEdit
+      Left = 314
+      Top = 3
+      Width = 136
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 2
+      OnDblClick = GP_TIERSDblClick
+      OnEnter = GP_TIERSEnter
+      OnExit = GP_TIERSExit
+      TagDispatch = 0
+      DataType = 'GCTIERSSAISIE'
+      ElipsisButton = True
+      OnElipsisClick = GP_TIERSElipsisClick
+    end
+    object GP_DATEPIECE__: THCritMaskEdit
+      Left = 137
+      Top = 24
+      Width = 78
+      Height = 21
+      EditMask = '!99/99/0000;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 1
+      Text = '  /  /    '
+      OnExit = GP_DATEPIECEExit
+      TagDispatch = 0
+      OpeType = otDate
+      ElipsisButton = True
+      ElipsisAutoHide = True
+      ControlerDate = True
+    end
+    object GP_DEVISE__: THValComboBox
+      Left = 550
+      Top = 26
+      Width = 137
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 11
+      OnChange = GP_DEVISEChange
+      TagDispatch = 0
+      DataType = 'TTDEVISE'
+    end
+    object GP_REPRESENTANT__: THCritMaskEdit
+      Left = 550
+      Top = 48
+      Width = 137
+      Height = 21
+      Enabled = False
+      ReadOnly = True
+      TabOrder = 14
+      OnExit = GP_REPRESENTANTExit
+      TagDispatch = 0
+      ElipsisButton = True
+      OnElipsisClick = GP_REPRESENTANTElipsisClick
+    end
+    object GP_NUMEROPIECE__: THPanel
+      Left = 35
+      Top = 24
+      Width = 80
+      Height = 21
+      BevelOuter = bvLowered
+      Caption = 'Non affecté'
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object LIBELLETIERS__: THPanel
+      Left = 7
+      Top = 49
+      Width = 218
+      Height = 16
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Ctl3D = True
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object GP_ETABLISSEMENT__: THValComboBox
+      Left = 550
+      Top = 3
+      Width = 137
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 4
+      OnChange = GP_ETABLISSEMENTChange
+      TagDispatch = 0
+      DataType = 'TTETABLISSEMENT'
+    end
+    object GP_DEPOT__: THValComboBox
+      Left = 550
+      Top = 70
+      Width = 137
+      Height = 21
+      Style = csDropDownList
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 13
+      ParentFont = False
+      TabOrder = 15
+      OnChange = GP_DEPOTChange
+      TagDispatch = 0
+      DataType = 'GCDEPOT'
+    end
+    object GP_AFFAIRE1__: THCritMaskEdit
+      Left = 314
+      Top = 26
+      Width = 42
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 5
+      OnChange = GP_AFFAIRE1__Change
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE2__: THCritMaskEdit
+      Left = 356
+      Top = 26
+      Width = 51
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 6
+      OnChange = GP_AFFAIRE2__Change
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE3__: THCritMaskEdit
+      Left = 408
+      Top = 26
+      Width = 43
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 7
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE: THCritMaskEdit
+      Left = 396
+      Top = 26
+      Width = 37
+      Height = 21
+      Color = clYellow
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 9
+      Visible = False
+      TagDispatch = 0
+    end
+    object LDevise__: THPanel
+      Left = 530
+      Top = 28
+      Width = 18
+      Height = 16
+      BevelOuter = bvNone
+      Caption = '$'
+      Ctl3D = True
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 12
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object GP_AVENANT__: THCritMaskEdit
+      Left = 450
+      Top = 26
+      Width = 18
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 8
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE0__: THCritMaskEdit
+      Left = 310
+      Top = 26
+      Width = 15
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 16
+      Visible = False
+      TagDispatch = 0
+    end
+    object EuroPivot__: TEdit
+      Left = 550
+      Top = 26
+      Width = 137
+      Height = 21
+      Enabled = False
+      TabOrder = 17
+      Visible = False
+    end
+    object GP_DOMAINE__: THValComboBox
+      Left = 314
+      Top = 70
+      Width = 137
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 18
+      Visible = False
+      TagDispatch = 0
+      Vide = True
+      DataType = 'YYDOMAINE'
+    end
+    object GP_DATELIVRAISON__: THCritMaskEdit
+      Left = 313
+      Top = 70
+      Width = 80
+      Height = 21
+      EditMask = '!99/99/0000;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 19
+      Text = '  /  /    '
+      OnExit = GP_DATELIVRAISONExit
+      TagDispatch = 0
+      Operateur = Egal
+      OpeType = otDate
+      ElipsisButton = True
+      ElipsisAutoHide = True
+      ControlerDate = True
+    end
+    object LIBELLEAFFAIRE: THPanel
+      Left = 7
+      Top = 71
+      Width = 238
+      Height = 16
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Ctl3D = True
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 10
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+  end
+  object TSaisieAveugle: TToolWindow97
+    Left = 16
+    Top = 106
+    ClientHeight = 117
+    ClientWidth = 657
+    Caption = 'Saisie par codes à barres'
+    ClientAreaHeight = 117
+    ClientAreaWidth = 657
+    DockableTo = []
+    DockPos = 0
+    DragHandleStyle = dhNone
+    FullSize = True
+    TabOrder = 13
+    Visible = False
+    OnClose = TSaisieAveugleClose
+    OnResize = TSaisieAveugleResize
+    object GSAveugle: THGrid
+      Left = 0
+      Top = 0
+      Width = 657
+      Height = 68
+      Align = alClient
+      ColCount = 4
+      DefaultRowHeight = 18
+      FixedCols = 0
+      RowCount = 2
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goTabs]
+      TabOrder = 0
+      OnKeyDown = GSAveugleKeyDown
+      SortedCol = -1
+      Titres.Strings = (
+        ''
+        'Code barre'
+        'Désignation'
+        'Quantité')
+      Couleur = False
+      MultiSelect = False
+      TitleBold = False
+      TitleCenter = True
+      OnRowEnter = GSAveugleRowEnter
+      OnRowExit = GSAveugleRowExit
+      OnCellEnter = GSAveugleCellEnter
+      OnCellExit = GSAveugleCellExit
+      ColCombo = 0
+      SortEnabled = False
+      SortRowExclude = 0
+      TwoColors = True
+      AlternateColor = 13224395
+      RowHeights = (
+        18
+        18)
+    end
+    object PSaisieCB: THPanel
+      Left = 0
+      Top = 86
+      Width = 657
+      Height = 31
+      Align = alBottom
+      BevelOuter = bvNone
+      FullRepaint = False
+      TabOrder = 1
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+      object BtValiderSA: TToolbarButton97
+        Left = 598
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Valider la saisie par code barre'
+        Anchors = [akTop, akRight, akBottom]
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000008284008284
+          0082840082840082840082840082840082840082840082840082840082840082
+          8400828400828400828400828400828400828400828484000084000000828400
+          8284008284008284008284008284008284008284008284008284008284008284
+          0082848400000082000082008400000082840082840082840082840082840082
+          8400828400828400828400828400828484000000820000820000820000820084
+          0000008284008284008284008284008284008284008284008284008284840000
+          0082000082000082000082000082000082008400000082840082840082840082
+          8400828400828400828484000000820000820000820000FF0000820000820000
+          8200008200840000008284008284008284008284008284008284008200008200
+          00820000FF0000828400FF000082000082000082008400000082840082840082
+          8400828400828400828400FF0000820000FF0000828400828400828400FF0000
+          820000820000820084000000828400828400828400828400828400828400FF00
+          00828400828400828400828400828400FF000082000082000082008400000082
+          8400828400828400828400828400828400828400828400828400828400828400
+          828400FF00008200008200008200840000008284008284008284008284008284
+          00828400828400828400828400828400828400828400FF000082000082000082
+          0084000000828400828400828400828400828400828400828400828400828400
+          828400828400828400FF00008200008200008200840000008284008284008284
+          00828400828400828400828400828400828400828400828400828400FF000082
+          0000820000820084000000828400828400828400828400828400828400828400
+          828400828400828400828400828400FF00008200008200840000008284008284
+          0082840082840082840082840082840082840082840082840082840082840082
+          8400FF0000820000820000828400828400828400828400828400828400828400
+          828400828400828400828400828400828400828400FF00008284}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BtValiderSAClick
+      end
+      object BtFermerSA: TToolbarButton97
+        Left = 626
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Fermer'
+        Anchors = [akTop, akRight, akBottom]
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          4E010000424D4E01000000000000760000002800000012000000120000000100
+          040000000000D800000000000000000000001000000000000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          3333330000003333883333333333330000003339118333339833330000003339
+          1118333911833300000033391111839111183300000033339111181111183300
+          0000333339111111118333000000333333911111183333000000333333311111
+          8333330000003333333911118333330000003333339111118333330000003333
+          3911181118333300000033339111839111833300000033339118333911183300
+          0000333339133333911133000000333333333333391933000000333333333333
+          333333000000333333333333333333000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BtFermerSAClick
+      end
+      object BtRefreshSA: TToolbarButton97
+        Left = 0
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Vider grille'
+        Anchors = [akLeft, akTop, akBottom]
+        DisplayMode = dmGlyphOnly
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          E6000000424DE60000000000000076000000280000000F0000000E0000000100
+          0400000000007000000000000000000000001000000000000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+          777077777777777777707700877777777770770B3087777777707770BB008777
+          777077770BB300877770777770BBB00877707777700BBB007770777700BBB007
+          77707777700BBB007770777777700BB0077077777777700B0070777777777770
+          00707777777777777770}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BtRefreshSAClick
+      end
+      object BtDelLigneSA: TToolbarButton97
+        Left = 28
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Supprimer ligne'
+        Anchors = [akLeft, akTop, akBottom]
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          42010000424D4201000000000000760000002800000011000000110000000100
+          040000000000CC00000000000000000000001000000010000000000000000000
+          BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+          77777000000077777777777777777000000070000007777777777000000070FF
+          FF07777777777000000070FFFF07777777777000000070000007777777777000
+          000070FFFF07777777777000000070FFFF077777777770000000700000000007
+          747770000000777770FEFE07744770000000777770EFEF044444700000007000
+          0000000774477000000070FFFF07777774777000000070FFFF07777777777000
+          0000700000077777777770000000777777777777777770000000777777777777
+          777770000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BtDelLigneSAClick
+      end
+      object BtRetour: TToolbarButton97
+        Left = 56
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Retour article'
+        AllowAllUp = True
+        Anchors = [akLeft, akTop, akBottom]
+        GroupIndex = 1
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000000000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003FFFFFFFFFFF
+          FFFF3FFFFFFFFF00000F33FFFFFFFF09990F333FFFFFFF09990F3333FFFFFF09
+          990F33333FFFFF00000F333333FFFFFFFFFF0000033FFFFF0FFF0EEE0333FFF0
+          00FF0EEE00033F00000F0EEE0E033000000000000E00033000FF330EEE0E0330
+          00FF3300000E033000FF33330EEE030003FF333300000333333F}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object BTypeArticle: TToolbarButton97
+        Left = 188
+        Top = 0
+        Width = 19
+        Height = 22
+        NoBorder = True
+        Visible = False
+        OnClick = BTypeArticleClick
+      end
+      object BtTPI: TToolbarButton97
+        Left = 84
+        Top = 3
+        Width = 28
+        Height = 27
+        Hint = 'Dévidage TPI'
+        Anchors = [akLeft, akTop, akBottom]
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          76050000424D7605000000000000360000002800000015000000150000000100
+          180000000000400500000000000000000000000000000000000000FFFF000000
+          00000000FFFF00FFFF00FFFF00FFFF80808080808000FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF000000
+          00000000FFFF00FFFF80808000000000000000000080808000FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF000000
+          00000000000080808000000080808080808080808080808000FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF000000
+          000000000000808080C0C0C0C0C0C0C0C0C0C0C0C080808080808080808000FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          808080808080FFFFFFC0C0C0C0C0C0C0C0C0FFFFFFFFFFFF00000080808000FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF000000
+          808080FFFFFFC0C0C0FFFFFFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C08080808080
+          8080808080808080808080808080808000FFFF00FFFF00FFFF0000FFFF000000
+          808080FFFFFFFFFFFFC0C0C0FFFFFFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000
+          0080808000000000000000000000000080808000FFFF00FFFF00000000808080
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0C0FFFFFF808080FFFFFFFFFFFFFFFF
+          FF808080808080808080FFFFFFFFFFFF00000080808000FFFF0000FFFF000000
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080000000FFFFFFC0C0C0FFFF
+          FFFFFFFF0000000000000000000000008080800000008080800000FFFF00FFFF
+          000000FFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF0000000000000000
+          00000000000000000000000000808000000000FFFFFF8080800000FFFF00FFFF
+          00FFFFC0C0C0C0C0C0FFFFFFFFFFFF0000000000000000000000000000000000
+          0000000000000000000080800080800000000000000000FFFF0000FFFF00FFFF
+          00FFFF00FFFF000000C0C0C0FFFFFFFFFFFFFFFFFF0000000000000000000000
+          0000000080800080800080800080800000000000FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF000000FFFFFFFFFFFF0000000000000000000000000000
+          00808000FFFF0080800000000000000000FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF000000C0C0C00000000000000000000000008080
+          0080800080800080800000000000FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF000000808080000000000000000000000000808000FFFF
+          0080800000000000000000FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF000000FFFFFF000000FFFFFF0000008080008080008080
+          0080800000000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF000000FFFFFF000000FFFFFF808000FFFFFF8080000000
+          0000000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF000000FFFFFF0000000000008080008080008080000000
+          0000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF00000000FFFFFFFFFFFFFFFF00000000000000000000FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF000000000000FFFFFF00000000000000FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentColor = True
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BtTPIClick
+      end
+    end
+    object HTotaux: THPanel
+      Left = 0
+      Top = 68
+      Width = 657
+      Height = 18
+      Align = alBottom
+      Alignment = taLeftJustify
+      BevelInner = bvLowered
+      BevelOuter = bvLowered
+      Caption = 'Totaux'
+      Color = clWindow
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      BackGroundEffect = bdFlat
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      TextEffect = tenone
+      object SommeQTE: THNumEdit
+        Left = 296
+        Top = 0
+        Width = 57
+        Height = 21
+        Decimals = 2
+        Digits = 12
+        Masks.PositiveMask = '#,##0.00'
+        Debit = False
+        ReadOnly = True
+        TabOrder = 0
+        UseRounding = True
+        Validate = False
+      end
+    end
+  end
+  object TTVParag: TToolWindow97
+    Left = 283
+    Top = -8
+    ClientHeight = 385
+    ClientWidth = 217
+    Caption = 'Liste des Paragraphes'
+    ClientAreaHeight = 385
+    ClientAreaWidth = 217
+    TabOrder = 17
+    Visible = False
+    OnClose = TTVParagClose
+    object TVParag: TTreeView
+      Left = 0
+      Top = 0
+      Width = 217
+      Height = 385
+      Align = alClient
+      Color = clInfoBk
+      HideSelection = False
+      HotTrack = True
+      Indent = 19
+      ReadOnly = True
+      TabOrder = 0
+      ToolTips = False
+      OnClick = TVParagClick
+    end
+  end
+  object PEntete: THPanel
+    Left = 0
+    Top = 0
+    Width = 762
+    Height = 113
+    Align = alTop
+    FullRepaint = False
+    TabOrder = 0
+    OnExit = PEnteteExit
+    BackGroundEffect = bdFond
+    ColorShadow = clWindowText
+    ColorStart = clBtnFace
+    ColorNb = 2
+    TextEffect = tenone
+    AutoResize = True
+    object BDevise: TToolbarButton97
+      Tag = -100
+      Left = 226
+      Top = 58
+      Width = 61
+      Height = 21
+      Alignment = taLeftJustify
+      DisplayMode = dmTextOnly
+      DropdownArrow = True
+      DropdownMenu = PopD
+      Caption = 'Devise'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Layout = blGlyphTop
+      Opaque = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Spacing = -1
+      IsControl = True
+    end
+    object HMOTIFMVT: THLabel
+      Left = 236
+      Top = 62
+      Width = 23
+      Height = 13
+      Caption = 'Motif'
+      FocusControl = MOTIFMVT
+      Transparent = True
+      Visible = False
+    end
+    object HGP_NUMPIECE: THLabel
+      Left = 8
+      Top = 37
+      Width = 12
+      Height = 13
+      Caption = 'N°'
+      Transparent = True
+    end
+    object HGP_REFINTERNE: THLabel
+      Left = 491
+      Top = 10
+      Width = 50
+      Height = 13
+      Caption = 'Référence'
+      FocusControl = GP_REFINTERNE
+      Transparent = True
+    end
+    object HGP_TIERS: THLabel
+      Left = 236
+      Top = 10
+      Width = 23
+      Height = 13
+      Caption = 'Tiers'
+      FocusControl = GP_TIERS
+      Transparent = True
+    end
+    object HGP_DATEPIECE: THLabel
+      Left = 120
+      Top = 37
+      Width = 12
+      Height = 13
+      Caption = 'du'
+      FocusControl = GP_DATEPIECE
+      Transparent = True
+    end
+    object HGP_REPRESENTANT: THLabel
+      Left = 491
+      Top = 88
+      Width = 54
+      Height = 13
+      Caption = 'Commercial'
+      FocusControl = GP_REPRESENTANT
+      Transparent = True
+    end
+    object HGP_ETABLISSEMENT: THLabel
+      Left = 236
+      Top = 36
+      Width = 65
+      Height = 13
+      Caption = 'Etablissement'
+      FocusControl = GP_ETABLISSEMENT
+      Transparent = True
+    end
+    object FTitrePiece: THLabel
+      Left = 5
+      Top = 6
+      Width = 226
+      Height = 20
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'PIECE COMMERCIALE'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+      OnClick = FTitrePieceClick
+      Ombre = True
+      OmbreDecalX = 1
+      OmbreDecalY = 1
+      OmbreColor = clGray
+    end
+    object HGP_DEPOT: THLabel
+      Left = 491
+      Top = 36
+      Width = 29
+      Height = 13
+      Caption = 'Dépôt'
+      FocusControl = GP_DEPOT
+      Transparent = True
+    end
+    object ISigneEuro: TImage
+      Left = 291
+      Top = 60
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        07544269746D6170F6000000424DF60000000000000076000000280000001000
+        0000100000000100040000000000800000000000000000000000100000001000
+        0000000000000000BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0
+        C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF
+        FF00FFFFFFFFFFFFFFFFFFFFFFF44444444FFFFFF44444444444FFFF4444FFFF
+        FFF4FFFF444FFFFFFFFFFFFF44FFFFFFFFFFF44444444444FFFFFF4444444444
+        4FFFFFF44FFFFFFFFFFFF444444444444FFFFF444444444444FFFFFF44FFFFFF
+        FFF4FFFF444FFFFFFF44FFFFF444FFFFF444FFFFFF4444444444FFFFFFF44444
+        4FF4}
+      Stretch = True
+      Transparent = True
+      Visible = False
+    end
+    object HGP_DATELIVRAISON: THLabel
+      Left = 491
+      Top = 62
+      Width = 53
+      Height = 13
+      Caption = 'Livraison le'
+      FocusControl = GP_DATELIVRAISON
+      Transparent = True
+    end
+    object HGP_AFFAIRE: THLabel
+      Left = 236
+      Top = 88
+      Width = 30
+      Height = 13
+      Caption = 'Affaire'
+      Transparent = True
+    end
+    object BRechAffaire: TToolbarButton97
+      Left = 284
+      Top = 84
+      Width = 23
+      Height = 22
+      Hint = 'Rechercher client/affaire'
+      Glyph.Data = {
+        76050000424D7605000000000000360400002800000013000000100000000100
+        0800000000004001000000000000000000000001000000010000000000004000
+        000080000000FF000000002000004020000080200000FF200000004000004040
+        000080400000FF400000006000004060000080600000FF600000008000004080
+        000080800000FF80000000A0000040A0000080A00000FFA0000000C0000040C0
+        000080C00000FFC0000000FF000040FF000080FF0000FFFF0000000020004000
+        200080002000FF002000002020004020200080202000FF202000004020004040
+        200080402000FF402000006020004060200080602000FF602000008020004080
+        200080802000FF80200000A0200040A0200080A02000FFA0200000C0200040C0
+        200080C02000FFC0200000FF200040FF200080FF2000FFFF2000000040004000
+        400080004000FF004000002040004020400080204000FF204000004040004040
+        400080404000FF404000006040004060400080604000FF604000008040004080
+        400080804000FF80400000A0400040A0400080A04000FFA0400000C0400040C0
+        400080C04000FFC0400000FF400040FF400080FF4000FFFF4000000060004000
+        600080006000FF006000002060004020600080206000FF206000004060004040
+        600080406000FF406000006060004060600080606000FF606000008060004080
+        600080806000FF80600000A0600040A0600080A06000FFA0600000C0600040C0
+        600080C06000FFC0600000FF600040FF600080FF6000FFFF6000000080004000
+        800080008000FF008000002080004020800080208000FF208000004080004040
+        800080408000FF408000006080004060800080608000FF608000008080004080
+        800080808000FF80800000A0800040A0800080A08000FFA0800000C0800040C0
+        800080C08000FFC0800000FF800040FF800080FF8000FFFF80000000A0004000
+        A0008000A000FF00A0000020A0004020A0008020A000FF20A0000040A0004040
+        A0008040A000FF40A0000060A0004060A0008060A000FF60A0000080A0004080
+        A0008080A000FF80A00000A0A00040A0A00080A0A000FFA0A00000C0A00040C0
+        A00080C0A000FFC0A00000FFA00040FFA00080FFA000FFFFA0000000C0004000
+        C0008000C000FF00C0000020C0004020C0008020C000FF20C0000040C0004040
+        C0008040C000FF40C0000060C0004060C0008060C000FF60C0000080C0004080
+        C0008080C000FF80C00000A0C00040A0C00080A0C000FFA0C00000C0C00040C0
+        C00080C0C000FFC0C00000FFC00040FFC00080FFC000FFFFC0000000FF004000
+        FF008000FF00FF00FF000020FF004020FF008020FF00FF20FF000040FF004040
+        FF008040FF00FF40FF000060FF004060FF008060FF00FF60FF000080FF004080
+        FF008080FF00FF80FF0000A0FF0040A0FF0080A0FF00FFA0FF0000C0FF0040C0
+        FF0080C0FF00FFC0FF0000FFFF0040FFFF0080FFFF00FFFFFF00B6B6B60000B6
+        B6B6B60000B6B6B6B6B6B6B6B600B6B600B6B600B6B600B6B600B6B6B6B6B6B6
+        B600B6B6001FFF00B6B6001FFF00B6B6B6B6B6B6B600B6B6001F1F000000001F
+        1F00000000000000B600B6B60000006DFFFFFF000000FFFFFFFFFF00B600B6B6
+        B600B66DFFB6B6B6FFFF00FFFF00FF00B600B6B6B6B6006DFF00FFB6FFFFB600
+        FF00FF00B600B6B6B6B6B600FF00FFB6FFFFB6FF0000FF00B600B6B6B6B6B66D
+        0000FFB6FFFFB6FFFFB6FF00B600B6B6B6B6B66DFFB6B6B6B6B6B6B6B6B6FF00
+        B600B6B6B6B6B66DFFFFFFFFFFFFFFFFFFFFFF00B600B6B6B6B6B66DFFFFFFFF
+        FFFF6D6D6D6DFF00B600B6B6B6B6B66DFFFFFFFFFFFFFFFFFFFFFF00B600B6B6
+        B6B6B66D6D6D6D6D6D6D6D6D6D6D6D00B600B6B6B6B6B66D6D6D6D6D6D6D6D6D
+        6D6D6D6DB600B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B6B600}
+      Opaque = False
+      OnClick = BRechAffaire__Click
+    end
+    object HGP_DOMAINE: THLabel
+      Left = 12
+      Top = 88
+      Width = 63
+      Height = 13
+      Caption = 'Domaine act.'
+      FocusControl = GP_DOMAINE
+      Transparent = True
+      Visible = False
+    end
+    object GP_REFINTERNE: TEdit
+      Left = 551
+      Top = 6
+      Width = 137
+      Height = 21
+      TabOrder = 8
+      OnExit = GP_REFINTERNEExit
+    end
+    object GP_DATEREFEXTERNE: THCritMaskEdit
+      Left = 624
+      Top = 6
+      Width = 64
+      Height = 21
+      EditMask = '!99/99/0000;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 25
+      Text = '  /  /    '
+      TagDispatch = 0
+      Operateur = Egal
+      OpeType = otDate
+      ElipsisButton = True
+      ElipsisAutoHide = True
+      ControlerDate = True
+    end
+    object GP_REFEXTERNE: TEdit
+      Left = 552
+      Top = 6
+      Width = 66
+      Height = 21
+      TabOrder = 26
+      OnExit = GP_REFEXTERNEExit
+    end
+    object MOTIFMVT: THValComboBox
+      Left = 310
+      Top = 58
+      Width = 163
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 23
+      Visible = False
+      OnChange = GP_ETABLISSEMENTChange
+      TagDispatch = 0
+      DataType = 'GCMOTIFMOUVEMENT'
+    end
+    object GP_DEVISE: THValComboBox
+      Left = 310
+      Top = 58
+      Width = 163
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 3
+      OnChange = GP_DEVISEChange
+      TagDispatch = 0
+      DataType = 'TTDEVISE'
+    end
+    object EUROPIVOT: TEdit
+      Left = 310
+      Top = 58
+      Width = 163
+      Height = 21
+      Enabled = False
+      TabOrder = 21
+      Visible = False
+    end
+    object LDevise: THPanel
+      Left = 291
+      Top = 60
+      Width = 17
+      Height = 16
+      BevelOuter = bvNone
+      Caption = '$'
+      Ctl3D = True
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 18
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object GP_TIERS: THCritMaskEdit
+      Left = 310
+      Top = 8
+      Width = 163
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 1
+      OnDblClick = GP_TIERSDblClick
+      OnEnter = GP_TIERSEnter
+      OnExit = GP_TIERSExit
+      TagDispatch = 0
+      DataType = 'GCTIERSSAISIE'
+      ElipsisButton = True
+      OnElipsisClick = GP_TIERSElipsisClick
+    end
+    object GP_DATEPIECE: THCritMaskEdit
+      Left = 139
+      Top = 32
+      Width = 78
+      Height = 21
+      EditMask = '!99/99/0000;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 0
+      Text = '  /  /    '
+      OnExit = GP_DATEPIECEExit
+      TagDispatch = 0
+      Operateur = Egal
+      OpeType = otDate
+      ElipsisButton = True
+      ElipsisAutoHide = True
+      ControlerDate = True
+    end
+    object GP_REPRESENTANT: THCritMaskEdit
+      Left = 551
+      Top = 84
+      Width = 137
+      Height = 21
+      Enabled = False
+      TabOrder = 11
+      OnEnter = GP_REPRESENTANTEnter
+      OnExit = GP_REPRESENTANTExit
+      TagDispatch = 0
+      ElipsisButton = True
+      OnElipsisClick = GP_REPRESENTANTElipsisClick
+    end
+    object GP_NUMEROPIECE: THPanel
+      Left = 35
+      Top = 33
+      Width = 80
+      Height = 21
+      BevelOuter = bvLowered
+      Caption = 'Non affecté'
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 14
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object LIBELLETIERS: THPanel
+      Left = 7
+      Top = 61
+      Width = 155
+      Height = 16
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Ctl3D = True
+      FullRepaint = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 13
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+    end
+    object GP_ETABLISSEMENT: THValComboBox
+      Left = 310
+      Top = 32
+      Width = 163
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 2
+      OnChange = GP_ETABLISSEMENTChange
+      TagDispatch = 0
+      DataType = 'TTETABLISSEMENT'
+    end
+    object GP_DEPOT: THValComboBox
+      Left = 551
+      Top = 32
+      Width = 137
+      Height = 21
+      Style = csDropDownList
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 13
+      ParentFont = False
+      TabOrder = 9
+      OnChange = GP_DEPOTChange
+      TagDispatch = 0
+      DataType = 'GCDEPOT'
+    end
+    object GP_SAISIECONTRE: TCheckBox
+      Left = 84
+      Top = 60
+      Width = 32
+      Height = 17
+      Caption = 'GP_SAISIECONTRE'
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 15
+      Visible = False
+    end
+    object GP_FACTUREHT: TCheckBox
+      Left = 124
+      Top = 60
+      Width = 28
+      Height = 17
+      Caption = 'GP_FACTUREHT'
+      Checked = True
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      State = cbChecked
+      TabOrder = 16
+      Visible = False
+    end
+    object GP_REGIMETAXE: THValComboBox
+      Left = 157
+      Top = 58
+      Width = 25
+      Height = 21
+      Style = csDropDownList
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 13
+      ParentFont = False
+      TabOrder = 17
+      Visible = False
+      OnChange = GP_REGIMETAXEChange
+      TagDispatch = 0
+      DataType = 'TTREGIMETVA'
+    end
+    object GP_DATELIVRAISON: THCritMaskEdit
+      Left = 551
+      Top = 58
+      Width = 137
+      Height = 21
+      EditMask = '!99/99/0000;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 10
+      Text = '  /  /    '
+      OnExit = GP_DATELIVRAISONExit
+      TagDispatch = 0
+      Operateur = Egal
+      OpeType = otDate
+      ElipsisButton = True
+      ElipsisAutoHide = True
+      ControlerDate = True
+    end
+    object GP_AFFAIRE0: THCritMaskEdit
+      Left = 702
+      Top = 81
+      Width = 23
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 19
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE1: THCritMaskEdit
+      Left = 310
+      Top = 84
+      Width = 44
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 4
+      OnChange = GP_AFFAIRE1__Change
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE2: THCritMaskEdit
+      Left = 358
+      Top = 84
+      Width = 49
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 5
+      OnChange = GP_AFFAIRE2__Change
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AFFAIRE3: THCritMaskEdit
+      Left = 410
+      Top = 84
+      Width = 41
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 6
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_AVENANT: THCritMaskEdit
+      Left = 455
+      Top = 84
+      Width = 18
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 7
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object AFF_TIERS: THCritMaskEdit
+      Left = 44
+      Top = 57
+      Width = 16
+      Height = 21
+      CharCase = ecUpperCase
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 20
+      Visible = False
+      OnChange = GP_AFFAIRE1__Change
+      OnExit = OnExitPartieAffaire
+      TagDispatch = 0
+    end
+    object GP_TVAENCAISSEMENT: THValComboBox
+      Left = 190
+      Top = 58
+      Width = 25
+      Height = 21
+      Style = csDropDownList
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 13
+      ParentFont = False
+      TabOrder = 22
+      Visible = False
+      OnChange = GP_TVAENCAISSEMENTChange
+      TagDispatch = 0
+      DataType = 'GCTVAENCAISSEMENT'
+    end
+    object GP_DOMAINE: THValComboBox
+      Left = 90
+      Top = 84
+      Width = 127
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 12
+      Visible = False
+      OnChange = GP_DOMAINEChange
+      TagDispatch = 0
+      Vide = True
+      DataType = 'YYDOMAINE'
+    end
+    object GP_HRDOSSIER: THCritMaskEdit
+      Left = 8
+      Top = 56
+      Width = 17
+      Height = 21
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 24
+      Visible = False
+      TagDispatch = 0
+    end
+  end
+  object PPied: THPanel
+    Left = 0
+    Top = 327
+    Width = 762
+    Height = 84
+    Align = alBottom
+    BevelOuter = bvNone
+    FullRepaint = False
+    TabOrder = 1
+    OnResize = PPiedResize
+    BackGroundEffect = bdFond
+    ColorShadow = clWindowText
+    ColorStart = clBtnFace
+    ColorNb = 2
+    TextEffect = tenone
+    AutoResize = True
+    object HGP_ESCOMPTE: THLabel
+      Left = 222
+      Top = 6
+      Width = 58
+      Height = 13
+      Caption = '&Escompte %'
+      Color = clInfoBk
+      FocusControl = GP_ESCOMPTE
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object HGP_MODEREGLE: TFlashingLabel
+      Left = 222
+      Top = 48
+      Width = 51
+      Height = 13
+      Caption = 'Règlement'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object HGP_REMISEPIED: THLabel
+      Left = 222
+      Top = 27
+      Width = 46
+      Height = 13
+      Caption = '&Remise %'
+      Color = clInfoBk
+      FocusControl = GP_REMISEPIED
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+    end
+    object LLIBRG: TFlashingLabel
+      Left = 222
+      Top = 68
+      Width = 25
+      Height = 13
+      Caption = 'XXX'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+      Visible = False
+    end
+    object LMontantRg: TFlashingLabel
+      Left = 222
+      Top = 84
+      Width = 25
+      Height = 13
+      Caption = 'XXX'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+      Visible = False
+    end
+    object GP_MODEREGLE: THValComboBox
+      Left = 287
+      Top = 45
+      Width = 87
+      Height = 19
+      Style = csSimple
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ItemHeight = 13
+      ParentFont = False
+      TabOrder = 3
+      TagDispatch = 0
+      DataType = 'TTMODEREGLE'
+    end
+    object PTotaux1: THPanel
+      Left = 535
+      Top = 2
+      Width = 159
+      Height = 80
+      BorderStyle = bsSingle
+      Caption = ' '
+      FullRepaint = False
+      TabOrder = 5
+      OnResize = PTotaux1Resize
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+      object HGP_TOTALTTCDEV: THLabel
+        Left = 2
+        Top = 23
+        Width = 30
+        Height = 13
+        Caption = 'T.T.C.'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_ACOMPTEDEV: THLabel
+        Left = 2
+        Top = 42
+        Width = 72
+        Height = 13
+        Caption = 'Acompte/Règl.'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LGP_ACOMPTEDEV: THLabel
+        Left = 128
+        Top = 42
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object LGP_TOTALTTCDEV: THLabel
+        Left = 128
+        Top = 23
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_TOTALTAXESDEV: THLabel
+        Left = 2
+        Top = 4
+        Width = 29
+        Height = 13
+        Caption = 'Taxes'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LTOTALTAXESDEV: THLabel
+        Left = 128
+        Top = 4
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object LNETAPAYERDEV: THLabel
+        Left = 128
+        Top = 61
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_NETAPAYERDEV: THLabel
+        Left = 2
+        Top = 61
+        Width = 55
+        Height = 13
+        Caption = 'Net à payer'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LHTTCDEV: THLabel
+        Left = 128
+        Top = 80
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+        Visible = False
+      end
+      object LCAUTION: TFlashingLabel
+        Left = 2
+        Top = 80
+        Width = 97
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Caution bancaire'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+        Visible = False
+      end
+    end
+    object PTotaux: THPanel
+      Left = 383
+      Top = 2
+      Width = 150
+      Height = 80
+      BorderStyle = bsSingle
+      Caption = ' '
+      FullRepaint = False
+      TabOrder = 4
+      OnResize = PTotauxResize
+      BackGroundEffect = bdFond
+      ColorShadow = clWindowText
+      ColorStart = clBtnFace
+      ColorNb = 2
+      TextEffect = tenone
+      object HGP_TOTALHTDEV: THLabel
+        Left = 2
+        Top = 4
+        Width = 21
+        Height = 13
+        Caption = 'H.T.'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LGP_TOTALHTDEV: THLabel
+        Left = 119
+        Top = 4
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object LGP_TOTALREMISEDEV: THLabel
+        Left = 119
+        Top = 61
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_TOTALREMISEDEV: THLabel
+        Left = 2
+        Top = 61
+        Width = 35
+        Height = 13
+        Caption = 'Remise'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_TOTALPORTSDEV: THLabel
+        Left = 2
+        Top = 23
+        Width = 71
+        Height = 13
+        Caption = 'dont ports/frais'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LTOTALPORTSDEV: THLabel
+        Left = 119
+        Top = 24
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_TOTALESCDEV: THLabel
+        Left = 2
+        Top = 42
+        Width = 47
+        Height = 13
+        Caption = 'Escompte'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+      end
+      object LGP_TOTALESCDEV: THLabel
+        Left = 119
+        Top = 42
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+      object HGP_TOTALRGDEV: THLabel
+        Left = 2
+        Top = 79
+        Width = 22
+        Height = 13
+        Caption = 'R.G.'
+        Color = clInfoBk
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Transparent = True
+        Visible = False
+      end
+      object LTOTALRGDEV: THLabel
+        Left = 119
+        Top = 79
+        Width = 26
+        Height = 13
+        Alignment = taRightJustify
+        Caption = '0,00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = True
+      end
+    end
+    object GP_ESCOMPTE: THNumEdit
+      Left = 287
+      Top = 3
+      Width = 87
+      Height = 21
+      Ctl3D = True
+      Decimals = 2
+      Digits = 15
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentCtl3D = False
+      TabOrder = 0
+      UseRounding = True
+      Validate = False
+      OnExit = GP_ESCOMPTEExit
+    end
+    object GP_REMISEPIED: THNumEdit
+      Left = 287
+      Top = 24
+      Width = 87
+      Height = 21
+      Ctl3D = True
+      Decimals = 2
+      Digits = 15
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentCtl3D = False
+      TabOrder = 1
+      UseRounding = True
+      Validate = False
+      OnExit = GP_REMISEPIEDExit
+    end
+    object INFOSLIGNE: THGrid
+      Left = 2
+      Top = 2
+      Width = 213
+      Height = 79
+      ColCount = 2
+      Ctl3D = True
+      DefaultRowHeight = 16
+      FixedCols = 0
+      RowCount = 1
+      FixedRows = 0
+      Options = [goRowSelect]
+      ParentCtl3D = False
+      ScrollBars = ssVertical
+      TabOrder = 6
+      SortedCol = -1
+      Couleur = False
+      MultiSelect = False
+      TitleBold = True
+      TitleCenter = True
+      ColCombo = 0
+      SortEnabled = False
+      SortRowExclude = 0
+      TwoColors = False
+      AlternateColor = 13224395
+      ColWidths = (
+        93
+        102)
+    end
+    object GP_TOTALHTDEV: THNumEdit
+      Tag = 1
+      Left = 42
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 7
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object GP_TOTALREMISEDEV: THNumEdit
+      Tag = 1
+      Left = 75
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 8
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object HTOTALTAXESDEV: THNumEdit
+      Tag = 1
+      Left = 108
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 9
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object GP_TOTALESCDEV: THNumEdit
+      Tag = 1
+      Left = 140
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 10
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object GP_TOTALTTCDEV: THNumEdit
+      Tag = 1
+      Left = 173
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 11
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object GP_ACOMPTEDEV: THNumEdit
+      Tag = 1
+      Left = 10
+      Top = 29
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 2
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object TOTALPORTSDEV: THNumEdit
+      Tag = 1
+      Left = 10
+      Top = 45
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 12
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object NETAPAYERDEV: THNumEdit
+      Tag = 1
+      Left = 42
+      Top = 49
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 13
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object TOTALRGDEV: THNumEdit
+      Tag = 1
+      Left = 78
+      Top = 49
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 14
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object HTTCDEV: THNumEdit
+      Tag = 1
+      Left = 114
+      Top = 49
+      Width = 36
+      Height = 21
+      Color = clYellow
+      Decimals = 2
+      Digits = 12
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Masks.PositiveMask = '#,##0.00'
+      Debit = False
+      ParentFont = False
+      TabOrder = 15
+      UseRounding = True
+      Validate = False
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object TTYPERG: TEdit
+      Left = 148
+      Top = 48
+      Width = 25
+      Height = 21
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 16
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+    object TCaution: TEdit
+      Left = 172
+      Top = 48
+      Width = 25
+      Height = 21
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 17
+      Visible = False
+      OnChange = AfficheZonePied
+    end
+  end
+  object DockBottom: TDock97
+    Left = 0
+    Top = 411
+    Width = 762
+    Height = 31
+    BackgroundTransparent = True
+    Position = dpBottom
+    object Outils97: TToolbar97
+      Left = 0
+      Top = 0
+      Caption = 'Actions'
+      CloseButton = False
+      DefaultDock = DockBottom
+      DockPos = 0
+      TabOrder = 0
+      object BMenuZoom: TToolbarButton97
+        Tag = -100
+        Left = 0
+        Top = 0
+        Width = 40
+        Height = 27
+        Hint = 'Menu zoom'
+        DisplayMode = dmGlyphOnly
+        DropdownArrow = True
+        DropdownMenu = POPZ
+        Caption = 'Zoom'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          AA040000424DAA04000000000000360000002800000013000000130000000100
+          1800000000007404000000000000000000000000000000000000FF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FFFFFFFFFFFFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFBF0000BF
+          0000FFFFFFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFBF000000FFFFFFFF00BF00
+          00FFFFFFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFFFFFFBF000000FFFFFFFF80FF8000BF0000FF00FF
+          FF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFBF000000FFFFFFFF00BF0000BF0000FF00FFFF00FFFF00FF00
+          0000FF00FFFF00FFFF00FFFF00FFFFFFFFFFFFFF000000000000000000000000
+          BF000000FFFFFFFF00FF8000BF0000FF00FFFF00FFFF00FFFF00FF000000FF00
+          FFFF00FFFFFFFFFFFFFF000000000000FF00FFFF00FFFF00FFFF00FFFF00FFBF
+          0000BF0000FF0040FF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FF
+          FFFFFF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0000
+          00FF0040FF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFFFFFFFFFFFF00
+          0000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFFFFFF000000FF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF
+          00FFFF00FFFF00FFFF00FF000000FF00FFFFFFFF000000FF00FFFF00FF00FFFF
+          FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00
+          FFFF00FFFF00FF000000FF00FFFFFFFF000000FF00FFFF00FF00FFFFFF00FFFF
+          00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FF
+          FF00FF000000FF00FFFF00FF000000FF00FFFF00FF00FFFF00FFFFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FF00
+          0000FF00FFFF00FFFF00FF000000FF00FFFF00FF00FFFF00FFFF00FFFFFF00FF
+          FF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00
+          FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FF000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FF
+          FF00FFFF00FF000000000000FF00FFFF00FFFF00FFFF00FF000000000000FF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FF000000000000000000000000FF00FFFF00FFFF00FFFF00FF
+          FF00FFFF00FFFF00FFFF00FFFF00FF000000FF00FFFF00FFFF00FFFF00FFFF00
+          FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
+          00FFFF00FFFF00FFFF00FF000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnMouseEnter = BMenuZoomMouseEnter
+        IsControl = True
+      end
+      object BEche: TToolbarButton97
+        Tag = 1
+        Left = 80
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Echéances'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Echéances'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          06020000424D0602000000000000760000002800000028000000140000000100
+          0400000000009001000000000000000000001000000010000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          33333333333333333333333333333333333333333333333333FFFFFFFFFFFF33
+          3333300000000000033333333777777777777F33333330F88888888803333333
+          37F3333333337F33333330F8888888880333333337F3333333337FFFF33330F8
+          888888880000333337F3333333337777F33330F8888888880880333337F33333
+          33337F37F33330F8888888880880333337F3333333337F37FFF330F888888888
+          0880000337F3333333337F37777F30FFFFFFFFFF0880880337FFFFFFFFFF7F37
+          F37F304444444444088088033777777777777F37F37F30000000000008808803
+          3777777777777337F37F33330FFFFFFFFFF0880333337FFFFFFFFFF7F37F3333
+          04444444444088033333777777777777F37F3333000000000000880333337777
+          77777777337F33333330FFFFFFFFFF0333333337FFFFFFFFFF7F333333304444
+          444444033333333777777777777F333333300000000000033333333777777777
+          7773333333333333333333333333333333333333333333333333333333333333
+          33333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BEcheClick
+      end
+      object BInfos: TToolbarButton97
+        Tag = 1
+        Left = 40
+        Top = 0
+        Width = 40
+        Height = 27
+        Hint = 'Actions complémentaires'
+        DisplayMode = dmGlyphOnly
+        DropdownArrow = True
+        DropdownMenu = POPY
+        Caption = 'Actions'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          06020000424D0602000000000000760000002800000028000000140000000100
+          0400000000009001000000000000000000001000000010000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          3333333333FFFFFFFFFF333333333000000000033333333337777777777F3333
+          333330FEFEFEFE033333333337F3FFFFFF7F3333333330E444444F0333333333
+          37F77777737F333333333099999999033333333337F33333337F33333333309F
+          FFFFF9033333333337F33333337F333333333099999999033333333337F3FFFF
+          FF7F3333333330E444444F033333333337F77777737F3333333330FEFEFEFE03
+          3333333337F3FFF3FF7F3333333330E444E000033333333337F7773777733333
+          333330FEFEF0F0333333333337F33337F7333333333330EFEFE0033333333333
+          37FFFFF7733333FFFF333000000033333000033337777777333337777F333333
+          3333333330EA0333333333333333F7F37FFF33333333333000AE000333333333
+          33377733777F333333333330EAEAEA03333333333337FFF33F7F333333333330
+          00AE000333333333333777F3777333333333333330EA033333333333333337FF
+          7F33333333333333300003333333333333333777733333333333333333333333
+          33333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BInfosClick
+        IsControl = True
+      end
+      object BChercher: TToolbarButton97
+        Tag = 1
+        Left = 312
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Rechercher dans la pièce'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Rechercher'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          42010000424D4201000000000000760000002800000011000000110000000100
+          040000000000CC00000000000000000000001000000010000000000000000000
+          BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+          77777000000077777777777777777000000070000077777000007000000070B0
+          00777770F0007000000070F000777770B0007000000070000000700000007000
+          0000700B000000B0000070000000700F000700F0000070000000700B000700B0
+          0000700000007700000000000007700000007770B00070B00077700000007770
+          0000700000777000000077770007770007777000000077770B07770B07777000
+          0000777700077700077770000000777777777777777770000000777777777777
+          777770000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BChercherClick
+        IsControl = True
+      end
+      object BSousTotal: TToolbarButton97
+        Tag = 1
+        Left = 200
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Insérer un sous-total'
+        AllowAllUp = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Sous-total'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          0400000000000001000000000000000000001000000010000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333333333333333333333333333FFFFFFFFFFF33330000000000
+          03333377777777777F33333003333330033333377FF333377F33333300333333
+          0333333377FF33337F3333333003333303333333377FF3337333333333003333
+          333333333377FF3333333333333003333333333333377FF33333333333330033
+          3333333333337733333333333330033333333333333773333333333333003333
+          33333333337733333F3333333003333303333333377333337F33333300333333
+          03333333773333337F33333003333330033333377FFFFFF77F33330000000000
+          0333337777777777733333333333333333333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BSousTotalClick
+        IsControl = True
+      end
+      object BAcompte: TToolbarButton97
+        Tag = 1
+        Left = 228
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Acompte/Règlement'
+        AllowAllUp = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Acompte/Règlement'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000010000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00222222222222
+          222200000000000022220FFFFFFFFFF022220F00F00000F022220FFFFFFFFFF0
+          22220F00F00000F022220FFFFFFFFFF022220FFFFFFF0FF022220F00FFF080F0
+          22220F080F08080002440FF08080808880440000080808888844222220808888
+          8844222222088888804422222220000002442222222222222222}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BAcompteClick
+        IsControl = True
+      end
+      object BActionsLignes: TToolbarButton97
+        Tag = 1
+        Left = 154
+        Top = 0
+        Width = 40
+        Height = 27
+        Hint = 'Actions lignes'
+        DisplayMode = dmGlyphOnly
+        DropdownArrow = True
+        DropdownMenu = PopL
+        Caption = 'Actions'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          0400000000000001000000000000000000001000000010000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          33333FFFFFFFFFFFFFFF000000000000000077777777777777770FFFFFFFFFFF
+          FFF07F3FF3FF3FFF3FF70F00F00F000F00F07F773773777377370FFFFFFFFFFF
+          FFF07F3FF3FF33FFFFF70F00F00FF00000F07F773773377777F70FEEEEEFF0F9
+          FCF07F33333337F7F7F70FFFFFFFF0F9FCF07F3FFFF337F737F70F0000FFF0FF
+          FCF07F7777F337F337370F0000FFF0FFFFF07F777733373333370FFFFFFFFFFF
+          FFF07FFFFFFFFFFFFFF70CCCCCCCCCCCCCC07777777777777777088CCCCCCCCC
+          C880733777777777733700000000000000007777777777777777333333333333
+          3333333333333333333333333333333333333333333333333333}
+        Layout = blGlyphTop
+        Margin = 2
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        IsControl = True
+      end
+      object Sep1: TToolbarSep97
+        Left = 194
+        Top = 0
+      end
+      object Sep2: TToolbarSep97
+        Left = 148
+        Top = 0
+      end
+      object BOffice: TToolbarButton97
+        Tag = 1
+        Left = 480
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Edition bureautique'
+        AllowAllUp = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Bureautique'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          4E010000424D4E01000000000000760000002800000014000000120000000100
+          040000000000D800000000000000000000001000000010000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+          7777777700007777777777777777777700007777777777777777777700007777
+          7777777777777777000077777777777777777777000077700077000777777777
+          00007780EE080EE077777777000077806EE006EE07777777000077780EEE06EE
+          E07777770000777806E0E0E60E0777770000777780E00EEE00E0777700007770
+          00EE00EE600E077700007700EEEE600EE0EEE077000077000000070000000077
+          0000770000007770070007770000777777777777777777770000777777777777
+          777777770000777777777777777777770000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        Visible = False
+        OnClick = BOfficeClick
+        IsControl = True
+      end
+      object BVentil: TToolbarButton97
+        Tag = 1
+        Left = 108
+        Top = 0
+        Width = 40
+        Height = 27
+        Hint = 'Ventilations analytiques'
+        DisplayMode = dmGlyphOnly
+        DropdownArrow = True
+        DropdownMenu = PopV
+        Caption = 'Analytiques'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          66010000424D6601000000000000760000002800000014000000140000000100
+          040000000000F000000000000000000000001000000010000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+          8888888800008888888888888888888800008888888888888888888800008888
+          8884444488888888000088888884FFF488888888000088888804444488888888
+          00008888808888888888888800004444488444448844444800004FFF4004BBB4
+          004FFF4800004444488444448844444800008888808888888888888800008888
+          8804444488444448000088888884FFF4004FFF48000088888884444488444448
+          0000888888888888088888880000888888888888804444480000888888888888
+          884FFF4800008888888888888844444800008888888888888888888800008888
+          88888888888888880000}
+        Layout = blGlyphTop
+        Margin = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        IsControl = True
+      end
+      object BDescriptif: TToolbarButton97
+        Tag = 1
+        Left = 396
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Descriptif détaillé de l'#39'article'
+        AllowAllUp = True
+        GroupIndex = 1
+        DisplayMode = dmGlyphOnly
+        Caption = 'Descriptif'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000010000000000000000000
+          BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+          7777777777777777707777777777777707777777777007707777777777077007
+          777777777707F707777777777707FF7077777777707FFFF07777777707FF0007
+          777777007FF07777777770F70F077777777770FF707777777777770FF0777777
+          7777777007777777777777777777777777777777777777777777}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BDescriptifClick
+        IsControl = True
+      end
+      object BDelete: TToolbarButton97
+        Left = 340
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Supprimer la pièce'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Supprimer'
+        Glyph.Data = {
+          66010000424D6601000000000000760000002800000014000000140000000100
+          040000000000F000000000000000000000001000000010000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+          8888888800008888888888888888889800008898888888888888898800008899
+          88777777777798880000889990000000000998880000888990BFFFBFFF998888
+          0000888899FCCCCCCF97888800008888999FBFFFB9978888000088888999CCC9
+          990788880000888880999FB99F0788880000888880FC9999CF07888800008888
+          80FF9999BF0788880000888880FC9999000788880000888880B99F099F078888
+          0000888880999F099998888800008888999FBF0F089988880000889999000000
+          8889988800008899988888888888898800008888888888888888889800008888
+          88888888888888880000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+        OnClick = BDeleteClick
+      end
+      object BImprimer: TToolbarButton97
+        Left = 508
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Imprimer'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Imprimer'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          4E010000424D4E01000000000000760000002800000012000000120000000100
+          040000000000D800000000000000000000001000000010000000000000000000
+          BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00DDDDDDDDDDDD
+          DDDDDD000000DDD00000000000DDDD000000DD0777777777070DDD000000D000
+          000000000070DD000000D0777777FFF77000DD000000D077777799977070DD00
+          0000D0000000000000770D000000D0777777777707070D000000DD0000000000
+          70700D000000DDD0FFFFFFFF07070D000000DDDD0FCCCCCF0000DD000000DDDD
+          0FFFFFFFF0DDDD000000DDDDD0FCCCCCF0DDDD000000DDDDD0FFFFFFFF0DDD00
+          0000DDDDDD000000000DDD000000DDDDDDDDDDDDDDDDDD000000DDDDDDDDDDDD
+          DDDDDD000000DDDDDDDDDDDDDDDDDD000000}
+        Layout = blGlyphTop
+        Margin = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+        OnClick = BImprimerClick
+      end
+      object BPorcs: TToolbarButton97
+        Tag = 1
+        Left = 256
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Ports et frais'
+        AllowAllUp = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Acompte'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          42010000424D4201000000000000760000002800000011000000110000000100
+          040000000000CC00000000000000000000001000000010000000000000000000
+          BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00FFFFFFFFFFFF
+          FFFFF0000000FFFFFFFF00000000F0000000FFFFFFFF0FBFBFB0F0000000FFFF
+          F0000BFBFBF0F0000000FFFFF0FF00000000F0000000FFFFF0FFFFF0FFFFF000
+          0000FFF8F0F888F0FFFFF0000000FFF8B0FFFFF0FFFFF00000008BF8F08F88F0
+          FFFFF0000000F8F8B8BFFFF0FFFFF0000000FF8BFB000000FFFFF0000000F88F
+          BFFFFFFFFFFFF0000000F8F8F8BFFFFFFFFFF00000008BF8BFFFFFFFFFFFF000
+          0000FFF8FFF8FFFFFFFFF0000000FFF8BFFFFFFFFFFFF0000000FFFFFFFFFFFF
+          FFFFF0000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BPorcsClick
+        IsControl = True
+      end
+      object BSaisieAveugle: TToolbarButton97
+        Left = 536
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Saisie par codes barres'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Saisie code barre'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          0400000000000001000000000000000000001000000010000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000000
+          000033333377777777773333330FFFFFFFF03FF3FF7FF33F3FF700300000FF0F
+          00F077F777773F737737E00BFBFB0FFFFFF07773333F7F3333F7E0BFBF000FFF
+          F0F077F3337773F3F737E0FBFBFBF0F00FF077F3333FF7F77F37E0BFBF00000B
+          0FF077F3337777737337E0FBFBFBFBF0FFF077F33FFFFFF73337E0BF0000000F
+          FFF077FF777777733FF7000BFB00B0FF00F07773FF77373377373330000B0FFF
+          FFF03337777373333FF7333330B0FFFF00003333373733FF777733330B0FF00F
+          0FF03333737F37737F373330B00FFFFF0F033337F77F33337F733309030FFFFF
+          00333377737FFFFF773333303300000003333337337777777333}
+        Layout = blGlyphTop
+        Margin = 4
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+        OnClick = BSaisieAveugleClick
+      end
+      object BNouvelArticle: TToolbarButton97
+        Left = 603
+        Top = 0
+        Width = 29
+        Height = 27
+        Hint = 'Nouvel article'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Nouvel article'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          2E060000424D2E06000000000000360400002800000016000000150000000100
+          080000000000F801000000000000000000000001000000010000000000000000
+          80000080000000808000800000008000800080800000C0C0C000C0DCC000F0C8
+          A400FFFF80008080400000FF8000004040000080FF000040800080808000FF80
+          800060208000C0FFFF00E0E0A000800060008080FF00C0800000FFC0C000FFCF
+          0000FFFF6900E0FFE000B39CDD00EE8FB300F96F2A00CDB83F0036844800418C
+          9500425E8E007A62A000AC4F6200BE2F1D007666280000450000013E45001328
+          6A006A39850085324A0004040400080808000C0C0C0011111100161616001C1C
+          1C002222220029292900303030005F5F5F00555555004D4D4D00424242003939
+          39000007000000000D008199B700B499840090BDBD00607F7F007F606000000E
+          000000001B00000028002B090800001D0000000039009B000000002500000000
+          49003B111100002F000000005D0045171700003A000011114900531C1C00FF16
+          0000FF002B006C21210014145900005100006A1A47006732190000610000FF31
+          0000FF0061007B20530067431600E22E2E001659260004465100492E68008F52
+          0700B8186A0015239000FF530000FF00A300124A6A006C3375009A414A000B65
+          3700152CA400B11F8300FF2C4E00B6512000926408000B566F00AD4359001272
+          36001733B00000A100001F5F7700714789001C43B0007D2DB70095860000236E
+          7A00009F260001A97300FF00800040008000FF80400080400000000000000000
+          0000000000000000000000CA0000015BAC00C21D2000705294004CAA24008994
+          0A007B6E360090754400A800FF00FF710000FF00DF004A915600F84834008232
+          CC007041E40001CA680042BC3600FF9A0000B7229600337D85008CB72500ED5A
+          360000FF5C000048FF00A29B22004DCF42005258C20095D32000E024A500B556
+          730000A9A9003C6FD000589F67000BCF890000ACFF00FE2EA7007F59E20067DC
+          4C00FF18FF00FF7D3A0018D0B10000FFC70000E2FF003D9ADF009F815600BA43
+          C6008B71AF00C9A23800CE53D100659AFF00DBCA4600FF4DFF006AE9C800E0DE
+          4C00FF98FF0082C0DF00A5ECE900CDF6F500FFD0FF005AACB100AE916300654C
+          22003F4E8D0070705000FFFFD000FFE7FF006969690077777700868686009696
+          96009D9D9D00A4A4A400B2B2B200CBCBCB00D7D7D700DDDDDD00E3E3E300EAEA
+          EA00F1F1F100F8F8F80066C1B20078BF8000F0F0C600FFA4B200FFB3FF00A38E
+          D10037DCC300549EA00070AE7600C19E7800BF648300D383A400323FD100007D
+          FF0023784400605F24002C0E0E000000BE00001FFF00003931003E85D9008577
+          020081D8B0001D21560030000000B3C888000079A000000000008170EA0069F1
+          510080FFFF00CD749100FF7CFF00FFFFA200F0FBFF00A4A0A000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00070707070707
+          070707070707070707070707070707070000070707070707070707070707FB07
+          070707070707FB070000070707FB0707070707070707FB070707070707FB0707
+          000007070707FBFB0707101010FBFB10101010FBFB07070700000707070707FB
+          0000000000000000000000FB07070707000007070707070700FFFFFFFFFFFFFF
+          FFFF001007070707000007070707070700FFFFFFFFFFFFFFFFFF001007070707
+          000007070707070700FFFFFFFFFFFFFFFFFF0010070707070000070707070707
+          00FFFFFFFFFFFFFFFFFF001007070707000007070707070700FFFFFFFFFFFFFF
+          FFFF001007070707000007070707FBFB00FFFFFFFFFFFFFFFFFF001007070707
+          00000707FBFB070700FFFFFFFFFFFFFFFFFF00FBFB0707070000070707070707
+          00FFFFFFFFFFFF070707000707FBFB07000007070707070700FFFFFFFFFF0000
+          0000000707070707000007070707070700FFFFFFFFFF00FFFF00070707070707
+          000007070707070700FFFFFFFFFF00FF00FB0707070707070000070707070707
+          00FFFFFFFFFF000007FBFB070707070700000707070707FB0000000000000007
+          0707FBFB07070707000007070707FBFB0707070707FBFB07070707FBFB070707
+          0000070707FB07070707070707FB07070707070707FB07070000070707070707
+          070707070707070707070707070707070000}
+        Layout = blGlyphTop
+        Margin = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+        OnClick = BNouvelArticleClick
+      end
+      object BRetenuGar: TToolbarButton97
+        Tag = 1
+        Left = 284
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'retenue de garantie'
+        DisplayMode = dmGlyphOnly
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
+          202020303030505050000000FFFFFFFFFFFF0000005050502020204040403030
+          30FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF60606040BFBF60DFDF000000FFFFFFFF
+          FFFF00000060DFDF40BFBF00FFFF606060FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          60606040BFBF60DFDF20202020404020404000202060DFDF40BFBF00FFFF6060
+          60204040204040002020FFFFFFFFFFFF60606040BFBF60DFDF306F6F60DFDF60
+          DFDF306F6F60DFDF40BFBF00FFFF60606060DFDF60DFDF204040000000205F5F
+          30AFAF30EFEF30EFEF007F7F306F6F60DFDF30303060DFDF50CFCF00FFFF6060
+          60609F9F60DFDF204040003F3F407F7F00FFFF00FFFF00FFFF20DFDF306F6F00
+          000070AFAF40BFBF30EFEF00FFFF70AFAF20202060DFDF20404060606040BFBF
+          00FFFF00FFFF00FFFF40BFBF60DFDF00000040BFBF40BFBF00FFFF00FFFF40BF
+          BF40404060DFDF20404020202020DFDF50CFCF00FFFF00FFFF70AFAF209F9F00
+          3F3F40BFBF40BFBF00FFFF00FFFF40BFBF40404060DFDF20404000000040BFBF
+          50CFCF00FFFF00FFFF50CFCF505050306F6F40BFBF60DFDF00FFFF00FFFF60DF
+          DF40404060DFDF204040FFFFFF003F3F50CFCF30EFEF60DFDF209F9F30AFAF60
+          DFDF007F7F50CFCF30EFEF60DFDF209F9F30AFAF60DFDF204040FFFFFFFFFFFF
+          00000080BFBF50505030AFAF60DFDF60DFDF60DFDF003F3F80BFBF50505030AF
+          AF60DFDF60DFDF204040FFFFFFFFFFFF40404000FFFF40BFBF306F6F60DFDF60
+          DFDF60DFDF40404000FFFF40BFBF306F6F60DFDF60DFDF204040FFFFFFFFFFFF
+          303030306F6F60606060DFDF60DFDF60DFDF60DFDF609F9F306F6F60606060DF
+          DF60DFDF60DFDF204040FFFFFFFFFFFF306F6F60DFDF60DFDF60DFDF60DFDF60
+          DFDF60DFDF60DFDF60DFDF60DFDF60DFDF60DFDF60DFDF204040FFFFFFFFFFFF
+          003F3F306F6F306F6F306F6F306F6F306F6F306F6F306F6F609F9F60DFDF60DF
+          DF50AFAF50AFAF204040FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFF000000306F6F306F6F306F6F306F6F000000}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        Visible = False
+        OnClick = BRetenuGarClick
+      end
+      object BPrixMarche: TToolbarButton97
+        Left = 632
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Application d'#39'un prix marche'
+        Anchors = [akRight, akBottom]
+        DisplayMode = dmGlyphOnly
+        Caption = 'Application d'#39'un prix marche'
+        Glyph.Data = {
+          76050000424D7605000000000000360400002800000014000000100000000100
+          0800000000004001000000000000000000000001000000010000000000007B00
+          00007B7B0000FFFF0000BDBDBD00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00000000000000BF0000BF000000BFBF00BF000000BF00
+          BF00BFBF0000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00
+          FF00FFFF0000FFFFFF0000000000000000000000000000000000F9F9F9F9F9F9
+          F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9
+          F9F9F9F9F9FFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F9F9F9F90202010101010101
+          01010101010101FFF9F9F9F902FB02020202020202020202020201FFF9F9F9F9
+          02FA02FFFBFFFBFFFBFFFBFBF3FF01FFF9F9F9F902FB02020202020202020202
+          020201FFF9F9F9F902FA02FFFBFFFBFFFBFFFBFFFBFF01FFF9F9F9F902FB0202
+          0202020202020202020201FFF9F9F9F902FAFFF3F3F3F3F3F3F30202020201FF
+          F9F9F9F902FBFFFBFBFBFBFBFBF30202020201FFF9F9F9F902FAFFFFFFFFFFFF
+          FFFF0202020201FFF9F9F9F902FBFAFBFAFBFAFBFAFBFAFBFAFB02FFF9F9F9F9
+          F90202020202020202020202020202F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9
+          F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9F9}
+        Opaque = False
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = BPrixMarcheClick
+      end
+      object BArborescence: TToolbarButton97
+        Tag = 1
+        Left = 368
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Liste des paragraphes du document'
+        AllowAllUp = True
+        GroupIndex = 1
+        DisplayMode = dmGlyphOnly
+        Caption = 'Arborescence Paragraphes'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          8A010000424D8A01000000000000760000002800000016000000170000000100
+          04000000000014010000C40E0000C40E00001000000000000000000000000000
+          CC00009900000099990099000000990099009999000099999900CCCCCC000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00FFF0FFFFFFFF
+          FFFFFFFFFF00FFF0FFFFF00000FFFFFFFF00FFF0000000BBB0FFFFFFFF00FFF0
+          FFFFF00000FFFFFFFF00FFF0FFFFFFFFFFFFFFFFFF00FFF0FFFFFFFFFFFF0000
+          0F00FFF0FFFFFFF000000BBB0F00FFF0FFFFFFF0FFFF00000F00FFF0FFFFFFF0
+          FFFFFFFFFF00FFF0FFFFFFF0FFFF00000F00FFF0FFFFFFF000000BBB0F00FFF0
+          FFFFFFF0FFFF00000F00FFF0FFFFFFF0FFFFFFFFFF00FFF0FFFFF00000FFFFFF
+          FF00FFF0000000BBB0FFFFFFFF00FFF0FFFFF00000FFFFFFFF00FFF0FFFFFFFF
+          FFFFFFFFFF00FFF0FFFFFFFFFFFFFFFFFF00FFF0FFFFFFFFFFFFFFFFFF00F000
+          00FFFFFFFFFFFFFFFF00F0BBB0FFFFFFFFFFFFFFFF00F00000FFFFFFFFFFFFFF
+          FF00FFFFFFFFFFFFFFFFFFFFFF00}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BArborescenceClick
+        IsControl = True
+      end
+      object BtQteAuto: TToolbarButton97
+        Left = 564
+        Top = 0
+        Width = 39
+        Height = 27
+        Hint = 'Affecte les quantités automatiquement'
+        DisplayMode = dmGlyphOnly
+        DropdownArrow = True
+        DropdownMenu = PopA
+        Caption = 'Affecte les quantités automatiquement'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000010000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF007777770EEE07
+          7777F777770E00000777FF77770E0EEE0777FFF777000E000007FFFF77770E0E
+          EE07FFFFF777000EEE07FFFFFF77770EEE0700000FF77700000709990FFF7777
+          07770999000FF77000770999090FFF000007000009000FF00077FF0999090FF0
+          0077FF0000090FF00077FFFF09990F000F77FFFF00000FFFFFF7}
+        Layout = blGlyphTop
+        Margin = 4
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+      end
+      object Bminute: TToolbarButton97
+        Left = 660
+        Top = 0
+        Width = 27
+        Height = 27
+        Hint = 'Impression de la minute'
+        DisplayMode = dmGlyphOnly
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000000000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0088880FF00000
+          00008880F0080FFFFFFF880F0FF00F00000F80F0F0080FFFFFFF880F0FF00F00
+          000F80F0F0080FFFFFFF880F0FB00F00F00080F0FBFB0FFFF0F0880FBFBF0FFF
+          F00880FBFBFB000000888800BFBFBFBF0888888800FBFBF0888888888800B808
+          8888888888880088888888888888888888888888888888888888}
+        Opaque = False
+        ParentShowHint = False
+        ShowHint = True
+        Visible = False
+        OnClick = BminuteClick
+      end
+      object RecalculeDocument: TToolbarButton97
+        Tag = 1
+        Left = 452
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Recalcul du document'
+        AllowAllUp = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Recalcul du document'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          F6000000424DF600000000000000760000002800000010000000100000000100
+          0400000000008000000000000000000000001000000000000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+          88888888888888888888888888884F8888888888888444F888888888884444F8
+          888800000444F44F88880FFF444F0844F8880F7774FF0884F8880FFFFFFF0888
+          4F880F77777F088884F80FFFFFFF0888884F0F77888F088888840FFFF0000888
+          88880F778080888888880FFFF008888888880000008888888888}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        Visible = False
+        OnClick = RecalculeDocumentClick
+        IsControl = True
+      end
+      object BCalculDocAuto: TToolbarButton97
+        Tag = 1
+        Left = 424
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Calcul Automatique'
+        AllowAllUp = True
+        GroupIndex = 2
+        DisplayMode = dmGlyphOnly
+        Caption = 'Calcul Automatique'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          D2000000424DD200000000000000520000002800000010000000100000000100
+          040000000000800000001E1C00001E1C0000070000000700000000000000FFFF
+          FF00A64C4C004CFF4C004CA64C00C3C8C800FFFFFF0055555522222555555255
+          2244444225553422444444444255344444433334442534444335555344253444
+          4255555534423444442555553332333333555555555555555555552222223222
+          5555534444423442555555344442534425555224444253444222244444425534
+          44444444334255533444443355355555533333555555}
+        Layout = blGlyphTop
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BCalculDocAutoClick
+        IsControl = True
+      end
+    end
+    object Valide97: TToolbar97
+      Left = 696
+      Top = 0
+      Caption = 'Validation'
+      CloseButton = False
+      DefaultDock = DockBottom
+      DockPos = 696
+      TabOrder = 1
+      object BValider: TToolbarButton97
+        Left = 0
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Enregistrer la pièce'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Enregistrer'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          BE060000424DBE06000000000000360400002800000024000000120000000100
+          0800000000008802000000000000000000000001000000010000000000000000
+          80000080000000808000800000008000800080800000C0C0C000C0DCC000F0C8
+          A400000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000F0FBFF00A4A0A000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00030303030303
+          0303030303030303030303030303030303030303030303030303030303030303
+          03030303030303030303030303030303030303030303FF030303030303030303
+          03030303030303040403030303030303030303030303030303F8F8FF03030303
+          03030303030303030303040202040303030303030303030303030303F80303F8
+          FF030303030303030303030303040202020204030303030303030303030303F8
+          03030303F8FF0303030303030303030304020202020202040303030303030303
+          0303F8030303030303F8FF030303030303030304020202FA0202020204030303
+          0303030303F8FF0303F8FF030303F8FF03030303030303020202FA03FA020202
+          040303030303030303F8FF03F803F8FF0303F8FF03030303030303FA02FA0303
+          03FA0202020403030303030303F8FFF8030303F8FF0303F8FF03030303030303
+          FA0303030303FA0202020403030303030303F80303030303F8FF0303F8FF0303
+          0303030303030303030303FA0202020403030303030303030303030303F8FF03
+          03F8FF03030303030303030303030303FA020202040303030303030303030303
+          0303F8FF0303F8FF03030303030303030303030303FA02020204030303030303
+          03030303030303F8FF0303F8FF03030303030303030303030303FA0202020403
+          030303030303030303030303F8FF0303F8FF03030303030303030303030303FA
+          0202040303030303030303030303030303F8FF03F8FF03030303030303030303
+          03030303FA0202030303030303030303030303030303F8FFF803030303030303
+          030303030303030303FA0303030303030303030303030303030303F803030303
+          0303030303030303030303030303030303030303030303030303030303030303
+          0303}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BValiderClick
+        IsControl = True
+      end
+      object BAbandon: TToolbarButton97
+        Tag = 1
+        Left = 28
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Fermer'
+        Cancel = True
+        DisplayMode = dmGlyphOnly
+        Caption = 'Annuler'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          CE070000424DCE07000000000000360000002800000024000000120000000100
+          1800000000009807000000000000000000000000000000000000008080008080
+          0080800080800080800080800080800080800080800080800080800080800080
+          8000808000808000808000808000808000808000808000808000808000808000
+          8080008080008080008080008080008080008080008080008080008080008080
+          0080800080800080800080800080800080808080808080800080800080800080
+          8000808000808000808000808000808000808000808000808000808000808000
+          8080008080008080008080FFFFFF008080008080008080008080008080008080
+          0080800080800080800080800080800080800080800080800080800000FF0000
+          800000808080800080800080800080800080800080800000FF80808000808000
+          8080008080008080008080008080008080008080808080808080FFFFFF008080
+          008080008080008080008080008080FFFFFF0080800080800080800080800080
+          800080800080800000FF00008000008000008080808000808000808000808000
+          00FF000080000080808080008080008080008080008080008080008080808080
+          FFFFFF008080808080FFFFFF008080008080008080FFFFFF808080808080FFFF
+          FF0080800080800080800080800080800080800000FF00008000008000008000
+          00808080800080800000FF000080000080000080000080808080008080008080
+          008080008080008080808080FFFFFF008080008080808080FFFFFF008080FFFF
+          FF808080008080008080808080FFFFFF00808000808000808000808000808000
+          80800000FF000080000080000080000080808080000080000080000080000080
+          000080808080008080008080008080008080008080808080FFFFFF0080800080
+          80008080808080FFFFFF808080008080008080008080008080808080FFFFFF00
+          80800080800080800080800080800080800000FF000080000080000080000080
+          0000800000800000800000808080800080800080800080800080800080800080
+          80008080808080FFFFFF00808000808000808080808000808000808000808000
+          8080FFFFFF808080008080008080008080008080008080008080008080008080
+          0000FF0000800000800000800000800000800000808080800080800080800080
+          80008080008080008080008080008080008080808080FFFFFF00808000808000
+          8080008080008080008080FFFFFF808080008080008080008080008080008080
+          0080800080800080800080800080800000800000800000800000800000808080
+          8000808000808000808000808000808000808000808000808000808000808000
+          8080808080FFFFFF008080008080008080008080008080808080008080008080
+          0080800080800080800080800080800080800080800080800080800000FF0000
+          8000008000008000008080808000808000808000808000808000808000808000
+          8080008080008080008080008080008080808080FFFFFF008080008080008080
+          8080800080800080800080800080800080800080800080800080800080800080
+          800080800000FF00008000008000008000008000008080808000808000808000
+          8080008080008080008080008080008080008080008080008080008080808080
+          008080008080008080008080808080FFFFFF0080800080800080800080800080
+          800080800080800080800080800000FF00008000008000008080808000008000
+          0080000080808080008080008080008080008080008080008080008080008080
+          008080008080808080008080008080008080008080008080808080FFFFFF0080
+          800080800080800080800080800080800080800080800000FF00008000008000
+          00808080800080800000FF000080000080000080808080008080008080008080
+          008080008080008080008080008080808080008080008080008080808080FFFF
+          FF008080008080808080FFFFFF00808000808000808000808000808000808000
+          80800000FF0000800000808080800080800080800080800000FF000080000080
+          000080808080008080008080008080008080008080008080808080FFFFFF0080
+          80008080808080008080808080FFFFFF008080008080808080FFFFFF00808000
+          80800080800080800080800080800080800000FF000080008080008080008080
+          0080800080800000FF0000800000800000800080800080800080800080800080
+          80008080808080FFFFFFFFFFFF808080008080008080008080808080FFFFFF00
+          8080008080808080FFFFFF008080008080008080008080008080008080008080
+          0080800080800080800080800080800080800080800000FF0000800000FF0080
+          8000808000808000808000808000808000808080808080808000808000808000
+          8080008080008080808080FFFFFFFFFFFFFFFFFF808080008080008080008080
+          0080800080800080800080800080800080800080800080800080800080800080
+          8000808000808000808000808000808000808000808000808000808000808000
+          8080008080008080008080008080008080008080008080808080808080808080
+          0080800080800080800080800080800080800080800080800080800080800080
+          8000808000808000808000808000808000808000808000808000808000808000
+          8080008080008080008080008080008080008080008080008080008080008080
+          008080008080008080008080008080008080}
+        ModalResult = 2
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BAbandonClick
+        IsControl = True
+      end
+      object BAide: TToolbarButton97
+        Tag = 1
+        Left = 56
+        Top = 0
+        Width = 28
+        Height = 27
+        Hint = 'Aide'
+        DisplayMode = dmGlyphOnly
+        Caption = 'Aide'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Glyph.Data = {
+          BE060000424DBE06000000000000360400002800000024000000120000000100
+          0800000000008802000000000000000000000001000000010000000000000000
+          80000080000000808000800000008000800080800000C0C0C000C0DCC000F0C8
+          A400000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000F0FBFF00A4A0A000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00030303030303
+          03030606030303030303030303030303030303FFFF0303030303030303030303
+          0303030303060404060303030303030303030303030303F8F8FF030303030303
+          030303030303030303FE06060403030303030303030303030303F8FF03F8FF03
+          0303030303030303030303030303FE060603030303030303030303030303F8FF
+          FFF8FF0303030303030303030303030303030303030303030303030303030303
+          030303F8F8030303030303030303030303030303030304040603030303030303
+          0303030303030303FFFF03030303030303030303030303030306060604030303
+          0303030303030303030303F8F8F8FF0303030303030303030303030303FE0606
+          0403030303030303030303030303F8FF03F8FF03030303030303030303030303
+          03FE06060604030303030303030303030303F8FF03F8FF030303030303030303
+          030303030303FE060606040303030303030303030303F8FF0303F8FF03030303
+          0303030303030303030303FE060606040303030303030303030303F8FF0303F8
+          FF030303030303030303030404030303FE060606040303030303030303FF0303
+          F8FF0303F8FF030303030303030306060604030303FE06060403030303030303
+          F8F8FF0303F8FF0303F8FF03030303030303FE06060604040406060604030303
+          030303F8FF03F8FFFFFFF80303F8FF0303030303030303FE0606060606060606
+          06030303030303F8FF0303F8F8F8030303F8FF030303030303030303FEFE0606
+          060606060303030303030303F8FFFF030303030303F803030303030303030303
+          0303FEFEFEFEFE03030303030303030303F8F8FFFFFFFFFFF803030303030303
+          0303030303030303030303030303030303030303030303F8F8F8F8F803030303
+          0303}
+        HelpContext = 119000017
+        Layout = blGlyphTop
+        NumGlyphs = 2
+        Opaque = False
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = -1
+        OnClick = BAideClick
+        IsControl = True
+      end
+    end
+  end
+  object BZoomArticle: TBitBtn
+    Tag = 100
+    Left = 27
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Voir article'
+    Caption = 'Article'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 3
+    Visible = False
+    OnClick = BZoomArticleClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomTiers: TBitBtn
+    Tag = 100
+    Left = 58
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Voir tiers'
+    Caption = 'Tiers'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    Visible = False
+    OnClick = BZoomTiersClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomTarif: TBitBtn
+    Tag = 100
+    Left = 90
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Explication du tarif'
+    Caption = 'Tarif'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 5
+    Visible = False
+    OnClick = BZoomTarifClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomCommercial: TBitBtn
+    Tag = 100
+    Left = 122
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Voir commercial'
+    Caption = 'Commercial'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 6
+    Visible = False
+    OnClick = BZoomCommercialClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomPrecedente: TBitBtn
+    Tag = 100
+    Left = 162
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Pièce précédente'
+    Caption = 'Précédente'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 7
+    Visible = False
+    OnClick = BZoomPrecedenteClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomOrigine: TBitBtn
+    Tag = 100
+    Left = 194
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Pièce d'#39'origine'
+    Caption = 'Origine'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 8
+    Visible = False
+    OnClick = BZoomOrigineClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomAffaire: TBitBtn
+    Tag = 100
+    Left = 227
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Voir affaire'
+    Caption = 'Affaire'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
+    Visible = False
+    OnClick = BZoomAffaireClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomSuivante: TBitBtn
+    Tag = 100
+    Left = 298
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Pièce suivante'
+    Caption = 'Suivante'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 10
+    Visible = False
+    OnClick = BZoomSuivanteClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomEcriture: TBitBtn
+    Tag = 100
+    Left = 263
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Ecriture comptable'
+    Caption = 'Ecriture'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 11
+    Visible = False
+    OnClick = BZoomEcritureClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomDevise: TBitBtn
+    Tag = 100
+    Left = 334
+    Top = 139
+    Width = 28
+    Height = 27
+    Hint = 'Voir devise'
+    Caption = 'Devise'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 12
+    Visible = False
+    OnClick = BZoomDeviseClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomStock: TBitBtn
+    Tag = 100
+    Left = 279
+    Top = 155
+    Width = 28
+    Height = 27
+    Hint = 'Ecriture stock'
+    Caption = 'Compta. Stock'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 15
+    Visible = False
+    OnClick = BZoomStockClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomDispo: TBitBtn
+    Tag = 100
+    Left = 339
+    Top = 155
+    Width = 28
+    Height = 27
+    Hint = 'Voir disponiblité'
+    Caption = 'Disponibilité'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 16
+    Visible = False
+    OnClick = BZoomDispoClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomPiece: TBitBtn
+    Tag = 100
+    Left = 366
+    Top = 155
+    Width = 28
+    Height = 27
+    Hint = 'Synthèse des pièces'
+    Caption = 'Pièce'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 18
+    Visible = False
+    OnClick = BZoomPieceClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomTache: TBitBtn
+    Tag = 100
+    Left = 435
+    Top = 155
+    Width = 28
+    Height = 27
+    Hint = 'Voir tâche de l'#39'affaire'
+    Caption = 'Tache'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 19
+    Visible = False
+    OnClick = BZoomTacheClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomRevision: TBitBtn
+    Tag = 100
+    Left = 467
+    Top = 155
+    Width = 28
+    Height = 27
+    Hint = 'Voir révision de prix'
+    Caption = 'Révision prix'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 21
+    Visible = False
+    OnClick = BZoomRevisionClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object BZoomProposition: TBitBtn
+    Tag = 100
+    Left = 3
+    Top = 3
+    Width = 28
+    Height = 27
+    Hint = 'Voir Proposition'
+    Caption = 'Compta. Stock'
+    Enabled = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 20
+    Visible = False
+    OnClick = BZoomPropositionClick
+    Layout = blGlyphTop
+    Spacing = -1
+  end
+  object GS: THGrid
+    Tag = 1
+    Left = 0
+    Top = 113
+    Width = 762
+    Height = 214
+    Align = alClient
+    BorderStyle = bsNone
+    ColCount = 8
+    Ctl3D = True
+    DefaultColWidth = 50
+    DefaultRowHeight = 18
+    RowCount = 60
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goDrawFocusSelected, goColSizing, goTabs]
+    ParentCtl3D = False
+    TabOrder = 22
+    OnDblClick = GSDblClick
+    OnEnter = GSEnter
+    OnExit = GSExit
+    OnKeyDown = GSKeyDown
+    OnMouseDown = GSMouseDown
+    OnSelectCell = GSSelectCell
+    SortedCol = -1
+    Couleur = False
+    MultiSelect = True
+    TitleBold = False
+    TitleCenter = True
+    OnRowEnter = GSRowEnter
+    OnRowExit = GSRowExit
+    OnCellEnter = GSCellEnter
+    OnCellExit = GSCellExit
+    ColCombo = 0
+    SortEnabled = False
+    SortRowExclude = 0
+    TwoColors = True
+    AlternateColor = 13224395
+    OnElipsisClick = GSElipsisClick
+    ColWidths = (
+      19
+      16
+      108
+      209
+      78
+      68
+      55
+      82)
+    RowHeights = (
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18
+      18)
+  end
+  object HMTrad: THSystemMenu
+    Caption = '&Personnalisation'
+    Separator = True
+    Traduction = True
+    Left = 578
+    Top = 168
+  end
+  object FindLigne: TFindDialog
+    OnFind = FindLigneFind
+    Left = 620
+    Top = 176
+  end
+  object HTitres: THMsgBox
+    Police.Charset = DEFAULT_CHARSET
+    Police.Color = clWindowText
+    Police.Height = -11
+    Police.Name = 'MS Sans Serif'
+    Police.Style = []
+    Mess.Strings = (
+      'Liste des articles'
+      'Articles'
+      'Tiers'
+      'Liste des affaires'
+      'Affaires'
+      'ATTENTION : Pièce non enregistrée !'
+      
+        'ATTENTION : Cette pièce en cours de traitement par un autre util' +
+        'isateur n'#39'a pas été enregistrée !'
+      'Liste des commerciaux'
+      'Conditionnements'
+      'Conditionnement en cours :'
+      'Non affecté'
+      'Liste des commerciaux'
+      'Liste des dépôts'
+      
+        'ATTENTION : Cette pièce ne peut pas passer en comptabilité et n'#39 +
+        'a pas été enregistrée !'
+      'Euro'
+      'Autres'
+      'Libellés automatiques'
+      '(référence de substitution possible :'
+      '(remplacement par référence :'
+      'ATTENTION : l'#39'impression ne s'#39'est pas correctement effectuée !'
+      'ATTENTION : la suppression ne s'#39'est pas correctement effectuée !'
+      'Crédit accordé : '
+      'Encours actuel :'
+      
+        'ATTENTION : La pièce présente un problème de numérotation et n'#39'a' +
+        ' pas été enregistrée !'
+      'Client'
+      'Fournisseur'
+      '26;'
+      
+        'ATTENTION. Le stock disponible est insuffisant pour certains art' +
+        'icles.'
+      'Changement de code TVA'
+      ' ')
+    Left = 489
+    Top = 168
+  end
+  object POPZ: TPopupMenu
+    AutoPopup = False
+    OwnerDraw = True
+    Left = 367
+    Top = 206
+  end
+  object HPiece: THMsgBox
+    Police.Charset = DEFAULT_CHARSET
+    Police.Color = clWindowText
+    Police.Height = -11
+    Police.Name = 'MS Sans Serif'
+    Police.Style = []
+    Mess.Strings = (
+      
+        '0;?caption?;Il n'#39'existe pas de tarif pour cet article correspond' +
+        'ant à la devise de la pièce !;E;O;O;O;'
+      
+        '1;?caption?;Saisie impossible. Il n'#39'existe pas de tarif pour cet' +
+        ' article correspondant à la devise de la pièce !;E;O;O;O;'
+      
+        '2;?caption?;Saisie impossible. Cet article fermé n'#39'est pas autor' +
+        'isé pour cette nature de document;E;O;O;O;'
+      
+        '3;?caption?;Choix impossible. Ce tiers fermé ne peut pas être ap' +
+        'pelé pour cette nature de document;E;O;O;O;'
+      
+        '4;?caption?;Choix impossible. La nature du tiers associé à l'#39'aff' +
+        'aire n'#39'est pas compatible avec la nature de pièce;E;O;O;O;'
+      '5;?caption?;Vous devez renseigner un tiers valide;E;O;O;O;'
+      '6;?caption?;Confirmez-vous l'#39'abandon de la saisie ?;Q;YN;Y;N;'
+      
+        '7;?caption?;Voulez-vous affecter ce dépôt sur toutes les lignes ' +
+        'concernées ?;Q;YN;Y;N;'
+      
+        '8;?caption?;Choix impossible. Ce code tiers est incorrect;E;O;O;' +
+        'O;'
+      
+        '9;?caption?;Cette pièce ne peut pas être modifiée ni transformée' +
+        ', seule la consultation est autorisée;E;O;O;O;'
+      
+        '10;?caption?;Cet article est en rupture, confirmez-vous malgré t' +
+        'out la quantité ?;Q;YN;Y;N;'
+      '11;?caption?;Cet article est en rupture ;E;O;O;O;'
+      '12;?caption?;Cet article n'#39'est plus géré ;E;O;O;O;'
+      
+        '13;?caption?;Le plafond de crédit accordé au tiers est dépassé !' +
+        ' ;E;O;O;O;'
+      '14;?caption?;Le crédit accordé au tiers est dépassé ! ;E;O;O;O;'
+      
+        '15;?caption?;Voulez-vous saisir ce taux dans la table de chancel' +
+        'lerie ?;Q;YN;Y;N;O;'
+      
+        '16;?caption?;ATTENTION : Le taux en cours est de 1. Voulez-vous ' +
+        'saisir ce taux dans la table de chancellerie;Q;YN;Y;N;O;'
+      
+        '17;?caption?;ATTENTION : la marge de la ligne est inférieure au ' +
+        'minimum requis;E;O;O;O;'
+      
+        '18;?caption?;La date que vous avez renseignée n'#39'est pas valide;E' +
+        ';O;O;O;'
+      
+        '19;?caption?;La date que vous avez renseignée n'#39'est pas dans un ' +
+        'exercice ouvert;E;O;O;O;'
+      
+        '20;?caption?;La date que vous avez renseignée est antérieure à u' +
+        'ne clôture;E;O;O;O;'
+      
+        '21;?caption?;La date que vous avez renseignée est antérieure à u' +
+        'ne clôture;E;O;O;O;'
+      
+        '22;?caption?;La date que vous avez renseignée est en dehors des ' +
+        'limites autorisées;E;O;O;O;'
+      
+        '23;?caption?;ATTENTION : la marge de la ligne est inférieure au ' +
+        'minimum requis. Voulez-vous changer de code utilisateur ?;Q;YN;N' +
+        ';N;'
+      
+        '24;?caption?;Le plafond de crédit accordé au tiers est dépassé. ' +
+        'Voulez-vous changer de code utilisateur ? ;Q;YN;N;N;'
+      '25;?caption?;Vous ne pouvez pas saisir avant le ;E;O;O;O;'
+      
+        '26;?caption?;Cette pièce contient déjà des lignes. Reprise des l' +
+        'ignes de l'#39'affaire impossible ;E;O;O;O;'
+      
+        '27;?caption?;Attention : Vous n'#39'avez pas affecté d'#39'affaire sur c' +
+        'ette pièce ;E;O;O;O;'
+      
+        '28;?caption?;La date est antérieure à celle de dernière clôture ' +
+        'de stock;E;O;O;O;'
+      
+        '29;?caption?;Confirmez-vous la suppression de la pièce ?;Q;YN;N;' +
+        'N;'
+      
+        '30;?caption?;Voulez-vous répercuter la date de livraison de l'#39'en' +
+        'tête sur toutes les lignes?;Q;YN;Y;N;O;'
+      
+        '31;?caption?;Voulez-vous répercuter la date de livraison de l'#39'en' +
+        'tête sur les lignes sélectionnées ?;Q;YN;Y;N;O;'
+      '32;?caption?;Vous devez renseigner une devise;E;O;O;O;'
+      
+        '33;?caption?;Vous avez enregistré des acomptes ou des règlements' +
+        '. Voulez-vous les supprimer ?;Q;YN;Y;N;O;'
+      
+        '34;?caption?;Ce client est en rouge ! Vous ne pouvez pas lui cré' +
+        'er de pièce à  ce niveau de risque;E;O;O;O;'
+      
+        '35;?caption?;Confirmez-vous la suppression de tout le paragraphe' +
+        ' ?;Q;YN;N;N;'
+      
+        '36;?caption?;Cet article est tenu en stock, vous ne pouvez le co' +
+        'ntremarquer;E;O;O;O;'
+      
+        '37;?caption?;Cette pièce contient déjà des lignes, vous ne pouve' +
+        'z pas changer le fournisseur;E;O;O;O;'
+      
+        '38;?caption?;Voulez-vous affecter cette TVA sur toutes les ligne' +
+        's concernées ?;Q;YN;Y;N;'
+      
+        '39;?caption?;Voulez-vous affecter ce régime sur toute la pièce ?' +
+        ';Q;YN;Y;N;'
+      '40;?caption?;Erreur sur le code du commercial;E;O;O;O;'
+      '41;?caption?;Vous devez renseigner un motif par défaut;E;O;O;O;'
+      
+        '42;?caption?;Vous ne pouvez pas saisir une quantité négative;E;O' +
+        ';O;O;'
+      
+        '43;?caption?;Cette pièce ne peut pas être modifiée, seule la der' +
+        'nière situation est modifiable;E;O;O;O;'
+      '44;?caption?;Certains articles n'#39'ont pu être recupérés;E;O;O;O;'
+      
+        '45;?caption?;Génération impossible : le paramétrage est incomple' +
+        't;E;O;O;O;'
+      '46;?caption?;Date inférieure à arrêté de période;E;O;O;O;'
+      
+        '47;?caption?;Saisie impossible. Cet article n'#39'est gérable qu'#39'en ' +
+        'contremarque.;E;O;O;O;'
+      
+        '48;?caption?;La saisie par code barre n'#39'a pas été validée, voule' +
+        'z-vous la valider ?;Q;YN;Y;N;'
+      '49;?caption?;Le taux d'#39'escompte ne peut excèder 100%. ;E;O;O;O;'
+      '50;?caption?;Le taux de remise ne peut excèder 100%. ;E;O;O;O;'
+      
+        '51;?caption?;Attention ! La quantité saisie est inférieure au to' +
+        'tal des quantités des pièces suivantes.;E;O;O;O;'
+      
+        '52;?caption?;Vous ne pouvez pas supprimer cette ligne, d'#39'autres ' +
+        'lignes y sont associées.;E;O;O;O;'
+      
+        '53;?caption?;Vous ne pouvez pas changer l'#39'article de cette ligne' +
+        '.;E;O;O;O;'
+      
+        '54;?caption?;Toutes les lignes de la pièce d'#39'origine ont été tra' +
+        'nsformées.;E;O;O;O;'
+      
+        '55;?caption?;ATTENTION: La suppression est impossible car de l'#39'a' +
+        'ctivité a été saisie ;E;O;O;O; '
+      
+        '56;?caption?;La quantité de la ligne est supérieure au maximum a' +
+        'utorisé;E;O;O;O;'
+      '57;?caption?;Le dépôt est obligatoire.;E;O;O;O;'
+      '58;?caption?;Confirmez-vous le solde de cette ligne ?;Q;YN;N;N;'
+      '59;?caption?;Voulez-vous dé-solder de cette ligne ?;Q;YN;N;N;'
+      
+        '60;?caption?;Vous ne pouvez pas supprimer cette ligne, la ligne ' +
+        'de la pièce précédente est soldée.;E;O;O;O;'
+      
+        '61;?caption?;Confirmez-vous le solde de toutes les lignes de la ' +
+        'piece ?;Q;YN;N;N;'
+      ''
+      ' '
+      ' ')
+    Left = 533
+    Top = 167
+  end
+  object POPY: TPopupMenu
+    AutoPopup = False
+    OwnerDraw = True
+    Left = 288
+    Top = 209
+    object VoirFranc: TMenuItem
+      Caption = 'Voir la pièce en franc'
+      Visible = False
+      OnClick = VoirFrancClick
+    end
+    object SepTva1000: TMenuItem
+      Caption = '-'
+    end
+    object MBREPARTTVA: TMenuItem
+      Caption = 'Répartition de TVA au 1/1000e'
+      OnClick = MBREPARTTVAClick
+    end
+    object NSEPARATEUR: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object CpltEntete: TMenuItem
+      Caption = 'Complément &Entête'
+      OnClick = CpltEnteteClick
+    end
+    object Librepiece: TMenuItem
+      Caption = 'Zones libres pièces'
+      OnClick = LibrepieceClick
+    end
+    object Complmentvariables1: TMenuItem
+      Caption = 'Complément variables'
+      OnClick = Complmentvariables1Click
+    end
+    object CpltLigne: TMenuItem
+      Caption = 'Complément &Ligne'
+      OnClick = CpltLigneClick
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object AdrLiv: TMenuItem
+      Caption = '&Adresses Livraison'
+      Visible = False
+      OnClick = AdrLivClick
+    end
+    object AdrFac: TMenuItem
+      Caption = 'Adresses &Facturation'
+      Visible = False
+      OnClick = AdrFacClick
+    end
+    object N2: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object MBTarifVisuOrigine: TMenuItem
+      Caption = 'Justification &Tarifaire'
+      OnClick = MBTarifVisuOrigineClick
+    end
+    object N9: TMenuItem
+      Caption = '-'
+    end
+    object MBtarif: TMenuItem
+      Caption = 'Mise à jour tarif : ligne à ligne'
+      OnClick = MBtarifClick
+    end
+    object MBTarifGroupe: TMenuItem
+      Caption = 'Mise à jour tarif : groupée pièce'
+      OnClick = MBTarifGroupeClick
+    end
+    object MBDatesLivr: TMenuItem
+      Caption = 'Mise à jour dates livraison lignes'
+      OnClick = MBDatesLivrClick
+    end
+    object MBSoldeReliquat: TMenuItem
+      Caption = 'Solder / Activer le reliquat'
+      OnClick = MBSoldeReliquatClick
+    end
+    object MBSoldeTousReliquat: TMenuItem
+      Caption = 'Solder / Activer tous les reliquats'
+      OnClick = MBSoldeTousReliquatClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object MBDetailNomen: TMenuItem
+      Caption = 'Détail nomenclature'
+      OnClick = MBDetailNomenClick
+    end
+    object MBDetailLot: TMenuItem
+      Caption = 'Détail lots/séries'
+      OnClick = MBDetailLotClick
+    end
+    object MBCtrlFact: TMenuItem
+      Caption = 'Contrôle des pièces d'#39'achat'
+      OnClick = MBCtrlFactClick
+    end
+    object MBAnal: TMenuItem
+      Caption = 'Analyse'
+      object MBAnalDoc: TMenuItem
+        Caption = 'Analyse du document'
+        OnClick = MBAnalDocClick
+      end
+      object MBAnalLoc: TMenuItem
+        Caption = 'Analyse de l'#39'élément courant'
+        OnClick = MBAnalLocClick
+      end
+    end
+    object SimulationdeRentabilit1: TMenuItem
+      Caption = 'Simulation de Rentabilité'
+      Visible = False
+      object SRDocGlobal: TMenuItem
+        Caption = 'Document Global'
+        OnClick = SRDocGlobalClick
+      end
+      object SRDocParag: TMenuItem
+        Caption = 'Par Paragraphe'
+        OnClick = SRDocParagClick
+      end
+    end
+    object MBModeVisu: TMenuItem
+      Caption = 'Mode d'#39'affichage des détails d'#39'ouvrage'
+      OnClick = MBModeVisuClick
+    end
+    object Modebordereau: TMenuItem
+      Caption = 'Mode P.V bloqué'
+      ShortCut = 24689
+      Visible = False
+      OnClick = ModebordereauClick
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object FraisDetail: TMenuItem
+      Caption = 'Saisie des frais détaillés '
+      Visible = False
+      OnClick = FraisDetailClick
+    end
+    object N8: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object PlanningEntete: TMenuItem
+      Caption = 'Planning Entête'
+    end
+    object PlanningLigne: TMenuItem
+      Caption = 'Planning Ligne '
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object MBSGED: TMenuItem
+      Caption = 'S.G.E.D.'
+      object SGEDPiece: TMenuItem
+        Caption = 'Pièce'
+        OnClick = SGEDPieceClick
+      end
+      object SGEDLigne: TMenuItem
+        Caption = 'Ligne'
+        OnClick = SGEDLigneClick
+      end
+    end
+  end
+  object PopD: TPopupMenu
+    AutoPopup = False
+    OwnerDraw = True
+    Left = 320
+    Top = 207
+    object POPD_S1: TMenuItem
+      Caption = 'Francs'
+      RadioItem = True
+      OnClick = PopEuro
+    end
+    object POPD_S2: TMenuItem
+      Caption = 'Euro'
+      RadioItem = True
+      OnClick = PopEuro
+    end
+    object POPD_S3: TMenuItem
+      Caption = 'Autres'
+      RadioItem = True
+      OnClick = PopEuro
+    end
+  end
+  object PopL: TPopupMenu
+    AutoPopup = False
+    OwnerDraw = True
+    Left = 444
+    Top = 206
+    object TInsParag: TMenuItem
+      Caption = 'Insérer &Paragraphe'
+      OnClick = TInsParagClick
+    end
+    object N6: TMenuItem
+      Caption = '-'
+    end
+    object TInsLigne: TMenuItem
+      Caption = 'Insérer ligne'
+      OnClick = TInsLigneClick
+    end
+    object TSupLigne: TMenuItem
+      Caption = 'Supprimer ligne'
+      OnClick = TSupLigneClick
+    end
+    object TFusionner: TMenuItem
+      Caption = 'Fusionner les lignes'
+      Visible = False
+      OnClick = TFusionnerClick
+    end
+    object N7: TMenuItem
+      Caption = '-'
+    end
+    object TCommentEnt: TMenuItem
+      Caption = 'Commentaire d'#39'entête'
+      OnClick = TCommentEntClick
+    end
+    object TCommentPied: TMenuItem
+      Caption = 'Commentaire en pied'
+      OnClick = TCommentPiedClick
+    end
+  end
+  object HErr: THMsgBox
+    Police.Charset = DEFAULT_CHARSET
+    Police.Color = clWindowText
+    Police.Height = -11
+    Police.Name = 'MS Sans Serif'
+    Police.Style = []
+    Mess.Strings = (
+      'Erreurs en validation'
+      
+        '1;?caption?;Vous ne pouvez pas enregistrer une pièce vide;E;O;O;' +
+        'O;'
+      
+        '2;?caption?;Vous ne pouvez pas enregistrer une pièce sans articl' +
+        'es;E;O;O;O;'
+      
+        '3;?caption?;Vous ne pouvez pas enregistrer une pièce sans mouvem' +
+        'ents;E;O;O;O;'
+      
+        '4;?caption?;Vous ne pouvez pas enregistrer une pièce à cette dat' +
+        'e;E;O;O;O;'
+      
+        '5;?caption?;Enregistrement impossible : l'#39'acompte est supérieur ' +
+        'au total de la pièce;E;O;O;O;'
+      
+        '6;?caption?;Enregistrement impossible : la devise est incorrecte' +
+        ';E;O;O;O;'
+      '7;?caption?;La pièce d'#39'origine est déjà traitée;E;O;O;O;'
+      '8;?caption?;Le contrôle facture n'#39'est pas valide;E;O;O;O;'
+      '9;?caption?;Le circuit est obligatoire;E;O;O;O;')
+    Left = 640
+    Top = 231
+  end
+  object HAveugle: THMsgBox
+    Police.Charset = DEFAULT_CHARSET
+    Police.Color = clWindowText
+    Police.Height = -11
+    Police.Name = 'MS Sans Serif'
+    Police.Style = []
+    Mess.Strings = (
+      'ATTENTION : code barre inconnu.'
+      
+        '1;?Caption?;La quantité de cet article est supérieure à celle at' +
+        'tendue dans le document. #13 Voulez-vous l'#39'ajouter au document ?' +
+        ';Q;YN;Y;N;'
+      'ATTENTION : vous ne pouvez pas saisir une quantité négative.'
+      
+        '3;?Caption?;Voulez-vous supprimer tous les articles saisis ?;Q;Y' +
+        'N;Y;N;'
+      'ATTENTION : cet article ne correspond pas à ce fournisseur.'
+      '')
+    Left = 557
+    Top = 226
+  end
+  object PopV: TPopupMenu
+    AutoPopup = False
+    OwnerDraw = True
+    Left = 404
+    Top = 207
+    object VPiece: TMenuItem
+      Caption = 'Pièce'
+      OnClick = VPieceClick
+    end
+    object VLigne: TMenuItem
+      Caption = 'Ligne'
+      OnClick = VLigneClick
+    end
+    object VSepare: TMenuItem
+      Caption = '-'
+    end
+    object SPiece: TMenuItem
+      Caption = 'Stock entête'
+      OnClick = SPieceClick
+    end
+    object SLigne: TMenuItem
+      Caption = 'Stock ligne'
+      OnClick = SLigneClick
+    end
+  end
+  object PopA: TPopupMenu
+    AutoPopup = False
+    Left = 485
+    Top = 210
+    object Pourlaligne: TMenuItem
+      Caption = 'Pour la ligne'
+      OnClick = PourlaligneClick
+    end
+    object Pourledocument: TMenuItem
+      Caption = 'Pour le document'
+      OnClick = PourledocumentClick
+    end
+  end
+  object PopOuvrage: TPopupMenu
+    Left = 240
+    Top = 212
+    object DetailOuvrage: TMenuItem
+      Caption = 'Détail de l'#39'ouvrage'
+      OnClick = DetailOuvrageClick
+    end
+    object SousDetailAff: TMenuItem
+      Caption = 'Affichage/Retrait des sous détails'
+      OnClick = SousDetailAffClick
+    end
+  end
+  object ImTypeArticle: TImageList
+    Left = 391
+    Top = 264
+    Bitmap = {
+      494C01010A000E00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000004000000001002000000000000040
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000A56B39000000000000000000000000000000000000000000000000000000
+      0000A56B39008484840000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000C6C6C6008484840000000000000000000000000000FFFF0000FF
+      FF0000000000C6C6C600C6C6C600000000000000000000000000A56B39000000
+      840000000000A56B390000000000000000000000000000000000000000000084
+      840000000000A56B3900A56B3900000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000008484
+      000000000000C6C6C600C6C6C60084848400000000000000000000FFFF0000FF
+      FF00C6C6C600C6C6C600C6C6C6000000000000000000A56B3900A56B39000000
+      84000000840000000000A56B3900000000000000000000000000000000000000
+      0000CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000084840000C6C6
+      C600C6C6C600000000000000000000000000848484000000000000FFFF0000FF
+      FF00C6C6C600FFFFFF00C6C6C6000000000000000000A56B3900A56B39000000
+      8400000084000000000000000000000000000000000000000000CED6D600CED6
+      D600CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000084840000C6C6C600C6C6
+      C600C6C6C60084840000C6C6C600848400000000000084848400000000000000
+      00000000000000000000000000000000000000000000FFFFFF00C6C6C600C6C6
+      C600000084000000000000000000000000000000000000000000CED6D600CED6
+      D600CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000848400008484
+      0000C6C6C600C6C6C600C6C6C600C6C6C6008484000000000000848484000000
+      0000000000000000000000000000000000000000000000000000C6C6C600C6C6
+      C600000000000000000000000000000000000000000000000000CED6D600CED6
+      D600CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FFFF0000000000008484
+      000084840000C6C6C60000FF000000FF00008484000084840000000000008484
+      840000000000C6C6C600C6C6C600000000000000000000000000000000000000
+      0000000000000000000000FFFF0000FFFF0000FFFF00C6DEC600A56B3900CED6
+      D600CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FFFF0000848400000000
+      00008484000084840000848400008484000084840000C6C6C600848400000000
+      000084848400C6C6C600C6C6C600000000000000000000000000000000000000
+      0000000000000000000000FFFF0000FFFF0000FFFF0000000000A56B3900A56B
+      3900CED6D6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000FFFF000000FF
+      000000000000848400008484000084840000C6C6C600C6C6C600C6C6C6008484
+      0000000000008484840000000000000000000000000000000000000000000000
+      0000000000000000000000FFFF0000FFFF0000FFFF0000FFFF00A56B3900C6DE
+      C600A56B39000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000FFFF
+      000000FF0000000000008484000084840000C6C6C600C6C6C600C6C6C60000FF
+      0000848400000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF0000FFFF0000FFFF0000FFFF00A56B3900C6C6
+      C60000000000A56B390000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFF000000FF0000000000008484000084840000C6C6C600C6C6C6008484
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000FFFF0000FFFF0000000000FFFFFF00FFFF
+      FF00FFFFFF00C6C6C60000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000C6C6C6000000
+      000000000000FFFF000000FF0000000000008484000000FF0000848400000000
+      0000FFFF00008484840000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000FFFFFF00FFFFFF00000000000000
+      0000008484000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000C6C6C600C6C6C600C6C6
+      C6000000000000000000FFFF000000FF00000000000084840000000000008484
+      0000FFFF00008484840000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000008484000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000C6C6C6000000
+      0000000000000000000000000000FFFF000000FF00000000000084840000FFFF
+      0000848484000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FFFFFF00000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000C6C6C600C6C6C6000000000000000000FFFF000084840000FFFF00008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000C6C6C600FFFFFF00FFFF
+      FF00848484000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000C6C6C600C6C6C600000000000000000000000000FFFF0000848484000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000084848400F7FFFF00C6DE
+      C600000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000840084848400C6C6C600A56B3900A56B3900A56B39000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000008400008484000084000084848400C6C6C600A56B3900848484008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FFFF0000FFFF0000FFFF
+      0000FFFF0000FFFF0000FFFF00000000FF000000FF00FFFF000084848400FFFF
+      0000FFFF0000FFFF0000FFFF0000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      84000084000000848400008400000084000084848400C6C6C600C6C6C600C6C6
+      C600848484008484840084848400000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000FFFFFF00FFFF0000FFFF
+      0000FFFF0000FFFF0000FFFF00000000FF000000FF00FFFF0000FFFF00008484
+      8400FFFF0000FFFF000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000084000084
+      0000008400000084840000840000008400000084000084848400C6C6C600C6DE
+      C600C6DEC600C6DEC600C6DEC600848484000000000000000000000000000000
+      0000000000000000000084000000840000008400000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FFFF000000000000848484008484840000000000FFFF0000FFFF
+      0000848484000000000000000000000000000000000000000000000000000000
+      000000000000000000000000FF00000084000000FF0000000000000000000000
+      0000000000000000000000000000000000000000000000008400008400000084
+      0000008400000084840000840000008400000084000000840000848484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000084000000848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000084840000848400008484000084840084848400000000008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000084000000FF000000840000000000000000000000
+      0000000000000000000000000000000000000000000000008400008400000084
+      0000008400000084840000840000008400000084000000840000008484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000084848400000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF000000000000000000008484000084840000848400000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000FF00000084000000FF0000000000000000000000
+      0000000000000000000000000000000000000000000000008400008400000084
+      0000008400000084840000840000008400000084000000840000008484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000008484000000000000848400008484000084840000848400000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000084000000FF000000840000000000000000000000
+      0000000000000000000000000000000000000000000000008400008400000084
+      0000008400000084840000848400008400000084000000840000008484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000848484000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000008484000084840000848400848484008484840000848400008484008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000FF00000084000000FF0000000000000000000000
+      0000000000000000000000000000000000000000000000008400008400008484
+      840000848400C6DEC600C6DEC600C6DEC6000084840000848400008484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      0000840000000000000000000000840000008400000084848400008484000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000084000000FF000000840000000000000000000000
+      0000000000000000000000000000000000000000000000000000A56B3900C6DE
+      C60000848400C6DEC600C6DEC600C6DEC600C6DEC6008484840000848400C6C6
+      C6000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000840000008400000084000000840000008400000084000000840000008400
+      0000848484000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000848484000000000000000000000000000000000000000000000000000000
+      000000000000000084000000FF00000084000000FF0000008400000000000000
+      00000000000000000000000000000000000000000000A56B3900C6DEC600C6DE
+      C600A56B3900A56B3900C6DEC6000084840000848400C6DEC600C6DEC6000084
+      84000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000840000008400000084000000840000008400000084000000840000008400
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000008484000084840000848400008484000084840000000000000000000000
+      0000848484000000000000000000000000000000000000000000000000000000
+      00000000000000000000000084000000FF000000840000000000000000000000
+      0000000000000000000000000000000000000000000000848400C6DEC600C6DE
+      C600C6DEC60000000000848484008484840000848400C6DEC600848484000000
+      00000000000000000000F7FFFF00848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF000084840000848400008484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000084000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000084
+      8400C6DEC6000084840000000000000000008484840000848400000000000000
+      0000C6C6C600C6DEC600A56B3900848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF000000000000000000000000000000000000000000000000008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000848484000000000000000000000000000000000000000000000000000000
+      0000C6DEC6008400000084848400848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FFFFFF0000000000000000000000000000000000848484000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000008484
+      8400000000000000000000000000000000000000000000000000000000000000
+      0000C6C6C60084848400FF000000848484000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      8400848484008484840084848400848484008484840084848400848484008484
+      8400848484008484840084848400000084000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000FF00000000000000FF000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FF000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FF000000FF00000000000000FFFFFF0000000000FF0000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FF00000000000000FF0000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000
+      0000840000008400000084000000848484000000000084000000840000008400
+      0000848484000000000000000000000000000000000000000000000000000000
+      0000FF0000000000000000000000FFFFFF0000000000FFFFFF0000000000FF00
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FF00000000000000FFFFFF0000000000FF00000000000000000000000000
+      0000000000000000000000000000000000000000000000000000FFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF00000000000000000000000000000000000000
+      0000840000008400000084000000000000000000000084000000840000008400
+      000000000000000000000000000000000000000000000000000000000000FF00
+      00000000000000000000FFFFFF00FFFFFF00FFFFFF0000000000FFFFFF000000
+      0000FF000000000000000000000000000000000000000000000000000000FF00
+      000000000000FFFFFF00FFFFFF00FFFFFF0000000000FF000000000000000000
+      0000000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000
+      0000000000008400000084848400000000000000000000000000840000008484
+      84000000000000000000000000000000000000000000FF000000FF0000000000
+      0000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000FFFF
+      FF0000000000FF00000000000000000000000000000000000000FF000000FF00
+      0000FF00000000000000FFFFFF00FFFFFF00FFFFFF0000000000FF0000000000
+      0000000000000000000000000000000000000000000000000000FFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF00000000000000000000000000000000000000
+      0000000000008400000084848400000000000000000000000000840000008484
+      840000000000000000000000000000000000FF0000000000000000000000FFFF
+      FF0000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000
+      0000FFFFFF0000000000FF0000000000000000000000FF000000FF000000FF00
+      0000FF000000FF00000000000000FFFFFF00FFFFFF00FFFFFF0000000000FF00
+      0000000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000
+      0000000000008400000084848400000000000000000000000000840000008484
+      8400000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF0000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF0000000000FFFFFF0000000000FF00000084000000FF000000FF000000FF00
+      0000FF000000FF000000FF00000000000000FFFFFF00FFFFFF00FFFFFF000000
+      0000FF0000000000000000000000000000000000000000000000FFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF00000000000000000000000000000000008484
+      8400848484008400000084848400000000000000000000000000840000008484
+      84000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF0000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0000000000FFFFFF0000000000FF00000084000000FF000000FF00
+      0000FF000000FF000000FF000000FF00000000000000FFFFFF00FFFFFF00FFFF
+      FF0000000000FF00000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000840000008400
+      0000840000008400000084848400000000000000000000000000840000008484
+      8400000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF0000000000FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00000000000000000000000000FF00000084000000FF00
+      0000FF00000000000000FF000000FF000000FF00000000000000FFFFFF00FFFF
+      FF00FFFFFF0000000000FF000000000000000000000000000000FFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF00000000000000000000000000840000008484
+      8400000000008400000084848400000000000000000000000000840000008484
+      840000000000000000000000000000000000000000000000000000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000FFFFFF00FFFFFF00FFFF
+      FF00000000000000000000000000000000000000000000000000FF0000008400
+      0000FF000000FF000000FF00000000000000FF000000FF00000000000000FFFF
+      FF0000000000FF00000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000840000008484
+      8400848484008400000084848400848484008484840084848400840000008484
+      8400848484008484840000000000000000000000000000000000000000000000
+      0000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000FF00
+      000084000000FF0000000000000000000000FF000000FF000000FF0000000000
+      0000000000000000000000000000000000000000000000000000FFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF00000000000000000000000000840000008400
+      0000840000008400000084000000840000008400000084000000840000008400
+      0000840000008484840000000000000000000000000000000000000000000000
+      000000000000FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FF00000084000000FF000000FF000000FF000000FF000000FF000000FF00
+      0000000000000000000000000000000000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000008400
+      0000840000008400000084000000840000008400000084000000840000008400
+      0000840000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FF00000084000000FF000000FF000000FF000000FF0000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FF00000084000000FF00000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000400000000100010000000000000200000000000000000000
+      000000000000000000000000FFFFFF0000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000F7FFE78300000000E1C1830100000000
+      C08081870000000080408383000000000039838300000000801FC68300000000
+      8009F803000000008001F80300000000C003F00300000000E003F00300000000
+      F007FC01000000008803FE03000000008C03FF87000000008E07FF0300000000
+      F30FFF8300000000F39FFF8700000000FFFFFFFFFFFFF81FFFFFFFFFFFFFF00F
+      FFFF8001FFFFE000FFFF8003F83FC000FC7FF807F83F801CFCFFF80FF83F801C
+      FF3FF01FF83F801CFFBFF01FF83F801CFFDFF00FF83F801CFFCFE00FE00F800C
+      F007E007F01F000CF00FF007F83F001CFFFFF00FFC7F8330FFFFF04FFEFFE7F0
+      FFFFF81FFFFFEFF0FFFFFFFFFFFFE000FFFFFFFFFFFFFFFFFE3FFDFFC001FFFF
+      F81FF8FF8000F087F40FF07F8000F18FE007E03F8000F9CF8003C01F8000F9CF
+      4001800F8000F9CF000000078000E1CF000000038000C1CF800180018000C9CF
+      C003C0038000C003E00FE00F8000C003F07FF00F8000E007F8FFF81FC001FFFF
+      FFFFFC7FFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
+      000000000000}
+  end
+end

@@ -1,0 +1,58 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = BTPImport.exe WSLSEDesign.exe WSIISNomade.dll LanceurLSE.exe \
+  Sergadi.exe Mobilite.exe LSEProtect.exe MajVerBTP.exe CBTPS1.exe CBTPS3.exe \
+  CBTPS5.exe ExportData.exe
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+MajVerBTP.exe: MajVerBTP.dpr
+  $(DCC)
+
+BTPImport.exe: BTPImport.dpr
+  $(DCC)
+
+CBTPS1.exe: CBTPS1.dpr
+  $(DCC)
+
+CBTPS3.exe: CBTPS3.dpr
+  $(DCC)
+
+CBTPS5.exe: CBTPS5.dpr
+  $(DCC)
+
+WSLSEDesign.exe: ..\..\WebServices\Gestion Serveur\lib\WSLSEDesign.dpr
+  $(DCC)
+
+WSIISNomade.dll: ..\..\WebServices\IIS\Lib\WSIISNomade.dpr
+  $(DCC)
+
+LanceurLSE.exe: LanceurLSE.dpr
+  $(DCC)
+
+Mobilite.exe: Mobilite.dpr
+  $(DCC)
+
+Mobilite.exe: Mobilite.dpr
+  $(DCC)
+
+Sergadi.exe: Sergadi.dpr
+  $(DCC)
+
+LSEProtect.exe: ..\..\UtilprotectLSE\syn\LSEProtect.dpr
+  $(DCC)
+
+ExportData.exe: ExportData.dpr
+  $(DCC)
+
+
