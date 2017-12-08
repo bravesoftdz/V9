@@ -602,9 +602,15 @@ Begin
       'GP_DEVENIRPIECE = ""') then continue;
       //FV1 : 01/12/2015 - FS#1811 - TEAM RESEAUX : interventions - ajout option clôturé si facturé selon paramètre société.
       if GetParamSocSecur('SO_FACTCLOTURE', false) then
-        PositionneEtatAffaire(NumAff, 'CLO')
+      begin
+         if (Copy(NumAff,0,1) = 'W') then PositionneEtatAffaire(NumAff, 'CL1')
+         else if (Copy(NumAff,0,1) = 'I') then PositionneEtatAffaire(NumAff, 'CLO')
+         else if (Copy(NumAff,0,1) = 'A') then PositionneEtatAffaire(NumAff, 'CLO')
+      end
       else
-        PositionneEtatAffaire(NumAff, 'FAC');
+      begin
+        if (Copy(NumAff,0,1) = 'W') then PositionneEtatAffaire(NumAff, 'FAC');
+      end;
     End;
   End;
 

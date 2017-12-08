@@ -1369,34 +1369,44 @@ begin
 end;
 
 procedure TOF_BTTACHES.fGSResElipsisClick(SEnder: TObject);
-var Title   : String;
-    StChamp : string;
-    StFonction  : String;
-    StWhere : string;
-    CR      : THCritMaskEdit;
+var Title         : String;
+    StChamp       : string;
+    StFonction    : String;
+    StWhere       : string;
+    CodeRessource : THCritMaskEdit;
 begin
 
   if fGSRes.Col <> cInColRes then exit;
 
-  CR          := ThCritMaskEdit.Create(TFvierge(ecran));
+  CodeRessource := ThCritMaskEdit.Create(TFvierge(ecran));
 
-  title       := 'Recherche Ressource';
-
-  stWhere     := 'TYPERESSOURCE : SAL,INT';
+  title       := 'Recherche Ressource tâches';
 
   StChamp     := fGSRes.Cells[fGSRes.Col, fGSRes.Row];
   StFonction  := THValComboBox(GetControl('ATA_FONCTION')).Value;
 
-  if stFonction <> '' then
+  if (VH_GC.AFRechResAv) then
   begin
-    if StWhere <> '' then stWhere := stWhere + ';ARS_FONCTION1 : ' + stFonction + '';
+    stWhere     := 'TYPERESSOURCE:SAL,INT';
+    if stFonction <> '' then
+    begin
+      if StWhere <> '' then stWhere := stWhere + ';ARS_FONCTION1:' + stFonction + '';
+    end;
+  end
+  else
+  begin
+    stWhere     := 'ARS_TYPERESSOURCE="SAL" OR ARS_TYPERESSOURCE = "INT"';
+    if stFonction <> '' then
+    begin
+      if StWhere <> '' then stWhere := stWhere + 'AND ARS_FONCTION1="' + stFonction + '"';
+    end;
   end;
 
-  DispatchRecherche(CR, 3, StWhere,'ARS_RESSOURCE=' + Trim(StChamp), '');
+  DispatchRecherche(CodeRessource, 3, StWhere,'ARS_RESSOURCE=' + Trim(StChamp), '');
 
-  if CR.text <> '' then
+  if StChamp <> '' then
   begin
-    fGSRes.Cells[fGSRes.Col, fGSRes.Row] := CR.text;
+    fGSRes.Cells[fGSRes.Col, fGSRes.Row] := CodeRessource.text;
     fStatut := taModif;
   end;
 
@@ -1428,7 +1438,7 @@ begin
   end;
   *}
 
-  CR.Free;
+  CodeRessource.Free;
 
 end;
 

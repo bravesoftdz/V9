@@ -575,6 +575,8 @@ Var CodeCalendrier  : String;
     Mois2           : Word;
     Annee2          : Word;
     //
+    H,Min,Sec,Msec  : Word;
+    //
     DateRef         : Tdatetime;
     CalendrierSpecif: Boolean;
     QQ              : TQuery;
@@ -612,7 +614,7 @@ begin
 
   if NbHeure = 0 then NbHeure := ChargeParametreTemps;
 
-  if NbHeure = 0 then NbHeure := 7.5;
+  if NbHeure = 0 then NbHeure := StrToTime('07:30:00');
 
   While DateRef <= Borne2 do
   begin
@@ -621,7 +623,10 @@ begin
   end;
 
   //Calcul de la période en heure
-  Periode := NbJourOuvre * NbHeure;
+  //On ramène tout en minute, puis en heures
+  DecodeTime(NbHeure,H,Min,Sec,MSec);
+  Min := (H*60) + Min;
+  Periode := NbJourOuvre * Min;
 
   //Recherche des lignes conso sur la période poour calcul Nb jours utilisation
   //StSQl := 'SELECT COUNT(BCO_DATEMOUV) AS NBJOURCONSO FROM CONSOMMATIONS';
@@ -640,7 +645,9 @@ begin
 
   Ferme(QQ);
 
-  NBJourconso    := Arrondi((NbHeureConso / NbHeure),2);
+  //tranbsformation en Minutes
+  NbHeureConso   := NbHeureConso * 60;
+  NBJourconso    := Arrondi((NbHeureConso / Min),2);
   NbPercentConso := Arrondi((NbJourConso * 100)/NbJourOuvre,0);
 
   //Calcul des lignes immobilisation
@@ -709,6 +716,12 @@ begin
   //coût de revient journalier et heure
   CoutRevientJ := Arrondi(TotalCoutPeriode / NbJourOuvre,2);
   CoutRevientH := Arrondi(TotalCoutPeriode / Periode,2);
+
+  //On repasse tout en heure avant l'affichage à l'écran
+  Periode       := (Periode/24/60)*24;
+  NbHeureConso  := (NbHeureConso/24/60)*24;
+  NbHeureImmo   := (NbHeureImmo/24/60)*24;
+  NbHeureNoUse  := (NbHeureNoUse/24/60)*24;
 
   //Chargement de TobCout dans les Zones Ecran
   TobCout.AddChampsupValeur('PeriodeHeure',     Periode);

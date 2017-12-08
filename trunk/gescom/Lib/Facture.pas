@@ -23661,8 +23661,11 @@ begin
   Texte.clear;
   TRY
     StringToRich(Texte, TOBL.GetValue('GL_BLOCNOTE'));
-    Texte.lines.Strings [0] := TOBL.GetString('GL_LIBELLE');
-    TOBL.PutValue('GL_BLOCNOTE', ExRichToString(Texte));
+    if copy(Texte.lines.Strings [0],1,70) <> TOBL.GetString('GL_LIBELLE') then
+    begin
+      Texte.lines.Strings [0] := TOBL.GetString('GL_LIBELLE');
+      TOBL.PutValue('GL_BLOCNOTE', ExRichToString(Texte));
+    end;
   FINALLY
     Texte.free;
   END;

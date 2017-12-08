@@ -2502,6 +2502,8 @@ end;
 function TOF_GCACOMPTES.ControleLesSaisies : boolean;
 var II,i : Integer;
 		TheOnglet : TOnglet;
+    Val1 : Double;
+    Val2 : Double;
 begin
   Result := True;
   for II := 0 to listeOnglet.Count -1 do
@@ -2509,7 +2511,9 @@ begin
 		TheOnglet := listeOnglet.Items[II];
     for i := TheOnglet.GS.fixedrows to TheOnglet.GS.RowCount - 1 do
     begin
-      if TheOnglet.GS.isselected(i) and (valeur(TheOnglet.GS.cells[colDispo, i]) < valeur(TheOnglet.GS.cells[colMontantDev, i])) then
+      Val1 := valeur(TheOnglet.GS.cells[colDispo, i]);
+      Val2 := valeur(TheOnglet.GS.cells[colMontantDev, i]);
+      if TheOnglet.GS.isselected(i) and (Val1 < Val2) then
       begin
         LastError := (-1);
         LastErrorMsg := 'Vous depassez le montant disponible';
