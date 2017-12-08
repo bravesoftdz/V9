@@ -89,8 +89,8 @@ private
 		procedure VerifChampsSupsLigne(TOBL : TOB);
     procedure HideMenu;
     procedure CopieChampsLigne(Table : string; TOBLOC, Tobl: Tob);
-    procedure CopieDonneeOuvrage (TOBDest,TOBOUV, TOBL : TOB);
-    procedure CopieDetailOuvrage(TOBDest, TOBOUV, TOBL: TOB);
+    procedure CopieDonneeOuvrage (TOBDest,TOBOUV, TOBL : TOB; Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel : Boolean);
+    procedure CopieDetailOuvrage (TOBDest, TOBOUV, TOBL: TOB; Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel : Boolean);
     procedure AjouteUneLigneAraffraichir (Arow: integer);
     function FindLigne(NumOrdre: integer): TOB;
     procedure ReinitLigneFac (TOBL : TOB);
@@ -916,8 +916,15 @@ procedure TCopieColleDoc.AjouteLigneSel (TOBSel : TOB; Indice: Integer; WithMemo
 
 var IndiceNomen,II: Integer;
     TOBLoc,TOBL,TOBOuv,TOBLIen,TOBOO,TOBP : TOB;
-    TypeArticle : string;
+    TypeArticle   : string;
+    OK_Metredoc   : Boolean;
+    Ok_MetreExcel : Boolean;
+    Ok_MetreBib   : Boolean;
 begin
+
+  OK_Metredoc   := _GetParamSocSecur('SO_BTMETREDOC', False);
+  Ok_MetreExcel := _GetParamSocSecur('SO_BTMETRESEXCEL', False);
+  Ok_MetreBib   := _GetParamSocSecur('SO_BTMETREBIB', False);
 
   TOBL:=GetTOBLigne(TOBPiece,Indice) ;
 
@@ -952,7 +959,11 @@ begin
     begin
       // transforme un sous detail en ligne
       TOBLOC.SetString('GL_TYPELIGNE','ART');
-      TOBLOC.SetDouble('GL_QTEFACT',Arrondi(TOBLOC.GetDouble('GL_QTEFACT')/TOBP.GetDouble('GL_QTEFACT'),V_PGI.okdecQ));
+      IF TOBP.GetDouble('GL_QTEFACT') <> 0 then
+        TOBLOC.SetDouble('GL_QTEFACT',Arrondi(TOBLOC.GetDouble('GL_QTEFACT')/TOBP.GetDouble('GL_QTEFACT'),V_PGI.okdecQ))
+      else
+        TOBLOC.SetDouble('GL_QTEFACT', TOBP.GetDouble('GL_QTEFACT'));
+      //
       TOBLOC.SetDouble('GL_QTERESTE',TOBLOC.GetDouble('GL_QTEFACT'));
       TOBLOC.SetDouble('GL_QTESTOCK',TOBLOC.GetDouble('GL_QTEFACT'));
       // --- GUINIER ---
@@ -971,11 +982,11 @@ begin
         //
         if not IsSousDetail(TOBL) then
         begin
-          CopieDonneeOuvrage (TOBLien,TOBOUV,TOBL);
+          CopieDonneeOuvrage (TOBLien,TOBOUV,TOBL, Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel);
         end else
         begin
           TOBOO := GetDetailouvrage (TOBOUV,TOBL.GetInteger('UNIQUEBLO'));
-          if TOBOO <> nil then CopieDonneeOuvrage (TOBLien,TOBOO, TOBL);
+          if TOBOO <> nil then CopieDonneeOuvrage (TOBLien,TOBOO, TOBL, Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel);
         end;
       end;
     end;
@@ -995,8 +1006,12 @@ begin
       begin
         TOBLOC.PutValue('UNIQUEBLO', TOBOO.GETVALUE('BLO_UNIQUEBLO'));
         //FS#2387 - SCHREIBER - Copier/Coller Métrés sur sous-détail au niveau de l'écran facture
-        CopieTobVarDoc (TTObPiece, TOBLOC, TOBP, TobvarDoc);
-        CopieTobMetres (TTObPiece, TOBLOC, TOBP, TobMetres);
+        //Ne faire cela que si les metrés Excel sur document sont paramétrés
+        if Ok_MetreBib then CopieTobVarDoc (TTObPiece, TOBLOC, TOBP, TobvarDoc);
+        if OK_Metredoc then
+        begin
+          if Ok_MetreExcel then CopieTobMetres (TTObPiece, TOBLOC, TOBP, TobMetres);
+        end;
       end;
       //copie d'une ligne de sous-détail du document
       //CopieTobVarDoc (TTObPiece, TOBLOC, TOBP, TobvarDoc);
@@ -1004,10 +1019,13 @@ begin
     end
     else
     begin
-      CopieTobVarDoc (TTOBPiece, TOBLOC, TOBL, TobvarDoc);
-      CopieTobMetres (TTOBPiece, TOBLOC, TOBL, TobMetres);
+      //Ne faire cela que si les metrés Excel sur document sont paramétrés
+      if Ok_MetreBib then CopieTobVarDoc (TTOBPiece, TOBLOC, TOBL, TobvarDoc);
+      if OK_Metredoc then
+      begin
+        if Ok_MetreExcel then CopieTobMetres (TTOBPiece, TOBLOC, TOBL, TobMetres);
+      end;
     end;
-
   end
   else
   begin
@@ -1160,8 +1178,11 @@ begin
 
   if TheMetreDoc <> nil then
   begin
-    ColleTobVarDoc(TOBOO, TOBI, TobVarDoc, TOBLigneDoc);
-    ColleTobMetres(TOBOO, TOBI, TOBLigneDoc, TheMetredoc);
+    If TheMetredoc.OkMetreBiblio then ColleTobVarDoc(TOBOO, TOBI, TobVarDoc, TOBLigneDoc);
+    if TheMetredoc.OkMetreDoc then
+    begin
+      if TheMetredoc.OkExcel then ColleTobMetres(TOBOO, TOBI, TOBLigneDoc, TheMetredoc);
+    end;
   end;
   //
   if TOBI.detail.count > 0 then
@@ -1426,8 +1447,11 @@ begin
   //
   if TheMetreDoc <> nil then
   begin
-    ColleTobVarDoc(TOBD, TOBD, TobVarDoc, TOBL);
-    ColleTobMetres(TOBD, TOBD, TOBL, TheMetredoc);
+    If TheMetredoc.OkMetreBiblio then ColleTobVarDoc(TOBD, TOBD, TobVarDoc, TOBL);
+    if TheMetredoc.OkMetreDoc then
+    begin
+      if TheMetredoc.OkExcel then ColleTobMetres(TOBD, TOBD, TOBL, TheMetredoc);
+    end;
   end;
   //
   TOBD.DelChampSup('VARMETRELIGNE', False);
@@ -1780,12 +1804,14 @@ begin
     result := true;
     TOBL.PutValue('GL_RECALCULER','X');
     TOBL.PUTVALUE('GL_LIBELLE',TOBLOC.GetValue('GL_LIBELLE'));
-    TOBL.PutValue('GL_POURCENTAVANC',0)      ;
-    TOBL.PutValue('GL_QTEPREVAVANC',0)      ;
-    TOBL.PutValue('GL_QTESIT',0)      ;
+    TOBL.PutValue('GL_POURCENTAVANC',0);
+    TOBL.PutValue('GL_QTEPREVAVANC',0);
+    TOBL.PutValue('GL_QTESIT',0);
+    if TOBL.GetValue('GL_QTEFACT') = '' then TOBL.PutValue('GL_QTEFACT', 0);
     TOBL.PutValue('GL_QTESTOCK',TOBL.GetValue('GL_QTEFACT'));
     TOBL.PutValue('GL_QTERESTE',TOBL.GetValue('GL_QTEFACT'));
     // --- GUINIER ---
+    if TOBL.GetValue('GL_MONTANTHTDEV') = '' then TOBL.PutValue('GL_MONTANTHTDEV', 0);
     TOBL.PutValue('GL_MTRESTE', TOBL.GetValue('GL_MONTANTHTDEV'));
 
     //FV1 : 30/11/20016 - Déplacement pour cohérence Numordre sur ouvrage et sous-détail
@@ -1804,11 +1830,14 @@ begin
     END;
     //
     //C'est ici qu'il faut se placer pour gérer la copie des métrés...
-    //
+    //Ne gérer que si les paramètres sont renseignés...
     if TheMetreDoc <> nil then
     begin
-      ColleTobVarDoc(TOBL, TOBLOc, TobVarDoc, TOBL);
-      ColleTobMetres(TOBL, TOBLOc, TOBL, TheMetredoc);
+      If TheMetredoc.OkMetreBiblio then  ColleTobVarDoc(TOBL, TOBLOc, TobVarDoc, TOBL);
+      if TheMetredoc.OkMetreDoc then
+      begin
+        if TheMetredoc.OkExcel then ColleTobMetres(TOBL, TOBLOc, TOBL, TheMetredoc);
+      end;
     end;
     //
 
@@ -2169,16 +2198,16 @@ begin
   end;
 end;
 
-procedure TCopieColleDoc.CopieDonneeOuvrage(TOBDest, TOBOUV, TOBL: TOB);
+procedure TCopieColleDoc.CopieDonneeOuvrage(TOBDest, TOBOUV, TOBL: TOB; Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel : Boolean);
 begin
 	// 1er niveau
   InsertionChampSupOuv (TOBDest,false);
   CopieChampsSup (TOBDest,TOBOUV);
   // niveau suivant
-  CopieDetailOuvrage (TOBDest,TOBOUV, TOBL);
+  CopieDetailOuvrage (TOBDest,TOBOUV, TOBL, Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel);
 end;
 
-procedure TCopieColleDoc.CopieDetailOuvrage (TOBDest,TOBOUV, TOBL : TOB);
+procedure TCopieColleDoc.CopieDetailOuvrage (TOBDest,TOBOUV, TOBL : TOB; Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel : Boolean);
 var Indice : integer;
 		TOBSuite,TOBDETOUV : TOB;
 begin
@@ -2193,13 +2222,17 @@ begin
     VerifChampsSupsDetail (TobSuite);
   	if isBlobVide (FF,TOBSuite,'BLO_BLOCNOTE') then TOBSuite.putValue('BLO_BLOCNOTE','');
     //
-    CopieTobVarDoc (TTObPiece, TOBSUite, TOBL, TobVardoc);
-    CopieTobMetres (TTObPiece, TOBSUite, TOBL, TobMetres);
+    //Ne faire cela que si les metrés Excel sur document sont paramétrés
+    if Ok_MetreBib then CopieTobVarDoc (TTObPiece, TOBSUite, TOBL, TobVardoc);
+    if OK_Metredoc then
+    begin
+      if Ok_MetreExcel then CopieTobMetres (TTObPiece, TOBSUite, TOBL, TobMetres);
+    end;
     //  	InitChampsSupNULL (TOBSuite);
     TOBPiece.putValue('GP_UNIQUEBLO', TOBPiece.getValue('GP_UNIQUEBLO')+1);
     TOBSUITE.putValue('BLO_UNIQUEBLO',TOBPiece.getValue('GP_UNIQUEBLO'));
     //
-    if TOBDETOUV.detail.count > 0 then CopieDetailOuvrage (TOBSuite,TOBDetOUV, TOBL);
+    if TOBDETOUV.detail.count > 0 then CopieDetailOuvrage (TOBSuite,TOBDetOUV, TOBL, Ok_MetreDoc, Ok_MetreBib, Ok_MetreExcel);
   end;
 end;
 
