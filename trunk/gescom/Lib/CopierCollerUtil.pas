@@ -2309,7 +2309,7 @@ end;
 procedure TCopieColleDoc.GereImprimable(Sender: TObject);
 var TOBL : TOB;
 begin  
-	// test ls de modif
+	// test ls de modif 08/12/2017
   if fgrid = nil then Exit;
   if (TFFacture(fform).Action = taConsult) then Exit;
   TOBL := GetTOBLigne(TOBPiece,fgrid.row);
@@ -2320,7 +2320,7 @@ begin
   begin
     TOBL.SetBoolean('GL_NONIMPRIMABLE',true);
   end;
-  SetInfoLigne (TOBL); // essai
+  SetInfoLigne (TOBL); // essai en +++
   fgrid.InvalidateRow(fgrid.row); 
 end;
 
