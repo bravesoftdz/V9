@@ -1026,7 +1026,7 @@ BEGIN
         PgiError('Erreur SQL : ' + E.Message, 'Suppression simul.');
       end;
     END;
-    if ((Nb<=0) and (InTrans)) then BEGIN V_PGI.IoError:=oeUnknown ; Exit ; END ;
+    //if ((Nb<=0) and (InTrans)) then BEGIN V_PGI.IoError:=oeUnknown ; Exit ; END ;
     TRY
       ExecuteSQL('DELETE FROM ANALYTIQ WHERE '+WhereEcriture(tsAnal,MM,False)) ; {! il peut ne pas y avoir d'analytique}
     EXCEPT
