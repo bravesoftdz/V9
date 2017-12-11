@@ -424,56 +424,80 @@ procedure TCopieColleDoc.CalculeLaLigneDoc(TOBL: TOB; WithRecalc : boolean);
 var indiceNomen : integer;
 		TOBOP : TOB;
     valeurs : T_Valeurs;
-    Qte : double;
+    Qte   : Double;
+    Dpa   : Double;
+    Dpr   : Double;
+    PUHT  : Double;
+    PUTTC : Double;
 begin
   IndiceNomen := TOBL.getValue('GL_INDICENOMEN'); if IndiceNomen = 0 then exit;
+
   TOBOP := TOBOuvrage.Detail[IndiceNomen-1];
+  //
   if Withrecalc then
   begin
     InitTableau (Valeurs);
     CalculeOuvrageDoc (TOBOP,1,1,true,DEV,valeurs,(TOBPIECE.GetValue('GP_FACTUREHT')='X'));
     GetValoDetail (TOBOP); // pour le cas des Article en prix posés
-    Qte := TOBL.Getvalue('GL_QTEFACT');
-    TOBL.Putvalue('GL_MONTANTPAFG',valeurs[10]*Qte);
-    TOBL.Putvalue('GL_MONTANTPAFR',valeurs[11]*Qte);
-    TOBL.Putvalue('GL_MONTANTPAFC',valeurs[12]*Qte);
-    TOBL.Putvalue('GL_MONTANTFG',valeurs[13]*Qte);
-    TOBL.Putvalue('GL_MONTANTFR',valeurs[14]*Qte);
-    TOBL.Putvalue('GL_MONTANTFC',valeurs[15]*Qte);
-    TOBL.Putvalue('GL_MONTANTPA',Arrondi((Qte * TOBL.GetValue('GL_DPA')),V_PGI.okdecV));
-    TOBL.Putvalue('GL_MONTANTPR',Arrondi((Qte * TOBL.GetValue('GL_DPR')),V_PGI.okdecV));
-
-    TOBL.Putvalue('GL_DPA',valeurs[16]);
-    TOBL.Putvalue('GL_DPR',valeurs[17]);
     //
-    TOBL.Putvalue('GL_PUHTDEV',valeurs[2]);
-    TOBL.Putvalue('GL_PUTTCDEV',valeurs[3]);
-    TOBL.Putvalue('GL_PUHT',DeviseToPivotEx(TOBL.GetValue('GL_PUHTDEV'),DEV.Taux,DEV.quotite,V_PGI.OkdecP));
-    TOBL.Putvalue('GL_PUTTC',DevisetoPivotEx(TOBL.GetValue('GL_PUTTCDEV'),DEV.taux,DEV.quotite,V_PGI.okdecP));
-    TOBL.Putvalue('GL_PUHTBASE',TOBL.GetValue('GL_PUHT'));
-    TOBL.Putvalue('GL_PUTTCBASE',TOBL.GetValue('GL_PUTTC'));
-    TOBL.Putvalue('GL_DPA',valeurs[0]);
-    TOBL.Putvalue('GL_DPR',valeurs[1]);
-    TOBL.Putvalue('GL_PMAP',valeurs[6]);
-    TOBL.Putvalue('GL_PMRP',valeurs[7]);
-    TOBL.putvalue('GL_TPSUNITAIRE',valeurs[9]);
+    Qte   := TOBL.Getvalue('GL_QTEFACT');
+    Dpa   := TOBL.GetValue('GL_DPA');
+    Dpr   := TOBL.GetValue('GL_DPR');
+    //
+    TOBL.Putvalue('GL_MONTANTPAFG', valeurs[10]*Qte);
+    TOBL.Putvalue('GL_MONTANTPAFR', valeurs[11]*Qte);
+    TOBL.Putvalue('GL_MONTANTPAFC', valeurs[12]*Qte);
+    TOBL.Putvalue('GL_MONTANTFG',   valeurs[13]*Qte);
+    TOBL.Putvalue('GL_MONTANTFR',   valeurs[14]*Qte);
+    TOBL.Putvalue('GL_MONTANTFC',   valeurs[15]*Qte);
+    TOBL.Putvalue('GL_MONTANTPA',   Arrondi((Qte * Dpa),V_PGI.okdecV));
+    TOBL.Putvalue('GL_MONTANTPR',   Arrondi((Qte * Dpr),V_PGI.okdecV));
+
+    TOBL.Putvalue('GL_DPA',         valeurs[16]);
+    TOBL.Putvalue('GL_DPR',         valeurs[17]);
+    //
+    TOBL.Putvalue('GL_PUHTDEV',     valeurs[2]);
+    TOBL.Putvalue('GL_PUTTCDEV',    valeurs[3]);
+    //
+    PUHT  := TOBL.GetValue('GL_PUHTDEV');
+    PUTTC := TOBL.GetValue('GL_PUTTCDEV');
+    PUHT  := DeviseToPivotEx(PUHT,  DEV.Taux,DEV.quotite,V_PGI.OkdecP);
+    PUTTC := DevisetoPivotEx(PUTTC, DEV.taux,DEV.quotite,V_PGI.okdecP);
+    //
+    TOBL.Putvalue('GL_PUHT',        PUHT);
+    TOBL.Putvalue('GL_PUTTC',       PUTTC);
+    TOBL.Putvalue('GL_PUHTBASE',    PUHT);
+    TOBL.Putvalue('GL_PUTTCBASE',   PUTTC);
+    //
+    TOBL.Putvalue('GL_DPA',         valeurs[0]);
+    TOBL.Putvalue('GL_DPR',         valeurs[1]);
+    TOBL.Putvalue('GL_PMAP',        valeurs[6]);
+    TOBL.Putvalue('GL_PMRP',        valeurs[7]);
+    TOBL.putvalue('GL_TPSUNITAIRE', valeurs[9]);
     //
     StockeInfoTypeLigne (TOBL,valeurs)
     //
   end;
+
   if (TOBL.GetString('GL_PIECEPRECEDENTE')='') and (TOBL.FieldExists('BLF_QTESITUATION')) then
   begin
-    TOBL.PutValue('BLF_QTESITUATION', TOBL.GetValue('GL_QTEFACT')); { NEWPIECE }
-    TOBL.PutValue('BLF_MTSITUATION',Arrondi(TOBL.GetValue('BLF_QTESITUATION')*TOBL.GetValue('GL_PUHTDEV')/TOBL.GEtValue('GL_PRIXPOURQTE'),DEV.decimale));
+    Qte   := TOBL.Getvalue('GL_QTEFACT');
+    PUHT  := TOBL.GetValue('GL_PUHTDEV');
+    //
+    TOBL.PutValue('BLF_QTESITUATION', Qte); { NEWPIECE }
+    TOBL.PutValue('BLF_MTSITUATION',Arrondi(TOBL.GetValue('BLF_QTESITUATION')*PUHT/TOBL.GEtValue('GL_PRIXPOURQTE'),DEV.decimale));
     TOBL.PutValue('BLF_POURCENTAVANC',100);
   end;
+
   TOBL.PutValue('GL_RECALCULER', 'X');
+
   ZeroligneMontant (TOBL);
+
   TFFacture(FF).CalculheureTot (TOBL);
   TOBPiece.PutValue('GP_RECALCULER', 'X');
   TFFacture(FF).CalculeLaSaisie(-1, -1, True);
-end;
 
+end;
 
 function TCopieColleDoc.FindTOBPere (TOBXX : TOB) : TOB;
 var II : integer;
@@ -920,6 +944,8 @@ var IndiceNomen,II: Integer;
     OK_Metredoc   : Boolean;
     Ok_MetreExcel : Boolean;
     Ok_MetreBib   : Boolean;
+    QteFact       : Double;
+    Qte           : Double;
 begin
 
   OK_Metredoc   := _GetParamSocSecur('SO_BTMETREDOC', False);
@@ -959,13 +985,16 @@ begin
     begin
       // transforme un sous detail en ligne
       TOBLOC.SetString('GL_TYPELIGNE','ART');
-      IF TOBP.GetDouble('GL_QTEFACT') <> 0 then
-        TOBLOC.SetDouble('GL_QTEFACT',Arrondi(TOBLOC.GetDouble('GL_QTEFACT')/TOBP.GetDouble('GL_QTEFACT'),V_PGI.okdecQ))
+      QteFact := TOBP.GetDouble('GL_QTEFACT');
+      Qte     := TOBLOC.GetDouble('GL_QTEFACT');
+
+      IF QteFact <> 0 then
+        Qte := Arrondi(Qte/QteFact,V_PGI.okdecQ)
       else
-        TOBLOC.SetDouble('GL_QTEFACT', TOBP.GetDouble('GL_QTEFACT'));
+        Qte := QteFact;
       //
-      TOBLOC.SetDouble('GL_QTERESTE',TOBLOC.GetDouble('GL_QTEFACT'));
-      TOBLOC.SetDouble('GL_QTESTOCK',TOBLOC.GetDouble('GL_QTEFACT'));
+      TOBLOC.SetDouble('GL_QTERESTE', Qte);
+      TOBLOC.SetDouble('GL_QTESTOCK', Qte);
       // --- GUINIER ---
       TOBLOC.SetDouble('GL_MTRESTE', TOBLOC.GetDouble('GL_MONTANTHTDEV'));
     end;
@@ -1080,8 +1109,8 @@ begin
   //
   TOBOO := TOB.Create ('LIGNEOUV',TOBOUV,Indice);
   InsertionChampSupOuv (TOBOO,false);
-  TOBPiece.putValue('GP_UNIQUEBLO',TOBPiece.getValue('GP_UNIQUEBLO')+1);
-  TOBOO.putValue('BLO_UNIQUEBLO',TOBPiece.getValue('GP_UNIQUEBLO'));
+  TOBPiece.putValue('GP_UNIQUEBLO', TOBPiece.getValue('GP_UNIQUEBLO')+1);
+  TOBOO.putValue('BLO_UNIQUEBLO',   TOBPiece.getValue('GP_UNIQUEBLO'));
   if (natureTravail > 0) and (NatureTravail <= 10) then
   begin
   	TOBOO.putValue('BLO_NATURETRAVAIL',TOBLigneDoc.GetValue('GLC_NATURETRAVAIL'));
@@ -1094,47 +1123,48 @@ begin
   end;
   TOBOO.putvalue('LIBELLEFOU',LibelleFou);
   //
-  TOBOO.SetDouble ('BLO_QTESAIS',TOBI.GetDouble('GL_QTESAIS'));
-  TOBOO.SetDouble ('BLO_RENDEMENT',TOBI.GetDouble('GL_RENDEMENT'));
-  TOBOO.SetDouble ('BLO_PERTE',TOBI.GetDouble('GL_PERTE'));
+  TOBOO.SetDouble ('BLO_QTESAIS',   TOBI.GetDouble('GL_QTESAIS'));
+  TOBOO.SetDouble ('BLO_RENDEMENT', TOBI.GetDouble('GL_RENDEMENT'));
+  TOBOO.SetDouble ('BLO_PERTE',     TOBI.GetDouble('GL_PERTE'));
   TOBOO.SetSTring ('BLO_QUALIFHEURE',TOBI.getString('GL_QUALIFHEURE'));
   //
   TOBOO.Putvalue ('BLO_QTEDUDETAIL',TOBOR.getInteger('BLO_QTEDUDETAIL'));
   TOBOO.PutValue('BLO_NATUREPIECEG',TOBLigneDoc.getValue('GL_NATUREPIECEG'));
-  TOBOO.PutValue('BLO_SOUCHE',TOBLigneDoc.getValue('GL_SOUCHE'));
-  TOBOO.PutValue('BLO_NUMERO',TOBLigneDoc.getValue('GL_NUMERO'));
-  TOBOO.PutValue('BLO_INDICEG',TOBLigneDoc.getValue('GL_INDICEG'));
-  TOBOO.PutValue('BLO_DOMAINE',TOBLigneDoc.getValue('GL_DOMAINE'));
+  TOBOO.PutValue('BLO_SOUCHE',      TOBLigneDoc.getValue('GL_SOUCHE'));
+  TOBOO.PutValue('BLO_NUMERO',      TOBLigneDoc.getValue('GL_NUMERO'));
+  TOBOO.PutValue('BLO_INDICEG',     TOBLigneDoc.getValue('GL_INDICEG'));
+  TOBOO.PutValue('BLO_DOMAINE',     TOBLigneDoc.getValue('GL_DOMAINE'));
   TOBOO.PutValue('BLO_CODEARTICLE', TOBArt.getValue('GA_CODEARTICLE'));
-  TOBOO.PutValue('BLO_ARTICLE', TOBArt.getValue('GA_ARTICLE'));
-  TOBOO.PutValue('BLO_ORDRECOMPO',1);
-  RenseigneTOBOuv(TOBpiece,TOBOO,TOBLigneDoc,TOBART,Libelle,DEV);
+  TOBOO.PutValue('BLO_ARTICLE',     TOBArt.getValue('GA_ARTICLE'));
+  TOBOO.PutValue('BLO_ORDRECOMPO',  1);
+  RenseigneTOBOuv(TOBpiece,TOBOO,   TOBLigneDoc,TOBART,Libelle,DEV);
   TOBOO.putValue('BLO_REFARTSAISIE',TOBLigneDoc.getValue('GL_REFARTSAISIE'));
-  TOBOO.PutValue('BLO_COMPOSE',TOBOR.getValue('BLO_COMPOSE')) ;
+  TOBOO.PutValue('BLO_COMPOSE',     TOBOR.getValue('BLO_COMPOSE')) ;
   TOBOO.Putvalue('BLO_NOMENCLATURE',TOBOR.getValue('BLO_NOMENCLATURE')) ;
-  TOBOO.Putvalue('BLO_QTEFACT',TOBI.getValue('GL_QTEFACT')) ;
-  TOBOO.Putvalue('BLO_INDICENOMEN',TOBOR.getInteger('BLO_QTEDUDETAIL')) ;
-  TOBOO.PutValue('BLO_DPA',TOBI.getValue('GL_DPA'));
-  TOBOO.PutValue('BLO_COEFFG',TOBI.getValue('GL_COEFFG'));
-  TOBOO.PutValue('BLO_COEFFC',TOBI.getValue('GL_COEFFC'));
-  TOBOO.PutValue('BLO_COEFFR',TOBI.getValue('GL_COEFFR'));
-  TOBOO.PutValue('BLO_COEFMARG',TOBI.getValue('GL_COEFMARG'));
-  TOBOO.PutValue('BLO_DPR',TOBI.getValue('GL_DPR'));
-  TOBOO.PutValue('BLO_PUHTDEV',TOBI.getValue('GL_PUHTDEV'));
-  TOBOO.PutValue('BLO_PUHT',TOBI.getValue('GL_PUHT'));
-  TOBOO.PutValue('BLO_PUHT',TOBI.getValue('GL_PUHT'));
-  TOBOO.PutValue('BLO_COEFMARG',0);
+
+  TOBOO.Putvalue('BLO_QTEFACT',     TOBI.getValue('GL_QTEFACT')) ;
+  TOBOO.Putvalue('BLO_INDICENOMEN', TOBOR.getInteger('BLO_QTEDUDETAIL')) ;
+  TOBOO.PutValue('BLO_DPA',         TOBI.getValue('GL_DPA'));
+  TOBOO.PutValue('BLO_COEFFG',      TOBI.getValue('GL_COEFFG'));
+  TOBOO.PutValue('BLO_COEFFC',      TOBI.getValue('GL_COEFFC'));
+  TOBOO.PutValue('BLO_COEFFR',      TOBI.getValue('GL_COEFFR'));
+  TOBOO.PutValue('BLO_COEFMARG',    TOBI.getValue('GL_COEFMARG'));
+  TOBOO.PutValue('BLO_DPR',         TOBI.getValue('GL_DPR'));
+  TOBOO.PutValue('BLO_PUHTDEV',     TOBI.getValue('GL_PUHTDEV'));
+  TOBOO.PutValue('BLO_PUHT',        TOBI.getValue('GL_PUHT'));
+  TOBOO.PutValue('BLO_PUHT',        TOBI.getValue('GL_PUHT'));
+  TOBOO.PutValue('BLO_COEFMARG',    0);
   if not MemeDoc then
   begin
     //
-    TOBOO.PutValue('BLO_COEFFC',0);
-    TOBOO.PutValue('BLO_COEFFR',0);
-    TOBOO.PutValue('BLO_MONTANTFC',0);
-    TOBOO.PutValue('BLO_MONTANTFR',0);
+    TOBOO.PutValue('BLO_COEFFC',    0);
+    TOBOO.PutValue('BLO_COEFFR',    0);
+    TOBOO.PutValue('BLO_MONTANTFC', 0);
+    TOBOO.PutValue('BLO_MONTANTFR', 0);
     //
     if (TOBLigneDoc.getValue('GL_DOMAINE')<>'') then
     begin
-      TOBOO.putValue('BLO_DOMAINE',TOBLigneDoc.getValue('GL_DOMAINE'));
+      TOBOO.putValue('BLO_DOMAINE', TOBLigneDoc.getValue('GL_DOMAINE'));
     end;
     if TOBOO.getValue('BLO_DOMAINE') <> '' then
     begin
@@ -1502,6 +1532,7 @@ var TOBL,TOBA,TOBOuv : TOB;
     QQ : TQuery;
     Mess : String;
     MemeDoc : Boolean;
+    QteFact : double;
 begin
   MemeDoc := IsSamePiece(TOBLOC,TOBPiece);
   result := false;
@@ -1546,9 +1577,12 @@ begin
     InitChampsSupArticle (TOBA);
   end;
 
+  //
+  QteFact := TOBL.GetDouble('GL_QTEFACT');
+  //
   TOBL.PutValue('BLP_NUMMOUV',0);
-  TOBL.PutValue('GL_QTESTOCK',TOBL.GetValue('GL_QTEFACT'));
-  TOBL.PutValue('GL_QTERESTE',TOBL.GetValue('GL_QTEFACT'));
+  TOBL.PutValue('GL_QTESTOCK', QteFact);
+  TOBL.PutValue('GL_QTERESTE', QteFact);
   // --- GUINIER ---
   TOBL.PutValue('GL_MTRESTE', TOBL.GetValue('GL_MONTANTHTDEV'));
   TOBL.PutValue('GL_PIECEPRECEDENTE','');
@@ -1802,16 +1836,15 @@ begin
     END;
     {$ENDIF}
     result := true;
+    QteFact := TOBL.GetDouble('GL_QTEFACT');
     TOBL.PutValue('GL_RECALCULER','X');
-    TOBL.PUTVALUE('GL_LIBELLE',TOBLOC.GetValue('GL_LIBELLE'));
+    TOBL.PUTVALUE('GL_LIBELLE', TOBLOC.GetValue('GL_LIBELLE'));
     TOBL.PutValue('GL_POURCENTAVANC',0);
-    TOBL.PutValue('GL_QTEPREVAVANC',0);
-    TOBL.PutValue('GL_QTESIT',0);
-    if TOBL.GetValue('GL_QTEFACT') = '' then TOBL.PutValue('GL_QTEFACT', 0);
-    TOBL.PutValue('GL_QTESTOCK',TOBL.GetValue('GL_QTEFACT'));
-    TOBL.PutValue('GL_QTERESTE',TOBL.GetValue('GL_QTEFACT'));
+    TOBL.PutValue('GL_QTEPREVAVANC', 0);
+    TOBL.PutValue('GL_QTESIT',       0);
+    TOBL.PutValue('GL_QTESTOCK',  QteFact);
+    TOBL.PutValue('GL_QTERESTE',  QteFact);
     // --- GUINIER ---
-    if TOBL.GetValue('GL_MONTANTHTDEV') = '' then TOBL.PutValue('GL_MONTANTHTDEV', 0);
     TOBL.PutValue('GL_MTRESTE', TOBL.GetValue('GL_MONTANTHTDEV'));
 
     //FV1 : 30/11/20016 - Déplacement pour cohérence Numordre sur ouvrage et sous-détail
