@@ -3119,7 +3119,7 @@ end;
 procedure TFNomenLig.PopG_NLIG_OClick(Sender: TObject);
 begin
 {$IFDEF BTP}
-EntreeAnalyseOuvrageBib (TobLig,GNE_NOMENCLATURE.Text);
+//EntreeAnalyseOuvrageBib (TobLig,GNE_NOMENCLATURE.Text);
 {$ENDIF}
 end;
 
