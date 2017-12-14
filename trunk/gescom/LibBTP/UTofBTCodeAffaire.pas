@@ -82,6 +82,7 @@ Type
         Consultation : Boolean;
         ModifDateSit : boolean;
         Stock        : Boolean;
+        GensurDevisNonACPT  : Boolean;
         RapportGen   : TGestionRapport;
         StatutAff    : string;
         ReajusteAnal : Boolean;
@@ -171,6 +172,7 @@ Inherited;
   IsMemoire    := false;
   ModifDateSit := false;
   Stock        := false;
+  GensurDevisNonACPT := GetParamSocSecur('SO_GENCESURDEVNACPT', False);
   //
   if Assigned(GetControl('RECUP')) then Recup := TCheckBox(GetControl('RECUP'));
   //
@@ -1386,7 +1388,10 @@ begin
   begin
     if THEdit(GetControl ('ZEACTION')).Text = 'GENCONTRETU' then
     begin
-      THEdit(GetControl('AFF_ETATAFFAIRE')).Enabled := false;
+      //FV1 : 14/12/2017 - FS#2808 - TEAM RESEAUX : autorisation de passer les devis non acceptés en contre-étude
+      THEdit(GetControl('AFF_ETATAFFAIRE')).Enabled := GensurDevisNonACPT;
+      if GensurDevisNonACPT then SetControlText('AFF_ETATAFFAIRE', '');
+      //THEdit(GetControl('AFF_ETATAFFAIRE')).Enabled := false;
       TToolbarButton97(GetControl('BInsert')).visible := false;
       TToolbarButton97(GetControl('BINSERT1')).visible := false;
       if BTDuplic <> nil then BTDuplic.Visible := False;
