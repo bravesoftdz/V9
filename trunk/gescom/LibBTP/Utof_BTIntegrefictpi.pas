@@ -2236,7 +2236,7 @@ begin
   end;
 
   //Modification pour client LSEBAT DELATTRE (Code ana à 15 et pas 10)
-  if Length(StLig) = 113 then
+  if Length(StLig) <= 113 then
   begin
     CodeAna := Trim(Copy(StLig,63,10));
     CodeDep := Trim(Copy(StLig,73,20));
