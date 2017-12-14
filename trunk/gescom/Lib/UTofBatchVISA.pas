@@ -534,8 +534,9 @@ inherited;
       SetControltext('XX_WHERE',GetControlText('XX_WHERE')+GetPiecesVenteBTP(2,false));
     end else
     begin
-      SetControlProperty('GP_NATUREPIECEG','Plus',GetPiecesVenteBTP(3));
-      SetControltext('XX_WHERE',GetControlText('XX_WHERE')+GetPiecesVenteBTP(3,false));
+      //FV1 - 14/12/2017 - FS#2767 - TEAM RESEAUX - Impossible de retirer le visa des contre-études
+      //SetControlProperty('GP_NATUREPIECEG','Plus',GetPiecesVenteBTP(3));
+      //SetControltext('XX_WHERE',GetControlText('XX_WHERE')+GetPiecesVenteBTP(3,false));
     end;
   end;
   UpdateColumns;

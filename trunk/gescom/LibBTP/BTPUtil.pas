@@ -185,6 +185,8 @@ uses AffaireUtil, Facture, FactRg,FactGrp,FactureBTP, TntWideStrings,UtilTOBPiec
   DB,FactPiece, Mask,StockUtil;
 
 function GetPiecesVenteBTP (ForWhat : integer = 3; ForPlus : boolean=true): string;
+Var StSQL : string;
+    QQ    : TQuery;
 begin
   if ForPlus then
   begin
@@ -195,7 +197,8 @@ begin
   begin
     if ForWhat = 2 then Result := 'AND GP_NATUREPIECEG IN ("FBC","ABC","CC","BLC")'
     else if ForWhat = 1 then Result := 'AND GP_NATUREPIECEG IN ("FBT","B00","FBP","ABT","APR","ABP","DBT","BAC","DAC","ETU")'
-    else Result := 'AND GP_NATUREPIECEG IN ("FBT","B00","FBP","FBC","ABT","APR","ABP","ABC","DBT","BAC","DAC","ETU","CC","BLC")'
+    else
+      Result := 'AND GP_NATUREPIECEG IN ("FBT","B00","FBP","FBC","ABT","APR","ABP","ABC","DBT","BAC","DAC","ETU","CC","BLC")'
   end;
 end;
 
