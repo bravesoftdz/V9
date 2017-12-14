@@ -47,6 +47,7 @@ type
     XX :  TfbtMajStructure;
     LanceMajVues : boolean;
     VersionBaseRef, VersionBaseDest : string;
+    ForceGlobale : boolean;
     //
     procedure TraiteChangementTable (TheListRef : TOB);
     procedure TraiteChangementParamSoc (TheListRef : TOB);
@@ -340,8 +341,13 @@ var Indice : integer;
     QQ : TQUery;
     VersionElt : string;
 begin
-  if not IsModeMajHalley then
+//  if not IsModeMajHalley then
   begin
+    if VersionBaseDest = '998.0' then
+    begin
+      ExecuteSQLContOnExcept('delete from ymybobs where yb_bobname like "BAT30999%"');
+      ForceGlobale := True;
+    end;
   	XX.Visible := true;
   	V_Pgi.EnableDeShare := False;
     //
@@ -393,6 +399,7 @@ begin
       end;
     END;
     XX.visible := false;
+(*
   end else
   begin
     QQ := OpenSQLDb (DBREF,'SELECT * FROM BTMAJSTRUCTURES',true);
@@ -404,7 +411,10 @@ begin
     TheListModifDest.InsertDB(nil);
 
     Updateparamsocs;
+*)
   end;
+  if IsModeMajHalley then Updateparamsocs;
+
 end;
 
 procedure TMajStructBTP.TraiteChangementParamSoc(TheListRef: TOB);
@@ -615,7 +625,7 @@ function TMajStructBTP.ModifieTable (TheListRef,TheStructureRef : TOB;NomTable :
 var Force : Boolean;
 begin
 	result := false;
-  Force := (TheListRef.GetString('BTV_FORCE') = 'X');
+  Force := (TheListRef.GetString('BTV_FORCE') = 'X') or (ForceGlobale);
   if not IsATraiter (NomTable,Force) then exit;
   result := true;
   if TableExiste (TEMPTABLE) then DBDeleteTable(DBSOC,DestDriver, TEMPTABLE, TRUE);
@@ -655,7 +665,19 @@ var sql : string;
 begin
   // ERP CEGID
   //
-  if NomTable = 'TXCPTTVA' then
+  if NomTable = 'LIGREAANAL' then
+  begin
+    if VersionBaseDest < '998.ZZZP' then
+    begin
+      ExecuteSQL('UPDATE LIGREAANAL SET BLR_QTE=0,BLR_DPA=0 WHERE BLR_QTE IS NULL');
+    end;
+  end else if NomTable = 'BTFACTST' then
+  begin
+    if VersionBaseDest < '998.ZZZP' then
+    begin
+      ExecuteSQL('UPDATE BTFACTST SET BM3_ENVOIMAIL="-" WHERE BM3_ENVOIMAIL IS NULL');
+    end;
+  end else if NomTable = 'TXCPTTVA' then
   begin
     if VersionBaseDest < '998.ZZZL' then
     begin
@@ -1339,6 +1361,15 @@ begin
     begin
       ExecuteSql ('UPDATE CONSOMMATIONS SET BCO_FROMDEVIS="-" WHERE BCO_FROMDEVIS IS NULL');
     end;
+    if VersionBaseDest < '998.ZZZP' then
+    begin
+      SQL := 'UPDATE CONSOMMATIONS SET '+
+             'BCO_FAMILLENIV1=(SELECT GA_FAMILLENIV1 FROM ARTICLE WHERE GA_ARTICLE=BCO_ARTICLE), '+
+             'BCO_FAMILLENIV2=(SELECT GA_FAMILLENIV2 FROM ARTICLE WHERE GA_ARTICLE=BCO_ARTICLE), '+
+             'BCO_FAMILLENIV3=(SELECT GA_FAMILLENIV3 FROM ARTICLE WHERE GA_ARTICLE=BCO_ARTICLE) '+
+             'WHERE BCO_FAMILLENIV1 IS NULL';
+      ExecuteSql (SQL);
+    end;
   end
   else if nomTable ='TIERS' then
   begin
@@ -1396,7 +1427,7 @@ function TMajStructBTP.IsATraiter(NomTable: string;Force : boolean): boolean;
 var QQ : TQUery;
     Versionref,Versiondest : integer;
 begin
-  if Force then
+  if (Force) or (IsModeMajHalley) then
   begin
     Result := true;
     exit;
@@ -2316,6 +2347,7 @@ function TMajStructBTP.IsTraiteVue (TheListRef,TOBRef,TOBDest : TOB) : boolean;
 begin
   result := true;
   if TOBDest = nil then exit; // -> pas de destination c'est donc une création
+  if (ForceGlobale) or (IsModeMajHalley) then Exit;
   if (TheListRef.GetString('BTV_FORCE') = 'X') then exit; // --> Force donc on lance
   if TOBDest.getValue('DV_NUMVERSION') < TOBRef.getValue('DV_NUMVERSION') then exit; // version sur ref > cele de la base
   result := false;
@@ -2708,6 +2740,18 @@ begin
 		ExecuteSql('DELETE FROM LISTE WHERE LI_LISTE ="CPSDDMULGENMANDAT"');
   end;
   //
+  if VersionBaseDest < '998.ZZZO' then
+  begin
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BS0"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BS1"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BS2"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BAA"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BTS"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BM7"');
+    ExecuteSQL('DELETE FROM COMMUN WHERE CO_TYPE="BM6"');
+    if TableExiste ('BTYPELIGBAST') then ExecuteSQL('DELETE FROM BTYPELIGBAST');
+  end;
+  //
   if not TableExiste('BADRESSES') then
   begin
     ConstitueTableAdressesBTP;
@@ -2926,6 +2970,14 @@ begin
   if VersionBaseDest < '998.ZZZH' then
   begin
     ExecuteSQL('UPDATE PARPIECE SET GPP_APPELPRIX="PAS" WHERE GPP_NATUREPIECEG IN ("CF","CFR","BLF","FF") AND GPP_APPELPRIX="DPA"');
+  end;
+  if VersionBaseDest < '998.ZZZP' then
+  begin
+    if ExisteSQL('SELECT 1 FROM BTYPELIGBAST WHERE BM6_CODE="FRA0000000003"') then
+    begin
+      ExecuteSQL('UPDATE BTYPELIGBAST SET BM6_CODE="FRA0000000003",BM6_CATLIGNE="004",BM6_INDICE=3, BM6_TYPEERP="PTC",BM6_ARTICLE="",BM6_LIBELLE="Pénalités " WHERE BM6_CODE="TRA0000000006"');
+    end;
+    ExecuteSQL('INSERT INTO BTYPELIGBAST (BM6_CATLIGNE,BM6_INDICE,BM6_CODE,BM6_LIBELLE,BM6_ARTICLE,BM6_SENS,BM6_TYPEERP,BM6_AUTHSUP) VALUES ("007",1,"ESC0000000001","Escompte","","-","PTC","-")');
   end;
   // A faire systématiquement ---
   ExecuteSQL('UPDATE MENU SET MN_ACCESGRP="'+StringOfChar('0',100)+'" WHERE MN_ACCESGRP IS NULL');
