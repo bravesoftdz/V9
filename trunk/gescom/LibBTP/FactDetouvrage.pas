@@ -289,16 +289,17 @@ procedure TModifSousDetail.CalculeLaLigneDoc(TOBL: TOB; WithRecalc : boolean);
 var indiceNomen : integer;
 		TOBOP : TOB;
     valeurs : T_Valeurs;
-    Qte : double;
+    Qte,QTeDudetail : double;
 begin
   IndiceNomen := TOBL.getValue('GL_INDICENOMEN'); if IndiceNomen = 0 then exit;
   TOBOP := fTOBOuvrages.Detail[IndiceNomen-1];
   if Withrecalc then
   begin
+    QteDuDetail := TOBOP.getDouble('BLO_QTEDUDETAIL'); if QTeDudetail = 0 then QteDuDetail := 1;
     InitTableau (Valeurs);
     CalculeOuvrageDoc (TOBOP,1,1,true,DEV,valeurs,(fTOBPIECE.GetValue('GP_FACTUREHT')='X'));
     GetValoDetail (TOBOP); // pour le cas des Article en prix posés
-    Qte := TOBL.Getvalue('GL_QTEFACT');
+    Qte := TOBL.Getvalue('GL_QTEFACT'); Qte := Qte / QteDUDetail;
     TOBL.Putvalue('GL_MONTANTPAFG',valeurs[10]*Qte);
     TOBL.Putvalue('GL_MONTANTPAFR',valeurs[11]*Qte);
     TOBL.Putvalue('GL_MONTANTPAFC',valeurs[12]*Qte);

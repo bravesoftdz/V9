@@ -251,7 +251,7 @@ begin
 end;
 
 procedure StockeLesTypes (TOBL : TOB; Valloc : T_Valeurs);
-var Qte : double;
+var Qte,QteDuDetail : double;
 begin
   if TOBL.NomTable = 'LIGNE' then
   begin
@@ -281,7 +281,8 @@ begin
     TOBL.PutValue('GLC_MTAUTPV',ValLoc[46]);
   end else if TOBL.NomTable = 'LIGNEOUV' then
   begin
-    Qte := TOBL.GetDouble('BLO_QTEFACT');
+    QteDuDetail := TOBL.GetDouble('BLO_QTEDUDETAIL'); if QteDuDetail = 0 then QteDuDetail := 1;
+    Qte := TOBL.GetDouble('BLO_QTEFACT'); Qte := Qte / QteDuDetail;
     TOBL.PutValue('BLO_MTMOPA',Arrondi(Qte*ValLoc[23],V_PGI.okdecV));
     TOBL.PutValue('BLO_MTMOPR',Arrondi(Qte*ValLoc[24],V_PGI.okdecV));
     TOBL.PutValue('BLO_MTMOPV',Arrondi(Qte*ValLoc[25],V_PGI.okdecV));
@@ -310,9 +311,10 @@ begin
 end;
 
 procedure CumuleLesTypes (TOBL : TOB; var Valloc : T_Valeurs);
-var Qte : double;
+var Qte,QteDuDetail : double;
 begin
-  Qte := TOBL.GetDouble('BLO_QTEFACT');
+  QteDuDetail := TOBL.GetDouble('BLO_QTEDUDETAIl'); if QTeDuDetail = 0 then QteDuDetail := 1;
+  Qte := TOBL.GetDouble('BLO_QTEFACT') / QteDuDetail;
   ValLoc[23] := ValLoc[23] + Arrondi(TOBL.GetDouble('BLO_MTMOPA') * Qte,V_PGI.okdecP);
   ValLoc[24] := ValLoc[24] + Arrondi(TOBL.GetDouble('BLO_MTMOPR')  * Qte,V_PGI.okdecP);
   ValLoc[25] := ValLoc[25] + Arrondi(TOBL.GetDouble('BLO_MTMOPV')  * Qte,V_PGI.okdecP);
@@ -3051,7 +3053,7 @@ END ;
 procedure CalculeOuvrageDoc (TOBOuvrage : TOB;Qte,QteDetail:double;recursif:boolean;DEV:RDevise ; var valeurs:T_Valeurs;EnHt : boolean;AvecHt:boolean=true;WithArrondi : boolean=false);
 var Indice,IndPou : Integer;
     TOBL : TOB;
-    QteLoc,QteDudetail,QteDupv : Double;
+    QteLoc,QteDudetail,QteDupv,QteL,QTEDEt : Double;
     Valloc,ValPou,MtPou : T_Valeurs;
     ArticleOk : string;
     Article : string;
@@ -3081,7 +3083,8 @@ begin
 
     if Qtedetail <= 0 then Qtedetail := 1;
     QteLoc := Qte * TOBL.GetValue('BLO_QTEFACT');
-
+    QTEDEt := TOBL.getDouble('BLO_QTEDUDETAIL'); if QteDet = 0 then QteDet := 1;
+    QteL := TOBL.GetValue('BLO_QTEFACT') / QteDet;
     if (TOBL.detail.count > 0 ) and (recursif) then
     begin
       //      Qtedudetail := Qtedetail * TOBL.GetValue('BLO_QTEDUDETAIL');
@@ -3096,14 +3099,14 @@ begin
       // --
       TOBL.PutValue('BLO_TPSUNITAIRE',ValLoc[9]);
       TOBL.PutValue('GA_HEURE',ValLoc[9]);
-      TOBL.PutValue('BLO_MONTANTPAFG',ValLoc[10]);
-      TOBL.PutValue('BLO_MONTANTPAFR',ValLoc[11]);
-      TOBL.PutValue('BLO_MONTANTPAFC',ValLoc[12]);
-      TOBL.PutValue('BLO_MONTANTFG',ValLoc[13]);
-      TOBL.PutValue('BLO_MONTANTFR',ValLoc[14]);
-      TOBL.PutValue('BLO_MONTANTFC',ValLoc[15]);
-      TOBL.PutValue('BLO_MONTANTPA',ValLoc[16]);
-      TOBL.PutValue('BLO_MONTANTPR',ValLoc[17]);
+      TOBL.PutValue('BLO_MONTANTPAFG',Arrondi(ValLoc[10] * QteL,V_PGI.OKDecV) );
+      TOBL.PutValue('BLO_MONTANTPAFR',Arrondi(ValLoc[11] * QteL,V_PGI.OKDecV));
+      TOBL.PutValue('BLO_MONTANTPAFC',Arrondi(ValLoc[12] * QteL,V_PGI.OKDecV));
+      TOBL.PutValue('BLO_MONTANTFG',  Arrondi(ValLoc[13] * QteL,V_PGI.OKDeCV));
+      TOBL.PutValue('BLO_MONTANTFR',  Arrondi(ValLoc[14] * QteL,V_PGI.OKDecV));
+      TOBL.PutValue('BLO_MONTANTFC',  Arrondi(ValLoc[15] * QteL,V_PGI.OKDecV));
+      TOBL.PutValue('BLO_MONTANTPA',  Arrondi(ValLoc[16] * QteL,V_PGI.OKDecV));
+      TOBL.PutValue('BLO_MONTANTPR',  Arrondi(ValLoc[17] * QteL,V_PGI.OKDecV));
       if (AvecHt) then
       begin
         TOBL.PutValue('GA_PVHT',valloc[2]);
@@ -3151,14 +3154,14 @@ begin
       begin
         Valeurs[9] := Valeurs[9] + Arrondi(((QteLoc/(Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_TPSUNITAIRE'))),V_PGI.OkDecQ);
       end;
-      Valeurs[10] := Valeurs[10] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFG'))),V_PGI.OkDecP);
-      Valeurs[11] := Valeurs[11] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFR'))),V_PGI.OkDecP);
-      Valeurs[12] := Valeurs[12] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFC'))),V_PGI.OkDecP);
-      Valeurs[13] := Valeurs[13] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFG'))),V_PGI.OkDecP);
-      Valeurs[14] := Valeurs[14] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFR'))),V_PGI.OkDecP);
-      Valeurs[15] := Valeurs[15] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFC'))),V_PGI.OkDecP);
-      Valeurs[16] := Valeurs[16] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPA'))),V_PGI.OkDecP);
-      Valeurs[17] := Valeurs[17] + Arrondi((((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPR'))),V_PGI.OkDecP);
+      Valeurs[10] := Valeurs[10] + Arrondi(TOBL.GetValue ('BLO_MONTANTPAFG'),V_PGI.OkDecP);
+      Valeurs[11] := Valeurs[11] + Arrondi(TOBL.GetValue ('BLO_MONTANTPAFR'),V_PGI.OkDecP);
+      Valeurs[12] := Valeurs[12] + Arrondi(TOBL.GetValue ('BLO_MONTANTPAFC'),V_PGI.OkDecP);
+      Valeurs[13] := Valeurs[13] + Arrondi(TOBL.GetValue ('BLO_MONTANTFG'),V_PGI.OkDecP);
+      Valeurs[14] := Valeurs[14] + Arrondi(TOBL.GetValue ('BLO_MONTANTFR'),V_PGI.OkDecP);
+      Valeurs[15] := Valeurs[15] + Arrondi(TOBL.GetValue ('BLO_MONTANTFC'),V_PGI.OkDecP);
+      Valeurs[16] := Valeurs[16] + Arrondi(TOBL.GetValue ('BLO_MONTANTPA'),V_PGI.OkDecP);
+      Valeurs[17] := Valeurs[17] + Arrondi(TOBL.GetValue ('BLO_MONTANTPR'),V_PGI.OkDecP);
     end else
     begin
       Valeurs[0] := Valeurs[0] + ((QteLoc/(Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_DPA')));
@@ -3171,14 +3174,14 @@ begin
         X:=RatioMesure('TEM',TOBL.GetValue('BLO_QUALIFQTEFACT')); // pour revenir a l'unite de base 
         Valeurs[9] := Valeurs[9] + ((QteLoc/(Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_TPSUNITAIRE') * X));
       end;
-      Valeurs[10] := Valeurs[10] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFG'));
-      Valeurs[11] := Valeurs[11] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFR'));
-      Valeurs[12] := Valeurs[12] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPAFC'));
-      Valeurs[13] := Valeurs[13] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFG'));
-      Valeurs[14] := Valeurs[14] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFR'));
-      Valeurs[15] := Valeurs[15] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTFC'));
-      Valeurs[16] := Valeurs[16] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPA'));
-      Valeurs[17] := Valeurs[17] + ((Qtedetail*QteDuDetail) * TOBL.GetValue ('BLO_MONTANTPR'));
+      Valeurs[10] := Valeurs[10] + TOBL.GetValue ('BLO_MONTANTPAFG');
+      Valeurs[11] := Valeurs[11] + TOBL.GetValue ('BLO_MONTANTPAFR');
+      Valeurs[12] := Valeurs[12] + TOBL.GetValue ('BLO_MONTANTPAFC');
+      Valeurs[13] := Valeurs[13] + TOBL.GetValue ('BLO_MONTANTFG');
+      Valeurs[14] := Valeurs[14] + TOBL.GetValue ('BLO_MONTANTFR');
+      Valeurs[15] := Valeurs[15] + TOBL.GetValue ('BLO_MONTANTFC');
+      Valeurs[16] := Valeurs[16] + TOBL.GetValue ('BLO_MONTANTPA');
+      Valeurs[17] := Valeurs[17] + TOBL.GetValue ('BLO_MONTANTPR');
     end;
     if AvecHt then
     begin
@@ -3426,6 +3429,7 @@ procedure AffecteDifferenceSurLigne (TOBL,TOBLOC : TOB;Ecart,EcartPr:double;
                                      EnPa,EnPR,EnHt : boolean; DEv : RDevise;ForcePaEqualPv:Boolean=false);
 var Valeurs: T_Valeurs;
 		CoefPaPr,CoefPrPv : double;
+    QteL,QteDet : double;
 begin
   if TOBLOc.getValeur(indPa) > 0 then CoefpaPr := TOBLOc.getValeur(indPr) / TOBLOc.getValeur(indPa)
                                  else CoefpaPr := 1;
@@ -3435,6 +3439,7 @@ begin
   begin
     if (TOBLOC.GetValue('BLO_TYPEARTICLE') = 'ARP') and (TOBLOC.detail.count > 0) then
     begin
+      QteL := TOBLOC.GetDouble('BLO_QTEFACT');
       TOBLOC.detail[0].Putvaleur(IndPa, arrondi(TOBLOC.detail[0].GetValeur(indpa) + (Ecart), V_PGI.okDecP));
       TOBLOC.detail[0].PutValue('GA_PAHT', TOBLOC.detail[0].GetValue('BLO_DPA'));
       CalculeLigneAcOuv (TOBLOC.detail[0],DEV,(TOBL.GetValue('GL_BLOQUETARIF')='-'));
