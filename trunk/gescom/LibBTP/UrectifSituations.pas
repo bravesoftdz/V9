@@ -167,6 +167,23 @@ end;
 
 procedure TRectifSituation.ConstitueAvoir (NumSituation,Numfac : integer; DatePiece : TdateTime);
 
+  procedure AjusteDocument;
+  var indice : integer;
+      TOBL : TOB;
+      IndiceOuv : integer;
+  begin
+    {$IFDEF BTP}
+    for Indice := 0 to TOBPiece.detail.count -1 do
+    begin
+      TOBL := TOBpiece.detail[indice];
+      IndiceOuv := TOBL.GetValue('GL_INDICENOMEN');
+      if (IndiceOuv > 0) and (IsOuvrage(TOBL)) then ReAffecteLigOuv(IndiceOuv, TobL, TobOuvrage);
+      // protection des coefs de marge, fg, fc , FR pour la validation : cf pb plumard rzzzz rrzzz Avril 2010
+      ProtectionCoef  (TOBL);
+    end;
+    {$ENDIF}
+  end;
+
   procedure AjouteCommentaireProvenance (NumSituation,Numfac : integer; DatePiece : TdateTime);
   var Comment : string;
       TOBB : TOB;
@@ -231,7 +248,6 @@ begin
     NewDoc.NumeroPiece := NewNum ;
   end;
   MajFromCleDoc (TOBpiece,NewDoc);
-
   AjouteCommentaireProvenance(NumSituation,Numfac,DatePiece);
   NumeroteLignesGC(nil,TOBpiece, false, false);
   InverseLesPieces(TOBPiece, 'PIECE');
@@ -241,6 +257,7 @@ begin
   InverseLesPieces(TOBPieceRG, 'PIECERG');
   InverseLesPieces(TOBBasesRG, 'PIEDBASERG');
   InverseLesPieces(TOBOuvragesP, 'LIGNEOUVPLAT');
+  AjusteDocument; // pour les ouvrages
   PositionneToutModif;
   // --
 end;
