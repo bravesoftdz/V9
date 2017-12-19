@@ -20,6 +20,11 @@ function ConstitueCodeSequenceGC (TypeSouche,CodeSouche : string) : string;
 
 implementation
 
+function wExistTable(Const TableName:String): Boolean;
+begin
+	Result := TableToNum(TableName) <> 0;
+end;
+
 function CodeExo(DD:tDateTime):string;
 var i : integer;
 begin
@@ -46,16 +51,31 @@ end;
 
 function ExistSequence(Cle: string; Entite : integer=0) : Boolean;
 begin
-	Result := ExisteSQL('SELECT DSQ_CODE FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"');
+  if wExistTable ('CPSEQCORRESP') then
+  begin
+	  Result := ExisteSQL('SELECT DSQ_CODE FROM DESEQUENCES WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER="'+Cle+'")');
+  end else
+  begin
+	  Result := ExisteSQL('SELECT DSQ_CODE FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"');
+  end;
 end;
 
 
 function ReadIncrementSequence(Cle : string ; entity : integer=0) : integer;
 var QQ : Tquery;
+    SQL : string;
 begin
   Result := -1;
   try
-  	QQ := OpenSql ('SELECT DSQ_VALEUR,DSQ_INCREMENT FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"',True,1,'',true);
+    if wExistTable ('CPSEQCORRESP') then
+    begin
+      SQL := 'SELECT DSQ_VALEUR,DSQ_INCREMENT FROM DESEQUENCES WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER="'+Cle+'")';
+    end else
+    begin
+      SQL := 'SELECT DSQ_VALEUR,DSQ_INCREMENT FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"';
+    end;
+    //
+  	QQ := OpenSql (SQL,True,1,'',true);
     if not QQ.eof then
     begin
       Result := QQ.findField('DSQ_INCREMENT').AsInteger;
@@ -67,10 +87,18 @@ end;
 
 function ReadCurrentSequence(Cle: string; entity : integer=0) : integer;
 var QQ : Tquery;
+    SQL  : string;
 begin
   Result := -1;
   try
-  	QQ := OpenSql ('SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"',True,1,'',true);
+    if wExistTable ('CPSEQCORRESP') then
+    begin
+      SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER="'+Cle+'")';
+    end else
+    begin
+      SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE="'+Cle+'"';
+    end;
+  	QQ := OpenSql (SQL,True,1,'',true);
     if not QQ.eof then
     begin
       Result := QQ.findField('DSQ_VALEUR').AsInteger;
@@ -83,6 +111,7 @@ end;
 function GetNextSequence(Cle: string; nombre : integer; Entity : integer=0) : integer;
 var II ,lastValue,Nbr,Increment: Integer;
     Okok : Boolean;
+    SQL : string;
     // 50 tentatives maximum avant de sortir en erreur
 begin
   Result := -1;
@@ -96,7 +125,17 @@ begin
       break;
     end;
     II := lastValue + ReadIncrementSequence(Cle,Entity);
-    if ExecuteSQL('UPDATE DESEQUENCES SET DSQ_VALEUR='+IntToStr(II)+' WHERE DSQ_VALEUR='+IntToStr(lastValue)) > 0 then
+
+    if wExistTable ('CPSEQCORRESP') then
+    begin
+      SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+IntToStr(II)+' WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER="'+Cle+'") AND DSQ_VALEUR='+IntToStr(lastValue);
+    end else
+    begin
+      SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+IntToStr(II)+' WHERE DSQ_CODE="'+Cle+'" AND DSQ_VALEUR='+IntToStr(lastValue);
+    end;
+
+
+    if ExecuteSQL(SQL) > 0 then
     begin
     	OkOk := true;
       Result := II;
@@ -112,22 +151,70 @@ begin
 end;
 
 function CreateSequence(Cle: string; valeur : integer; xx : integer=0; entity : integer=0) : Boolean;
-var TT : TOB;
+
+  function FormateCorrespondance (numero : integer) : string;
+  begin
+    result := stringreplace (Format('%35d', [numero + 1]), ' ', '0', [rfReplaceAll]);
+  end;
+
+var TT,TT1 : TOB;
+    INumSeq : integer;
+    QQ : TQuery;
+    Clef : string;
 begin
 	result := false;
-  TT := TOB.Create('DESEQUENCES',nil,-1);
-  try
-    try
-      TT.PutValue('DSQ_CODE',Cle);
-      TT.PutValue('DSQ_VALEUR',valeur);
-      TT.PutValue('DSQ_INCREMENT',1);
-      TT.InsertDB(nil);
-			result := true;
-    except
-      raise Exception.Create(traduirememoire('Problème en création de sequence '+Cle));
+  INumSeq := 0;
+  CLef := '';
+  if wExistTable ('CPSEQCORRESP') then
+  begin
+    QQ := OpenSQL('SELECT MAX(CSC_SEQUENCE) AS MAXSEQ FROM CPSEQCORRESP',true,1,'',true);
+    if not QQ.eof then
+    begin
+      INumSeq := QQ.fields[0].AsInteger;
     end;
-  finally
-    TT.free;
+    ferme (QQ);
+    TT1 := TOB.Create('CPSEQCORRESP',nil,-1);
+    TT := TOB.Create('DESEQUENCES',nil,-1);
+    TRY
+      Inc(INumSeq);
+      Clef := FormateCorrespondance(INumSeq);
+      TRY
+        TT1.SetString('CSC_METIER',cle);
+        TT1.SetString('CSC_SEQUENCE',Clef);
+        TT1.InsertDB(nil);
+      EXCEPT
+        raise Exception.Create(traduirememoire('Problème en création de sequence '+Cle));
+        Exit;
+      end;
+      //
+      TRY
+        TT.PutValue('DSQ_CODE',Clef);
+        TT.PutValue('DSQ_VALEUR',valeur);
+        TT.PutValue('DSQ_INCREMENT',1);
+        TT.InsertDB(nil);
+        result := true;
+      EXCEPT
+      END;
+    FINALLY
+      TT.Free;
+      TT1.Free;
+    END;
+  end else
+  begin
+    TT := TOB.Create('DESEQUENCES',nil,-1);
+    try
+      try
+        TT.PutValue('DSQ_CODE',Cle);
+        TT.PutValue('DSQ_VALEUR',valeur);
+        TT.PutValue('DSQ_INCREMENT',1);
+        TT.InsertDB(nil);
+        result := true;
+      except
+        raise Exception.Create(traduirememoire('Problème en création de sequence '+Cle));
+      end;
+    finally
+      TT.free;
+    end;
   end;
 end;
 
