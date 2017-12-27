@@ -29342,6 +29342,9 @@ var TOBL : TOB;
 begin
   if (GS.row = 0) or (TOBPiece = nil) then Exit;
   TOBL := GetTOBLigne(TOBPiece, GS.Row); // récupération TOB ligne
+  //FV1 : 27/12/2018 - FS#2829 - RESINA - Message d'erreur de violation en ouverture des pièces
+  if TOBL = nil then exit;
+  //
   if (TOBPiece.GetString('GP_NATUREPIECEG')='DBT') and (GetParamSocSecur('SO_BTDESCEQUALLIB',false)) and (TOBL.GetSTring('GL_TYPELIGNE')='ART') then
   begin
     TOBL.PutValue('GL_BLOCNOTE', ExRichToString(Descriptif));
