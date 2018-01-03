@@ -16015,9 +16015,19 @@ end;
 procedure TFFacture.ZoomRepres(Repres: string);
 var Crits: string;
 begin
-	crits := '';
-	if TypeCom <> '' then Crits := ';GCL_TYPECOMMERCIAL="' + TypeCom + '"';
-  AGLLanceFiche('GC', 'GCCOMMERCIAL', '', Repres, 'ACTION=CONSULTATION' + Crits);
+  if BZoomRessource.Enabled then
+  BEGIN
+  	crits := '';
+ 	  Crits := ';ARS_TYPERESSOURCE="SAL"';
+    AGLLanceFiche('BTP', 'BTRESSOURCE', '', Repres, 'ACTION=CONSULTATION' + Crits);
+  end
+  ELSE
+  Begin
+  	crits := '';
+	  if TypeCom <> '' then Crits := ';GCL_TYPECOMMERCIAL="' + TypeCom + '"';
+    AGLLanceFiche('GC', 'GCCOMMERCIAL', '', Repres, 'ACTION=CONSULTATION' + Crits);
+  end;
+
 end;
 
 {==============================================================================================}
@@ -17501,7 +17511,10 @@ end;
 
 procedure TFFacture.BZoomCommercialClick(Sender: TObject);
 begin
-  ZoomRepres(GP_REPRESENTANT.Text);
+  if BZoomRessource.Enabled then
+    ZoomRepres(GP_RESSOURCE.Text)
+  else
+    ZoomRepres(GP_REPRESENTANT.Text);
 end;
 
 procedure TFFacture.BZoomTiersClick(Sender: TObject);
