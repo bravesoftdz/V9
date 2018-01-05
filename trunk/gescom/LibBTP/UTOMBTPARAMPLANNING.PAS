@@ -555,7 +555,7 @@ begin
   // Vérification de la validité des champs
   if (CodeParam = 'PLA') then
   Begin
-    if HPP_FAMRES.Value = '' then
+    if HPP_FAMRES.text = '' then
     begin
       Lasterror := 1;
       AfficheErreur(ecran.Name,'1','Paramètre du Planning');

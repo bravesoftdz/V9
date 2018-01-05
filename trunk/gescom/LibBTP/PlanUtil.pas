@@ -557,9 +557,12 @@ Begin
 
   QRecupFamRes := OpenSQL(Req, True,-1,'',true);
 
-  if not QRecupFamRes.eof then
+  if Result <> 'GEN' then
   begin
-    LibFamRes := QRecupFamRes.findfield('HFR_LIBELLE').Asstring;
+    if not QRecupFamRes.eof then
+    begin
+      LibFamRes := QRecupFamRes.findfield('HFR_LIBELLE').Asstring;
+    end;
   end;
 
   ferme(QRecupFamRes);
@@ -2602,7 +2605,7 @@ begin
   if P.Famres <> 'GEN' then
     Result := Result + ' AND ARS_TYPERESSOURCE = "' + p.FamRes + '" '
   Else
-    Result := Result + ' AND ARS_TYPERESSOURCE in ("INT", "SAL", "LOC", "ST")';
+    Result := Result + ' AND ARS_TYPERESSOURCE in ("INT", "SAL", "LOC", "ST", "MAT")';
 
 
 end;
