@@ -5789,7 +5789,7 @@ begin
       TOBItem.PutValue('BPL_TIERS'     ,    TobRes.GetValue('AFF_TIERS'));
       TOBItem.PutValue('BPL_RESSOURCE' ,    TobRes.GetValue('AFF_RESPONSABLE'));
     end
-    else if TypePlanning = 'PRA' then
+    else if (TypePlanning = 'PRA') OR (TypePlanning = 'PFO') then
     begin
       TobItem.PutValue('BPL_RESSOURCE',     TobRes.GetValue('ARS_RESSOURCE'));
       TobItem.PutValue('BPL_NOMRESSOURCE',  TobRes.GetValue('ARS_LIBELLE') + ' ' + TobRes.GetValue('ARS_LIBELLE2'));

@@ -29,7 +29,7 @@ object MonPlanning: TMonPlanning
     Top = 64
     Width = 289
     Height = 201
-    Date = 36791.611087349530000000
+    Date = 36791.457223287030000000
     TabOrder = 0
   end
   object PageOnglet: TPageControl
@@ -1159,8 +1159,9 @@ object MonPlanning: TMonPlanning
       ObjectMenuPrefix = '&Object'
       LinesRTF.Strings = (
         '{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Arial;}}'
-        '{\*\generator Riched20 10.0.14393}\viewkind4\uc1 '
+        '{\*\generator Riched20 10.0.15063}\viewkind4\uc1 '
         '\pard\f0\fs16\lang1036 DESCRIPTIF'
+        '\par '
         '\par '
         '\par '
         '\par '
