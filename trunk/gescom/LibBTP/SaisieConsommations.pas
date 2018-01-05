@@ -880,10 +880,17 @@ begin
         Continue
       else
       begin
-        if Not TOBL.detail[Ind_2].InsertDB(nil,false) then
+        If TOBL.detail[Ind_2].GetBoolean('SUPPRESSION') then
         begin
-          V_PGI.IOError := oeUnknown;
-          Exit;
+          TOBL.Detail[Ind_2].DeleteDB(False);
+        end
+        else
+        begin
+          if Not TOBL.detail[Ind_2].InsertDB(nil,false) then
+          begin
+            V_PGI.IOError := oeUnknown;
+            Exit;
+          end;
         end;
       end;
     end;
@@ -5289,8 +5296,15 @@ end;
 Procedure TOF_BTSAISIECONSO.DeleteLigneEquipeExt(LinkEquipe : string);
 var TOBLE : TOB;
 begin
-	TOBLE := TOBLIENEQUIPE.findFirst(['LINKEQUIPE'],[LinkEquipe],false);
-  if TOBLE <> nil then TOBLE.Free;
+
+  TOBLE :=  TOBLIENEQUIPE.FindFirst(['BCO_LINKEQUIPE'],[LinkEquipe],True);
+	while TOBLE <> nil do
+  begin
+    //FreeAndNil(TOBLE);
+    TOBLE.AddChampSupValeur('SUPPRESSION', 'X');
+	  TOBLE :=  TOBLIENEQUIPE.FindNext(['BCO_LINKEQUIPE'],[LinkEquipe],True);
+  end;
+
 end;
 
 Procedure TOF_BTSAISIECONSO.DeleteLigneEquipe(LinkEquipe : string);
@@ -5318,6 +5332,7 @@ begin
     DelLigne (TgsRES,GMAteriel,TOBRES,OneTOB);
 	  OneTOB :=  TOBRES.FindNext(['BCO_LINKEQUIPE'],[LinkEquipe],true);
   end;
+
 end;
 
 Procedure TOF_BTSAISIECONSO.DelLigne (Mode : TGrilleModeSaisie; TheGrid : Thgrid; LaTOB,OneTOB: TOB);
@@ -7636,12 +7651,17 @@ var TOBCC,TOBLE,TOBCD : TOB;
     first : boolean;
 begin
   first := True;
+
 	LinkEquipe := TOBC.GetString('BCO_LINKEQUIPE');
+
   if LinkEquipe = '' then Exit;
+
 	TOBCC := TOB.Create('LES CONSO',nil,-1);
+
   try
-    Req := 'SELECT * FROM CONSOMMATIONS WHERE BCO_LINKEQUIPE="'+LinkEquipe+'" AND '+
-    			 'BCO_RESSOURCE <> "'+TOBC.GetString('BCO_RESSOURCE')+'"';
+    Req := 'SELECT * FROM CONSOMMATIONS WHERE BCO_LINKEQUIPE="' + LinkEquipe + '" ';
+    //Req := Req + '    AND BCO_RESSOURCE <> "' + TOBC.GetString('BCO_RESSOURCE') + '"';
+
 		QQ := OpenSQL(Req,True,-1,'',true);
     if Not QQ.eof then
     begin
