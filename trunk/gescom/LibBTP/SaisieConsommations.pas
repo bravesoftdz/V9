@@ -7465,67 +7465,73 @@ begin
   if TOBL.Getstring('MODIF') = 'X' then
   begin
     if pgiAsk('Voulez-vous appliquer ces modifications à l''ensemble de l''équipe', 'Gestion Equipe') = Mrno then
-      Ok_Equipe := False
+    Begin
+      Ok_Equipe := False;
+      TOBL.PutVALUE('MODIF', '-');
+      Exit;
+    end
     else
+    Begin
       Ok_Equipe := True;
-  end;
-
-  if not ExisteLigneEquipe (TOBL,Equipe) then
-  begin
-    for II :=0 to TOBEquipe.detail.count -1 do
-    begin
-      TOBE := TOBEquipe.detail[II];
-      if TOBE.GetString('ARS_RESSOURCE')<>TOBL.GetString('BCO_RESSOURCE') then
+      if not ExisteLigneEquipe (TOBL,Equipe) then
       begin
-        TOBREf := nil;
-        if TOBE.GetString('ARS_TYPERESSOURCE')='SAL' then
+        for II :=0 to TOBEquipe.detail.count -1 do
         begin
-          TOBREf := TOBMo;
-          ModeS := TgsMO;
-          Nature := 'MO';
-          Grid := GHeures;
-        end else if TOBE.GetString('ARS_TYPERESSOURCE')='INT' then
-        begin
-          TOBREf := TOBMOEXT;
-          ModeS := TgsMoext;
-          Nature := 'EXT';
-          Grid := GMoext;
-        end else if TOBE.GetString('ARS_TYPERESSOURCE')='LOC' then
-        begin
-          TOBREf := TOBMOEXT;
-          ModeS := TgsMoext;
-          Nature := 'EXT';
-          Grid := GMoext;
-        end else if TOBE.GetString('ARS_TYPERESSOURCE')='MAT' then
-        begin
-          TOBREf := TOBRES;
-          ModeS := TgsRES;
-          Nature := 'RES';
-          Grid := GMAteriel;
-        end else if TOBE.GetString('ARS_TYPERESSOURCE')='ST' then
-        begin
-          TOBREf := TOBMOEXT;
-          ModeS := TgsMoext;
-          Nature := 'EXT';
-          Grid := GMoext;
+          TOBE := TOBEquipe.detail[II];
+          if TOBE.GetString('ARS_RESSOURCE')<>TOBL.GetString('BCO_RESSOURCE') then
+          begin
+            TOBREf := nil;
+            if TOBE.GetString('ARS_TYPERESSOURCE')='SAL' then
+            begin
+              TOBREf := TOBMo;
+              ModeS := TgsMO;
+              Nature := 'MO';
+              Grid := GHeures;
+            end else if TOBE.GetString('ARS_TYPERESSOURCE')='INT' then
+            begin
+              TOBREf := TOBMOEXT;
+              ModeS := TgsMoext;
+              Nature := 'EXT';
+              Grid := GMoext;
+            end else if TOBE.GetString('ARS_TYPERESSOURCE')='LOC' then
+            begin
+              TOBREf := TOBMOEXT;
+              ModeS := TgsMoext;
+              Nature := 'EXT';
+              Grid := GMoext;
+            end else if TOBE.GetString('ARS_TYPERESSOURCE')='MAT' then
+            begin
+              TOBREf := TOBRES;
+              ModeS := TgsRES;
+              Nature := 'RES';
+              Grid := GMAteriel;
+            end else if TOBE.GetString('ARS_TYPERESSOURCE')='ST' then
+            begin
+              TOBREf := TOBMOEXT;
+              ModeS := TgsMoext;
+              Nature := 'EXT';
+              Grid := GMoext;
+            end;
+            if TOBRef = nil then Exit;
+            //
+            TOBLC := TOBRef.FindFirst(['BCO_RESSOURCE','BCO_LINKEQUIPE'],[TOBE.GetString('ARS_RESSOURCE'),Equipe],false);
+            if TOBLC <> nil then
+            begin
+               UpdConsoFromLig (grid,TOBLC,TOBL);
+            end else
+            begin
+               AddConsoFromLig (Nature,TOBREf,TOBL,TOBE,ModeS,Grid,Equipe);
+            end;
+          end;
         end;
-        if TOBRef = nil then Exit;
-        //
-        TOBLC := TOBRef.FindFirst(['BCO_RESSOURCE','BCO_LINKEQUIPE'],[TOBE.GetString('ARS_RESSOURCE'),Equipe],false);
-        if TOBLC <> nil then
-        begin
-           UpdConsoFromLig (grid,TOBLC,TOBL);
-        end else
-        begin
-           AddConsoFromLig (Nature,TOBREf,TOBL,TOBE,ModeS,Grid,Equipe);
-        end;
-      end;
+      end else
+      begin
+        if not Ok_Equipe then TOBL.PutVALUE('MODIF', '-');
+        UpdatelesLignesEquipe (TOBL,Equipe);
+       end;
     end;
-  end else
-  begin
-    if not Ok_Equipe then TOBL.PutVALUE('MODIF', '-');
-    UpdatelesLignesEquipe (TOBL,Equipe);
   end;
+  
 end;
 
 
