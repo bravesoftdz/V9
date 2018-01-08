@@ -771,7 +771,9 @@ begin
     begin
        IndPro := Pos('PRO',stWhere);
        if ClientArechercher (G_CodeTiers,IndPro) then
+          //FV1 - 08/01/2018 : FS#2831 - JPG - Erreur en création de tiers via un devis
           CodeTiers := AGLLanceFiche ('GC', 'GCTIERS_RECH','T_TIERS='+G_CodeTiers.text+';NATUREAUXI=CLI' , '', stWhere)
+          //CodeTiers := AGLLanceFiche ('GC', 'GCTIERS_MUL','T_TIERS='+G_CodeTiers.text+';NATUREAUXI=CLI' , '', stWhere)
        else
           CodeTiers := G_CodeTiers.text;
     end;
