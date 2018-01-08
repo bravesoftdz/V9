@@ -917,7 +917,7 @@ begin
   else
     V_PGI.DispatchTT(6,taCreat,CodeArticle,'','DUPLICATION='+CodeArticle);
 
-  F.Close;
+  //F.Close;
 
 end;
 
