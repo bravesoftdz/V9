@@ -45,6 +45,8 @@ function GetRechRessource(G_CodeRessource: THCritMaskEdit;
 {$ENDIF EAGLSERVER}
 
 procedure LibelleRessource(CodeRess: string; var lib1, lib2: string);
+//FV1 : 09/01/2018 - FS#2840 - FLIPO - afficher l'adresse mail du responsable à l'édition du tableau de bord
+procedure EMailRessource(CodeRess: string; var Email : string);
 function ExisteRessource(Coderess: string): boolean;
 
 function ExisteLienSalarie(Slr: string; Rsc: string = ''): boolean;
@@ -425,24 +427,45 @@ Mots clefs ... : RESSOURCE
 *****************************************************************}
 
 procedure LibelleRessource(CodeRess: string; var lib1, lib2: string);
-var
-  qq: TQuery;
+var QQ : TQuery;
+    Req: string;
 begin
-  lib1 := 'SELECT ARS_LIBELLE,ARS_LIBELLE2 FROM RESSOURCE WHERE ARS_RESSOURCE="' + CodeRess + '"';
-  //QQ:=OpenSQL('SELECT ARS_LIBELLE,ARS_LIBELLE2 FROM RESSOURCE WHERE ARS_RESSOURCE="'+ CodeRess+'"',false);
-  QQ := OpenSQL(lib1, false);
+
+  lib1 := '';
+  lib2 := '';
+
+  Req := 'SELECT ARS_LIBELLE,ARS_LIBELLE2 FROM RESSOURCE WHERE ARS_RESSOURCE="' + CodeRess + '"';
+
+  QQ := OpenSQL(Req, false);
+
   if not QQ.EOF then
   begin
     lib1 := QQ.findField('ARS_LIBELLE').asString;
     lib2 := QQ.findField('ARS_LIBELLE2').asString;
-  end
-  else
-  begin
-    lib1 := '';
-    lib2 := '';
   end; // mcd 30/04/02
+
   ferme(QQ);
 end;
+//FV1 : 09/01/2018 - FS#2840 - FLIPO - afficher l'adresse mail du responsable à l'édition du tableau de bord
+procedure EMailRessource(CodeRess: string; var Email : string);
+var QQ : TQuery;
+    Req : String;
+begin
+
+  Email := '';
+
+  Req := 'SELECT ARS_EMAIL FROM RESSOURCE WHERE ARS_RESSOURCE="' + CodeRess + '"';
+
+  QQ := OpenSQL(Req, false);
+
+  if not QQ.EOF then
+  begin
+    Email := QQ.findField('ARS_EMAIL').asString;
+  end;
+
+  ferme(QQ);
+end;
+
 
 {***********A.G.L.***********************************************
 Auteur  ...... : MC DESSEIGNET
