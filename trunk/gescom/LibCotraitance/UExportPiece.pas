@@ -750,26 +750,33 @@ begin
 end;
 
 procedure TExportDocTOB.PutValeur(fTOB,sTOB : TOB);
-var qualif : string;
-    XX : WideString;
+var qualif  : string;
+    XX      : WideString;
+    OkLib   : Boolean;
 begin
+
+  OKLib := GetParamSocSecur('SO_BTLIBVSBN', False);
+
 	sTOB.putValue('REFLIGNE',fTOB.getValue('REFLIGNE'));
   sTOB.putValue('TYPELIGNE',fTOB.getValue('GL_TYPELIGNE'));
 
   if fTOB.getValue('GL_REFARTSAISIE') <> '' then sTOB.putValue('REFARTLIGNE',fTOB.getValue('GL_REFARTSAISIE'));
 
-  if fTOB.getValue('GL_LIBELLE') <> '' then sTOB.putValue('LIBELLELIGNE',fTOB.getValue('GL_LIBELLE'));
+  if fTOB.getValue('GL_LIBELLE') <> '' then sTOB.putValue('LIBELLELIGNE', fTOB.getValue('GL_LIBELLE'));
 
-  if not IsBlocNoteVide(ftexte,fTOB.getValue('GL_BLOCNOTE')) then
+  if not OKLib then
   begin
-    StringtoRich(fTexte,fTOB.getValue('GL_BLOCNOTE'));
-    XX := fTexte.lines.Text;
+    if not IsBlocNoteVide(ftexte,fTOB.getValue('GL_BLOCNOTE')) then
+    begin
+      StringtoRich(fTexte,fTOB.getValue('GL_BLOCNOTE'));
+      XX := fTexte.lines.Text;
 
-    // on enlève le retour à la ligne sur la dernière ligne s'il existe
-    if Copy(XX,Length(XX)-1,Length(XX)) = #$D#$A then
-      XX := Copy(XX,1,Length(XX)-2);
+      // on enlève le retour à la ligne sur la dernière ligne s'il existe
+      if Copy(XX,Length(XX)-1,Length(XX)) = #$D#$A then
+        XX := Copy(XX,1,Length(XX)-2);
 
-    sTOB.putValue('LIBELLELIGNE',XX);
+      sTOB.putValue('LIBELLELIGNE',XX);
+    end;
   end;
 
   sTOB.putValue('QTELIGNE',fTOB.getValue('GL_QTEFACT'));
