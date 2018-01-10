@@ -4869,6 +4869,7 @@ Var QualifP,PassP,LienP,NatureG,NatCpta,JalCpta,RefCP,Domaine,NatureJal : String
     TOBrepart : TOB;
     I : integer;
     LesMilliemes,TvaEncaissement : string;
+    ExePiece : string;
 //    DEV : Rdevise;
 BEGIN
 Result:=rcOk ; LastMsg:=-1 ; NbEches:=0 ; NbAcc:=0 ;
@@ -4876,12 +4877,12 @@ NatureG:=TOBPiece.GetValue('GP_NATUREPIECEG') ;
 Domaine:=TOBPiece.GetValue('GP_DOMAINE') ;
 FillChar(MM,Sizeof(MM),#0) ;
 MM.Etabl := TOBPiece.getString('GP_ETABLISSEMENT');
-
+ExePiece := CodeExo (TOBPiece.GetDateTime('GP_DATEPIECE'));
 if GetParamSocSecur('SO_GCDESACTIVECOMPTA',false) then exit; // SI pas de compta on sort
 LienP:=GetInfoParPiece(NatureG,'GPP_TYPEPASSCPTA') ;
 PassP:=GetInfoParPiece(NatureG,'GPP_TYPEECRCPTA') ; if ((PassP='') or (PassP='RIE')) then Exit ;
 
-if (Not NewPiece) and (OldEcr.Jal <> '') and (OldEcr.Num <> 0) then
+if (Not NewPiece) and (OldEcr.Jal <> '') and (OldEcr.Num <> 0) and (OldEcr.Exo = ExePiece) then
 begin
 	NumCpta:=OldEcr.Num;
   JalCpta := oldEcr.Jal;
@@ -4892,7 +4893,9 @@ begin
   MM.Simul:=QualifP ;
 end else
 begin
-  //
+  // ----
+  NewPiece := True;
+  // ----
   if LienP='DIF' then PassP:='SIM' ;
   {Passation différée --> passer en simu pour ne pas affecter les soldes et la numérotation}
   QualifP:='N' ; if PassP='PRE' then QualifP:='P' else if PassP='SIM' then QualifP:='S' ;
