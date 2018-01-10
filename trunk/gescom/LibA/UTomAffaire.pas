@@ -164,6 +164,7 @@ type
     Domaine         : THValComboBox;
     //
     BDUPLICATION    : TToolbarButton97;
+    BDELETE         : TToolbarButton97;
     //
     BFeuVert        : TToolbarButton97;
     BFeuOrange      : TToolbarButton97;
@@ -2268,6 +2269,14 @@ begin
 	   BDuplication 		    := TToolbarButton97(ecran.FindComponent('BDUPLICATION'));
   	 BDuplication.onclick := Duplication_OnClick;
   End;
+
+  //FV1 - 10/01/2018 : FS#2778 - VEODIS GROUP - Les affaires sont supprimables alors que l'annulation est refusé dans les droits
+  if Assigned(GetControl('BDelete')) then
+  Begin
+	   BDelete := TToolbarButton97(ecran.FindComponent('BDelete'));
+     //FV1 - 10/01/2018 : FS#2778 - VEODIS GROUP - Les affaires sont supprimables alors que l'annulation est refusé dans les droits
+     BDelete.visible := SuppAffaireAutorise;
+  end;
 
   TOBEtude := nil;
 
@@ -4536,6 +4545,9 @@ var
   statutaffaire: string;
   QQ: TQuery;
 begin
+
+  //FV1 - 10/01/2018 : FS#2778 - VEODIS GROUP - Les affaires sont supprimables alors que l'annulation est refusé dans les droits
+  If not SuppAffaireAutorise then Exit;
 
   // Test sur les tables que l'affaire n'est pas utilisée
   // modif BRL 240107 : contrôle effectué sur les consommations

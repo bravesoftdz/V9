@@ -10,6 +10,7 @@ Function AffichageValorisation : Boolean;
 Function AffichageFNF : Boolean;
 Function CreationAffaireAutorise : Boolean;
 Function ModifAffaireAutorise : Boolean;
+Function SuppAffaireAutorise : Boolean;
 
 Function JaiLeDroitTable (Table : String) : Boolean;
 Function AGLJaiLeDroitFiche (parms: array of variant; nb: integer) : Variant;
@@ -56,7 +57,10 @@ BEGIN
 Result := ExJaiLeDroitConcept ( cc35 , false);
 END;
 
-
+Function SuppAffaireAutorise : Boolean;
+BEGIN
+Result := ExJaiLeDroitConcept ( cc37 , false);
+END;
 
 
 // Gestion confidentialité des accès aux tables
