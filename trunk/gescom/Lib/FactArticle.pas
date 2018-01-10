@@ -28,6 +28,7 @@ function  FindTOBCataRow(TOBPiece, TOBCatalogu: TOB; ARow: integer): TOB;
 function  FindTOBArtSais(TOBArticles: TOB; RefSais: string): TOB;
 function  FindTOBCataSais(TOBCatalogu: TOB; RefCata, RefFour: string): TOB;
 function  ArticleAutorise(TOBPiece, TOBArticles: TOB; NaturePiece: string; ARow: integer): boolean;
+Function  ArticleEnStock (TOBPiece, TOBArticles: TOB; NaturePiece: string; ARow: integer) : boolean;
 function  ISLigneGerableCC(TOBPiece, TOBArticles: TOB; GereLot, GereSerie: boolean; Arow: integer): boolean;
 function  CreerTOBCata(TOBParent: TOB): TOB;
 function  InitTOBCata(TOBCatalogu: TOB; RefCata, RefFour: string): TOB;
@@ -156,6 +157,32 @@ begin
   Result := TOBCatalogu.FindFirst(['GCA_REFERENCE', 'GCA_TIERS'], [RefCata, RefFour], False);
 end;
 
+//FV1 - 10/01/2018 : FS#2806 - DELABOUDINIERE - Avertissement si utilisation d'un article non tenu en stock en saisie livraison
+Function ArticleEnStock(TOBPiece, TOBArticles: TOB; NaturePiece: string; ARow: integer) : boolean;
+Var TOBA      : TOB;
+    RefUnique : string;
+    IsStock   : Boolean;
+Begin
+
+  Result := True;
+
+  if (NaturePiece <> 'LBT') then Exit;
+
+  TOBA := FindTOBArtRow(TOBPiece, TOBArticles, ARow);
+  if TOBA = nil then Exit;
+
+  RefUnique := TOBA.GetValue('GA_ARTICLE');
+  if RefUnique = '' then Exit;
+
+  IsStock := (TOBA.GetValue('GA_TENUESTOCK') = 'X');
+  if (NaturePiece = 'LBT') And (Not IsStock) then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+end;
+
 function ArticleAutorise(TOBPiece, TOBArticles: TOB; NaturePiece: string; ARow: integer): boolean;
 var TOBA, TOBNat, TOBG: TOB;
   RefUnique: string;
@@ -166,17 +193,23 @@ begin
   if TOBA = nil then Exit;
   RefUnique := TOBA.GetValue('GA_ARTICLE');
   if RefUnique = '' then Exit;
+
   isFerme := (TOBA.GetValue('GA_FERME') = 'X');
   if not isFerme then Exit;
+  //
+
   // FQ Mode 10371 AC
   if TOBA.GetValue('GA_STATUTART')='DIM' then
   begin
-       RefUnique := CodeArticleUnique2(TOBA.GetValue('GA_CODEARTICLE'),'') ;
+    RefUnique := CodeArticleUnique2(TOBA.GetValue('GA_CODEARTICLE'),'') ;
   end ;
+
   TOBNat := VH_GC.TOBParPiece.FindFirst(['GPP_NATUREPIECEG'], [NaturePiece], False);
   if TOBNat = nil then Exit;
+
   TOBG := TOBNat.FindFirst(['GAP_NATUREPIECEG', 'GAP_ARTICLE'], [NaturePiece, RefUnique], False);
   if TOBG <> nil then Result := (TOBG.GetValue('GAP_SUSPENSION') = 'X') else Result := False;
+
 end;
 
 function ISLigneGerableCC(TOBPiece, TOBArticles: TOB; GereLot, GereSerie: boolean; Arow: integer): boolean;

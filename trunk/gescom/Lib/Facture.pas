@@ -12720,7 +12720,7 @@ begin
         begin
           if TOBArt.GetValue('GA_TENUESTOCK') = 'X' then RechArt := traAucun;
           CodeArticle := TOBArt.GetValue('GA_CODEARTICLE');
-          StatutArt := TOBArt.GetValue('GA_STATUTART');
+          StatutArt   := TOBArt.GetValue('GA_STATUTART');
         end else
         begin
           QQ := OpenSql ('SELECT A.*,AC.*,N.BNP_TYPERESSOURCE,N.BNP_LIBELLE FROM ARTICLE A '+
@@ -14340,7 +14340,8 @@ begin
         HPiece.Execute(2, Caption, '');
         VideCodesLigne(TOBPiece, ARow);
         InitialiseTOBLigne(TOBPiece, TOBTiers, TOBAffaire, ARow);
-      end else if (TOBL.GetValue('GL_TYPEREF') = 'CAT') or (TOBL.GetValue('GL_ENCONTREMARQUE') = 'X') then //Catalogue
+      end
+      else if (TOBL.GetValue('GL_TYPEREF') = 'CAT') or (TOBL.GetValue('GL_ENCONTREMARQUE') = 'X') then //Catalogue
       begin
         UpdateCataLigne(ARow, False, False, 1);
         StCellCur := GS.Cells[ACol, ARow];
@@ -15653,6 +15654,13 @@ begin
       OkArt := IdentifierArticle(ACol, ARow, Cancel, true, False);  //Procédure appel mul recherche
       if ((OkArt) and (not Cancel)) then
       begin
+        //FV1 : 10/01/2018 - FS#2806 - DELABOUDINIERE - Avertissement si utilisation d'un article non tenu en stock en saisie livraison
+        if not ArticleEnStock(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
+        Begin
+          PGIError('L''article n''est pas tenu en Stock !', Caption);
+          VideCodesLigne(TOBPiece, ARow);
+          InitialiseTOBLigne(TOBPiece, TOBTiers, TOBAffaire, ARow);
+        end;
         if not ArticleAutorise(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
         begin
           HPiece.Execute(2, Caption, '');

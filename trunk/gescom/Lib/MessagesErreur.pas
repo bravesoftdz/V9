@@ -626,7 +626,7 @@ Const MSG_FactTitre: array[1..30] of string = ( // = HTitres
       {30}  ,'Changement du régime fiscal de la pièce'
       );
 
-      MSG_FactPiece: array[1..83] of string = ( // = HPiece
+      MSG_FactPiece: array[1..84] of string = ( // = HPiece
       {1}   '1;?caption?;Il n''existe pas de tarif pour cet article correspondant à la devise de la pièce !;E;O;O;O;'
       {2}  ,'2;?caption?;Saisie impossible. Il n''existe pas de tarif pour cet article correspondant à la devise de la pièce !;E;O;O;O;'
       {3}  ,'3;?caption?;Saisie impossible. Cet article fermé n''est pas autorisé pour cette nature de pièce;E;O;O;O;'
@@ -710,6 +710,7 @@ Const MSG_FactTitre: array[1..30] of string = ( // = HTitres
       {81}  ,'81;?caption?;L''article %s n''existe pas;E;O;O;O;'
       {82}  ,'82;?caption?;Choix impossible. La nomenclature d''assemblage n''a pas de composants;E;O;O;O;'
       {83}  ,'83;?caption?;La date de pièce n''est pas comprise entre les dates limites des paramètres société !;E;O;O;O;'
+      {84}  ,'84;?caption?;L''article n''est pas tenu en Stock !;E;O;O;O;'
          );
 
       MSG_FactAveugle: array[1..5] of String = ( // = HAveugle
