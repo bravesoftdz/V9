@@ -3117,6 +3117,7 @@ var QQ          : Tquery;
   if (TheAction=TaCreat) then
   Begin
     If (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'FBT;ABT;FBP;ABP;')>0) then TypeSaisie := 'ACH'
+    //FV1 - 10/01/2018 - FS#2844 - TEAM - Autoriser la saisie des contre-études sur devis non accepté
     Else if (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'BCE') > 0) then TypeSaisie := 'BCE'
     Else If (Venteachat = 'ACH') then TypeSaisie := Venteachat;
     //

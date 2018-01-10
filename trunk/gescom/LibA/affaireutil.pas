@@ -3599,6 +3599,7 @@ begin
         result := False;
       end;
     end
+    //FV1 - 10/01/2018 - FS#2844 - TEAM - Autoriser la saisie des contre-études sur devis non accepté
     else if TypeSaisie = 'BCE' then
     begin
       if not GetParamSocSecur('SO_GENCESURDEVNACPT', False) then
