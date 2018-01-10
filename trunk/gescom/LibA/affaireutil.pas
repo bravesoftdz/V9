@@ -3599,6 +3599,14 @@ begin
         result := False;
       end;
     end
+    else if TypeSaisie = 'BCE' then
+    begin
+      if not GetParamSocSecur('SO_GENCESURDEVNACPT', False) then
+      begin
+        PGIBox (TraduireMemoire('Saisie non autorisée. Ce Chantier n''est pas accepté.'),TitleMsg);
+        Result := False;
+      end;
+    end
     else
     begin
       if GetParamSocSecur('SO_BTINTERDIREACHATS',False) then

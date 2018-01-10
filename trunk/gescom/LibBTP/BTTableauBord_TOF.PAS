@@ -96,7 +96,7 @@ type
     Etablissement : string;
     CodeChantier  : String;
     Apporteur     : string;
-    Responsable : String;
+    Responsable   : String;
     //
     fModeleAnaXls : String;
     //
