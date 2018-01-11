@@ -27,6 +27,8 @@ Procedure CreationVerrouValidation;
 procedure DeverouilleValidation (Typedoc : string);
 Procedure SupprimeBlocageDoc(NumGuid, TypeDoc, NumDoc : string);
 
+function CreationBlocage(TypeDoc, NumDoc : string; Var UserDoc : String) : String;
+Function CtrlBlocageDelDoc(TypeDoc, NumDoc : string; Var UserDoc : String) : String;
 Function BlocageDoc(TypeDoc, NumDoc : string; Var UserDoc : String) : String;
 Function DeverrouillageEnreg : Boolean;
 Function ForceDeblocageDoc(TypeDoc, NumDoc : string) : String;
@@ -45,6 +47,65 @@ Function CalculGuid : String;
 Begin
 
     Result := AGLGetGUID;
+
+end;
+
+
+//Function permettant de créer une ligne de blocage dans le cas de plusieurs utilisateurs sur une même pièce
+Function CreationBlocage(TypeDoc, NumDoc : string; Var UserDoc : String) : String;
+Var Req			: String;
+    DateDay : TdateTime;
+    QBloc   : TQuery;
+Begin
+
+  //if not VerrouillageEnreg then Exit;
+
+  //controle et blocage du document par N° GUID
+  Req := 'SELECT * FROM BTBLOCAGE WHERE BTB_TYPE="' + TypeDoc;
+  Req := Req + '" AND BTB_IDDOC="' + NumDoc + '" AND BTB_GUID<>"VALIDATION"';
+  QBloc := OpenSql (Req, true);
+
+  //Si aucun blocage sur le document cela signifie que l'on continue...
+  if Not QBloc.Eof then
+  begin
+    Result := CalculGuid;
+    DateDay := Now;
+    //si le blocage qui existe n'est pas pour cet utilisateur on créer une autre ligne afin
+    //de gérer en cas de sortie du premier sans déconnexion du deuxième.
+    if Qbloc.findfield('BTB_USER').asString <> V_PGI.User then
+    begin
+      Req := 'INSERT INTO BTBLOCAGE (BTB_GUID, BTB_TYPE, BTB_IDDOC, BTB_USER, BTB_DATECREATION, BTB_HEURECREATION) ';
+      Req := Req + 'VALUES ("' + Result + '","'  + TypeDoc + '","' + NumDoc + '","'  + V_PGI.User + '","' + UsDateTime(DateDay) + '","' + USDateTime(DateDay) + '")';
+      ExecuteSQL(Req);
+    end;
+  end;
+
+  Ferme(QBloc);
+
+end;
+
+Function CtrlBlocageDelDoc(TypeDoc, NumDoc : string; Var UserDoc : String) : String;
+Var Req			: String;
+    QBloc   : TQuery;
+    Q		    : TQuery;
+Begin
+  Result := 'ERREUR';
+
+  //controle et blocage du document par N° GUID
+  Req := 'SELECT * FROM BTBLOCAGE WHERE BTB_TYPE="' + TypeDoc;
+  Req := Req + '" AND BTB_IDDOC="' + NumDoc + '" AND BTB_GUID<>"VALIDATION"';
+  Req := Req + '  AND BTB_USER <> "' + UserDoc + '"';
+  QBloc := OpenSql (Req, true);
+
+  if not QBloc.Eof then
+  Begin
+    Result := 'BLOQUE';
+    Q := OpenSQL('SELECT US_ABREGE FROM UTILISAT WHERE US_UTILISATEUR="' + QBloc.FindField('BTB_USER').AsString + '"', False);
+    if not Q.EOF then UserDoc := Q.FindField('US_ABREGE').AsString;
+    Ferme(Q);
+  end;
+
+  Ferme(QBloc);
 
 end;
 
@@ -73,12 +134,12 @@ Begin
        ExecuteSQL(Req);
        end
     Else
-       Begin
-       	Result := 'BLOQUE';
-    		Q := OpenSQL('SELECT US_ABREGE FROM UTILISAT WHERE US_UTILISATEUR="' + QBloc.FindField('BTB_USER').AsString + '"', False);
-    		if not Q.EOF then UserDoc := Q.FindField('US_ABREGE').AsString;
-    		Ferme(Q);
-       end;
+    Begin
+      Result := 'BLOQUE';
+      Q := OpenSQL('SELECT US_ABREGE FROM UTILISAT WHERE US_UTILISATEUR="' + QBloc.FindField('BTB_USER').AsString + '"', False);
+      if not Q.EOF then UserDoc := Q.FindField('US_ABREGE').AsString;
+      Ferme(Q);
+    end;
 
     Ferme(QBloc);
 
@@ -159,8 +220,7 @@ Begin
 
   	ExecuteSql('DELETE FROM BTBLOCAGE WHERE BTB_TYPE="' + TypeDoc + '" AND BTB_IDDOC="' + Numdoc + '"');
 
-    if not DeverrouillageEnreg then
-       Result := 'ERREUR';
+    if not DeverrouillageEnreg then Result := 'ERREUR';
 
 end;
 
