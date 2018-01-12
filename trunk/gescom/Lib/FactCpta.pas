@@ -278,7 +278,7 @@ function IsCompteTaxeSurEncaissement(LeCompte : string) : boolean;
 begin
   Result := false;
   if LeCompte = '' then exit;
-  Result := ExisteSQL('SELECT G_GENERAL FROM GENERAUX WHERE G_GENERAL = "' + LeCompte + '" AND G_TVAENCAISSEMENT = "X"');
+  Result := ExisteSQL('SELECT G_GENERAL FROM GENERAUX WHERE G_GENERAL = "' + LeCompte + '" AND G_TVASURENCAISS = "X"');
 end;
 
 procedure CumulTVASurEncaissement(LeCompte : string; TobL : TOB);

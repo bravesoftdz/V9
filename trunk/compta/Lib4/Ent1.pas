@@ -59,6 +59,9 @@ uses
      {$IFNDEF NOVH}
      {$IFNDEF HVCL}
      EntPGI,
+     // MODIF LS//
+     ADODB,
+     // ---
 //  BBI Web services
      {$ENDIF HVCL}
      {$ENDIF NOVH}
@@ -7401,44 +7404,9 @@ begin
         begin
           Req:=CleSequence(TypeSouche,CodeSouche,DD,lQuery.FindField('SH_SOUCHEEXO').AsString='X');
           try
-            if ExistSequence(Req,Entite) then
-            begin
-              if Nombre=0 then
-                Result:=ReadCurrentSequence(Req,Entite)
-              else
-                Result:=GetNextSequence(Req,Nombre,Entite);
-            end else
-            begin
-              if ((lQuery.FindField('SH_SOUCHEEXO').AsString='X') and (CodeExo(DD)=GetSuivant.Code)) then
-                Num:=lQuery.FindField('SH_NUMDEPARTS').AsInteger
-              else Num:=lQuery.FindField('SH_NUMDEPART').AsInteger;
-              try
-                CreateSequence(Req,Num+Nombre,1,Entite);
-                Result:=Num+Nombre;
-              except
-                raise Exception.Create(traduirememoire('Problème de création du compteur de séquence'));
-              end;
-            end;
+            Result:=GetNextSequence(Req,Nombre,Entite);
           except
             raise Exception.Create(traduirememoire('Problème d''accès au compteur de séquence'));
-          end;
-        end else begin
-          if ((lQuery.FindField('SH_SOUCHEEXO').AsString='X') and (CodeExo(DD)=GetSuivant.Code)) then begin
-            Num:=lQuery.FindField('SH_NUMDEPARTS').AsInteger;
-            if Nombre=0 then Result:=Num
-            else begin
-              Req:='UPDATE SOUCHE SET SH_NUMDEPARTS='+IntToStr(Num+Nombre)+wReq;
-              ExecuteSql(Req);
-              Result:=Num+Nombre;
-            end;
-          end else begin
-            Num:=lQuery.FindField('SH_NUMDEPART').AsInteger;
-            if Nombre=0 then Result:=Num
-            else begin
-              Req:='UPDATE SOUCHE SET SH_NUMDEPART='+IntToStr(Num+Nombre)+wReq;
-              ExecuteSql(Req);
-              Result:=Num+Nombre;
-            end;
           end;
         end;
       end;
