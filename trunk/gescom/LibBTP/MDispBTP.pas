@@ -139,6 +139,7 @@ uses Facture,(*Souche,*)dimension,UTomPiece, Traduc
      ,FactPiece
      ,UdroitUtilisation
      ,UTraiteTables
+     ,ADODB
             ;
 {$R *.DFM}
 
@@ -236,6 +237,8 @@ var stParamsocAffiche, stParamsocVire : String;
     //StatutAffaire : string;
     stMessage : String;
     Souche    : string;
+    Cnx : TADOConnection;
+    TheChaine : string;
 BEGIN
 	if VersionInterne then V_PGI.VersionDemo:=false;
     ReinitTOBAffaires ; // Eviter les effets de bords
@@ -416,6 +419,7 @@ BEGIN
           end;
 
           SPIGAOOBJ.MonteToaster;
+
         END ;
    11 : BEGIN
         //uniquement en line

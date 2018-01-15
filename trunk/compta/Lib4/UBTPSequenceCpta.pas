@@ -2,7 +2,7 @@ unit UBTPSequenceCpta;
 
 interface
 uses uTob, HEnt1, HCtrls, StdCtrls, Ent1,
-     DB,SysUtils,
+     DB,SysUtils,ADODB,Forms,
     {$IFNDEF DBXPRESS} dbtables {$ELSE} uDbxDataSet {$ENDIF}
 ;
 // COMPTA
@@ -108,10 +108,13 @@ begin
   end;
 end;
 
+// --- Ancienne gestion du numéro de compteur
+(*
 function GetNextSequence(Cle: string; nombre : integer; Entity : integer=0) : integer;
 var II ,lastValue,Nbr,Increment: Integer;
     Okok : Boolean;
     SQL : string;
+    QQ : TQuery;
     // 50 tentatives maximum avant de sortir en erreur
 begin
   Result := -1;
@@ -149,6 +152,70 @@ begin
     end;
   until okOk
 end;
+*)
+
+function GetNextSequence(Cle: string; nombre : integer; Entity : integer=0) : integer;
+var CNX : TADOConnection;
+    QQ : TADOQuery;
+    NbRec : integer;
+    SQL : string;
+begin
+  Result := -1;
+  CNX := TADOConnection.Create(application);
+  Cnx.ConnectionString :=DBSOC.ConnectionString;
+  CNX.LoginPrompt := false;
+  TRY
+    CNX.Connected := True;
+    Cnx.BeginTrans;
+    TRY
+      if wExistTable ('CPSEQCORRESP') then
+      begin
+        SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR=(DSQ_VALEUR+DSQ_INCREMENT) WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER='''+Cle+''')';
+      end else
+      begin
+        SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR=DSQ_VALEUR+DSQ_INCREMENT WHERE DSQ_CODE='''+Cle+'''';
+      end;
+      //
+      CNX.Execute(SQl,NbRec);
+      //
+      QQ := TADOQuery.Create(Application);
+      QQ.Connection := CNX;
+      if wExistTable ('CPSEQCORRESP') then
+      begin
+        SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER='''+Cle+''')';
+      end else
+      begin
+        SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE= WHERE DSQ_CODE='''+Cle+'''';
+      end;
+      QQ.SQL.Text := SQL;
+      QQ.Prepared := True;
+      QQ.Open;
+      TRY
+        if not QQ.Eof then
+        begin
+          Result := QQ.Fields[0].AsInteger;
+        end;
+      FINALLY
+        QQ.Close;
+        QQ.Free;
+      end;
+      CNX.CommitTrans;
+    EXCEPT
+      on E:Exception do
+      begin
+        Application.MessageBox (PAnsiChar('Erreur '+#10#13+E.message),'') ;
+        CNX.RollbackTrans;
+        Raise;
+      end;
+    end;
+  finally
+    CNX.Close;
+    Cnx.Free;
+  end;
+
+end;
+
+
 
 function CreateSequence(Cle: string; valeur : integer; xx : integer=0; entity : integer=0) : Boolean;
 
