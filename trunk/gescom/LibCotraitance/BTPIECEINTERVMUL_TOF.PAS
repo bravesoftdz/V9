@@ -110,6 +110,14 @@ begin
   BInsert.OnClick := OnInsert;
   BMODIFIER.OnClick := BmodifierClick;
   BDelete.OnClick := BdeleteClick;
+  //
+  //FV1 - 17/01/2018 : FS#2798 - TESTS BL : en affectation ST dans devis, Erreur si clic sur la loupe et pas de ST
+  iF TOBSSTRAIT.Detail.count = 0 THEN
+  Begin
+    BMODIFIER.Visible := False;
+    BDelete.Visible   := False;
+  end;
+
 end ;
 
 procedure TOF_BTPIECEINTERVMUL.OnClose ;
@@ -152,18 +160,36 @@ begin
   TheTOB := nil;
   if TTOB.GetValue('BPI_TIERSFOU')='' then TTOB.Free;
   AfficheLaGrille;
+  //
+  //FV1 - 17/01/2018 : FS#2798 - TESTS BL : en affectation ST dans devis, Erreur si clic sur la loupe et pas de ST
+  iF TOBSSTRAIT.Detail.count <> 0 THEN
+  Begin
+    BMODIFIER.Visible := True;
+    BDelete.Visible   := True;
+  end;
+
 end;
 
 procedure TOF_BTPIECEINTERVMUL.AffichelaGrille;
 var Indice : integer;
 begin
-  GS.RowCount := TOBSSTRAIT.detail.Count +1; if GS.RowCount < 2 then GS.RowCount := 2;
+
+  GS.RowCount := TOBSSTRAIT.detail.Count +1;
+
+  if GS.RowCount < 2 then
+  begin
+    GS.RowCount := 2;
+  end;
+
 	for Indice := 0 to TOBSSTRAIT.detail.Count -1 do
   begin
   	AfficheLaLigne (Indice);
   end;
+
   GS.row := 1;
+
   TFVierge(ecran).HMTrad.ResizeGridColumns (GS);
+
 end;
 
 
@@ -251,12 +277,15 @@ end;
 
 procedure TOF_BTPIECEINTERVMUL.BmodifierClick(Sender: TObject);
 begin
+
   TheTOB := TOBSSTRAIT.detail[GS.row-1];
   TheTOB.Data := TOBSSTRAIT;
   AGLLanceFiche('BTP','BTPIECEINTERV','','','ACTION=MODIFICATION');
   TheTOB := nil;
   TOBSSTRAIT.Data := nil;
+
   AfficheLaGrille;
+
 end;
 
 procedure TOF_BTPIECEINTERVMUL.BdeleteClick(Sender: Tobject);
@@ -272,6 +301,14 @@ begin
   begin
     PGIError('IMPOSSIBLE : Ce sous-traitant est affecté dans le document.',Ecran.caption);
   end;
+  //
+  //FV1 - 17/01/2018 : FS#2798 - TESTS BL : en affectation ST dans devis, Erreur si clic sur la loupe et pas de ST
+  iF TOBSSTRAIT.Detail.count = 0 THEN
+  Begin
+    BMODIFIER.Visible := False;
+    BDelete.Visible   := False;
+  end;
+
 end;
 
 function TOF_BTPIECEINTERVMUL.AssignedSSTrait(TOBT: TOB): boolean;

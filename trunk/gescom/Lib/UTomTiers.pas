@@ -766,7 +766,8 @@ begin
     else
         SetControlVisible ('GB_RESSOURCE' , False);
 {$IFNDEF CHR}
-    if not VH_GC.GCIfDefCEGID then
+    if not VH_GC.GCIfDefCEGID then    
+
     begin
 {$IFDEF EAGLCLIENT}
       if not (ctxGCAFF in V_PGI.PGIContexte) then
@@ -3102,23 +3103,22 @@ if client_particulier = TRUE then
             begin
             if (pop.items[i].name='MnPieceCours') then pop.items[i].visible:=False;
             if (pop.items[i].name='MnArticleCom') then pop.items[i].visible:=False;
-            if (pop.items[i].name='MnJustif') then pop.items[i].visible:=False;
-            if (pop.items[i].name='MnVteCli') then pop.items[i].visible:=True;
-            if (pop.items[i].name='MnArt') then pop.items[i].visible:=True;
-            if (pop.items[i].name='MnWeb') then pop.items[i].enabled:=False;
+            if (pop.items[i].name='MnJustif')     then pop.items[i].visible:=False;
+            if (pop.items[i].name='MnVteCli')     then pop.items[i].visible:=True;
+            if (pop.items[i].name='MnArt')        then pop.items[i].visible:=True;
+            if (pop.items[i].name='MnWeb')        then pop.items[i].enabled:=False;
             end else
             begin                                     // particuliers pour GESCOM
             if (pop.items[i].name='MnPieceCours') and (stNatureAuxi<>'CON') then
                pop.items[i].visible:=True;
             if not (ctxAffaire in V_PGI.PGIContexte) then
-               if (pop.items[i].name='MnArticleCom') and (stNatureAuxi<>'CON') then
-               pop.items[i].visible:=True;
+               if (pop.items[i].name='MnArticleCom') and (stNatureAuxi<>'CON') then pop.items[i].visible:=True;
             // Modifs JT 09/09/2003 - eQualité n° 10331
             //if (pop.items[i].name='MnJustif') then pop.items[i].visible:=True;
-            if (pop.items[i].name='MnJustif') then pop.items[i].visible:=False;
-            if (pop.items[i].name='MnVteCli') then pop.items[i].visible:=False;
-            if (pop.items[i].name='MnArt') then pop.items[i].visible:=False;
-            if (pop.items[i].name='MnWeb') then pop.items[i].enabled:=False;
+            if (pop.items[i].name='MnJustif')     then pop.items[i].visible:=False;
+            if (pop.items[i].name='MnVteCli')     then pop.items[i].visible:=False;
+            if (pop.items[i].name='MnArt')        then pop.items[i].visible:=False;
+            if (pop.items[i].name='MnWeb')        then pop.items[i].enabled:=False;
             end;
         end;
     if (ctxMode in V_PGI.PGIContexte) then SetControlVisible('BPOP2MENU', False) ;
