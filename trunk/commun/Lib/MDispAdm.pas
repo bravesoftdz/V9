@@ -490,8 +490,8 @@ begin
 
   Copyright := '© Copyright ' + Apalatys;
   V_PGI.NumVersion := '9.1' ;
-  V_PGI.NumBuild := IntToStr(V_PGI.NumVersionBase) + '.148';
-  V_PGI.DateVersion := EncodeDate(2017, 12, 14) ;
+  V_PGI.NumBuild := IntToStr(V_PGI.NumVersionBase) + '.149';
+  V_PGI.DateVersion := EncodeDate(2018,01,18) ;
 
   V_PGI.LaSerie := S5;
 
