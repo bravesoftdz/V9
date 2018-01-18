@@ -109,8 +109,8 @@ Const CodeISOFR = 'FR' ; //XMG 14/07/03
                  'BLF_MTDEJAFACT|N;'+
                  'BLF_POURCENTAVANC;'+
                  'BLF_MTSITUATION;'+
-                 'POURCENTMARG|N;'+
-                 'POURCENTMARQ|N;'+
+                 'POURCENTMARG|O;'+
+                 'POURCENTMARQ|O;'+
                  'GLC_MTMOPA|N;'+
                  'GLC_MTFOUPA|N;'+
                  'GLC_MTINTPA|N;'+
