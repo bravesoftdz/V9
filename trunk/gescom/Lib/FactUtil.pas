@@ -3068,6 +3068,7 @@ begin
     TOBL.PutValue('GL_LINEAIRE',        TOBA.GetValue('GA_LINEAIRE'));
     TOBL.PutValue('GL_HEURE',           TOBA.GetValue('GA_HEURE'));
     TOBL.PutValue('GL_QUALIFQTESTO',    TOBA.GetValue('GA_QUALIFUNITESTO'));
+    TOBL.PutValue('GL_COEFCONVQTE',     TOBA.GetValue('GA_COEFCONVQTEACH'));
     TOBL.PutValue('GL_COEFCONVQTEVTE',  TOBA.GetValue('GA_COEFCONVQTEVTE'));
     TOBL.PutValue('GL_QUALIFQTEVTE',    TOBA.GetValue('GA_QUALIFUNITEVTE'));
     TOBL.PutValue('GL_QUALIFQTEACH',    TOBA.GetValue('GA_QUALIFUNITEACH'));
