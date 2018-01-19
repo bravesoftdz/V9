@@ -995,6 +995,7 @@ begin
       //
       TOBLOC.SetDouble('GL_QTERESTE', Qte);
       TOBLOC.SetDouble('GL_QTESTOCK', Qte);
+      TOBLOC.SetDouble('GL_QTEFACT', Qte);
       // --- GUINIER ---
       TOBLOC.SetDouble('GL_MTRESTE', TOBLOC.GetDouble('GL_MONTANTHTDEV'));
     end;
