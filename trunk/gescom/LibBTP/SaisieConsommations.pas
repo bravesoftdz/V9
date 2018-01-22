@@ -4414,7 +4414,6 @@ begin
 
   if result then
   begin
-    TOBL.putValue('BCO_RESSOURCE',trim(valeur));
 	  ChargeResource (Valeur);
     // -----------
     if (OkSaisEquipe) and
@@ -4426,6 +4425,25 @@ begin
       TOBL.putValue('BCO_LINKEQUIPE',TOBRessource.GetString('ARS_EQUIPERESS')+';'+DateTimeToStr(Now));
     end;
     // -----------
+    //
+    if TOBL.GetValue('BCO_RESSOURCE') <> Trim(valeur) then
+    Begin
+      TOBL.PutValue('MODIF', 'X');
+      TOBL.PutValue('TYPEMODIF', 'Q');
+    end
+    else
+    Begin
+      if Action = TaCreat then
+      begin
+        TOBL.PutValue('MODIF', 'X');
+        TOBL.PutValue('TYPEMODIF', 'Q');
+      end
+      else
+        TOBL.PutValue('MODIF', '-');
+    end;
+
+    TOBL.putValue('BCO_RESSOURCE', trim(valeur));
+    result := true;
   end;
 
 end;
@@ -4757,7 +4775,15 @@ begin
     TOBL.PutValue('TYPEMODIF', 'Q');
   end
   else
-    TOBL.PutValue('MODIF', '-');
+  Begin
+    if Action = TaCreat then
+    begin
+      TOBL.PutValue('MODIF', 'X');
+      TOBL.PutValue('TYPEMODIF', 'Q');
+    end
+    else
+      TOBL.PutValue('MODIF', '-');
+  end;
 
   TOBL.PutValue('BCO_QUANTITE',Valeur (TheValeur));
   result := true;
@@ -6964,10 +6990,11 @@ begin
     	if LigneFromPieces(TOBLigne) and (Acol <> G_LIBELLE) and (Acol <> G_PHASE) then AfficheLaLigne (TOBLigne,Grille,stColListe,Arow); // modif BRL 150609 : on autorise tjs la modif du libelle et de la phase
     //Modif FV pour passage qté grille en qté à facturer qualque soit l'onglet de saisie (19062007)
     if ACol = G_QTE then
-       Begin
-       QTEFACTURE.Text := ZoneGrille;
-       TOBLigne.putvalue('BCO_QTEFACTUREE', QTEFACTURE.text);
-       end;
+    Begin
+      QTEFACTURE.Text := ZoneGrille;
+      TOBLigne.putvalue('BCO_QTEFACTUREE', QTEFACTURE.text);
+    end;
+
     if TheMode = TgsMO then
     begin
     end
