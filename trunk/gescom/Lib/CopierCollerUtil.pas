@@ -995,6 +995,7 @@ begin
       //
       TOBLOC.SetDouble('GL_QTERESTE', Qte);
       TOBLOC.SetDouble('GL_QTESTOCK', Qte);
+      //FV1 - 19/01/2018 - FS#2877 - SCHREIBER - Copier/coller Récupère la valeur de la quantité de ligne au lieu de 1
       TOBLOC.SetDouble('GL_QTEFACT', Qte);
       // --- GUINIER ---
       TOBLOC.SetDouble('GL_MTRESTE', TOBLOC.GetDouble('GL_MONTANTHTDEV'));
