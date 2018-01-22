@@ -16026,6 +16026,8 @@ end;
 procedure TFFacture.ZoomRepres(Repres: string);
 var Crits: string;
 begin
+
+  //FS#2835 - Si présence d'un contact dans la Commande, on a "Voir commercial" par la loupe
   if BZoomRessource.Enabled then
   BEGIN
   	crits := '';
@@ -17536,6 +17538,7 @@ end;
 
 procedure TFFacture.BZoomCommercialClick(Sender: TObject);
 begin
+  //FS#2835 - Si présence d'un contact dans la Commande, on a "Voir commercial" par la loupe
   if BZoomRessource.Enabled then
     ZoomRepres(GP_RESSOURCE.Text)
   else
