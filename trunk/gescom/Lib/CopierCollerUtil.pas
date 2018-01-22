@@ -1140,6 +1140,11 @@ begin
   TOBOO.PutValue('BLO_ARTICLE',     TOBArt.getValue('GA_ARTICLE'));
   TOBOO.PutValue('BLO_ORDRECOMPO',  1);
   RenseigneTOBOuv(TOBpiece,TOBOO,   TOBLigneDoc,TOBART,Libelle,DEV);
+  //
+  //FV1 : 22/01/2018 - FS#2886 - TREUIL - Unité de facturation non conservée suite à copie d'une ligne dans sous-détail d'ouvrage
+  TOBOO.PutValue('BLO_QUALIFQTEVTE',TOBI.GetValue('GL_QUALIFQTEVTE'));
+  TOBOO.PutValue('BLO_QUALIFQTESTO',TOBI.GetValue('GL_QUALIFQTESTO'));
+  //
   TOBOO.putValue('BLO_REFARTSAISIE',TOBLigneDoc.getValue('GL_REFARTSAISIE'));
   TOBOO.PutValue('BLO_COMPOSE',     TOBOR.getValue('BLO_COMPOSE')) ;
   TOBOO.Putvalue('BLO_NOMENCLATURE',TOBOR.getValue('BLO_NOMENCLATURE')) ;

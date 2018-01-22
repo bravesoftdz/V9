@@ -361,10 +361,10 @@ begin
   if TobArticle <> nil then
   begin
     // Modif BTP
-    TOBOuv.PutValue('BLO_TENUESTOCK',TobArticle.GetValue('GA_TENUESTOCK'));
+    TOBOuv.PutValue('BLO_TENUESTOCK',  TobArticle.GetValue('GA_TENUESTOCK'));
     TOBOuv.PutValue('BLO_QUALIFQTEVTE',TobArticle.GetValue('GA_QUALIFUNITEVTE'));
     TOBOuv.PutValue('BLO_QUALIFQTESTO',TobArticle.GetValue('GA_QUALIFUNITESTO'));
-    TOBOuv.PutValue('BLO_PRIXPOURQTE',TobArticle.GetValue('GA_PRIXPOURQTE'));
+    TOBOuv.PutValue('BLO_PRIXPOURQTE', TobArticle.GetValue('GA_PRIXPOURQTE'));
     MTPAF := TobArticle.GetValue('GA_PAHT');
     TOBOuv.PutValue('BLO_PMAP',TobArticle.GetValue('GA_PMAP'));
 
