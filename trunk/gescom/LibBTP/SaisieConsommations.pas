@@ -4672,7 +4672,10 @@ begin
   Begin
     TOBL.PutValue('MODIF', 'X');
     TOBL.PutValue('TYPEMODIF', 'P');
-  end;
+  end
+  else
+    TOBL.PutValue('MODIF', '-');
+
 
   if IsExistePhaseAffaire (TOBL.GetValue('BCO_AFFAIRE'),valeur) then
      TOBL.PutValue('BCO_PHASETRA',valeur)
@@ -4692,7 +4695,10 @@ begin
   Begin
     TOBL.PutValue('MODIF', 'X');
     TOBL.PutValue('TYPEMODIF', 'X');
-  end;
+  end
+  Else
+    TOBL.PutValue('MODIF', '-');
+
 
   TOBL.PutValue('BCO_MONTANTPR', valeur(TheValeur));
 
@@ -4724,7 +4730,10 @@ begin
   Begin
     TOBL.PutValue('MODIF', 'X');
     TOBL.PutValue('TYPEMODIF', 'X');
-  end;
+  end
+  Else
+    TOBL.PutValue('MODIF', '-');
+
 
   TOBL.PutValue('BCO_DPR', valeur(TheValeur));
   calculeLaLigne (TOBL,0,LastprPv);
@@ -4746,7 +4755,10 @@ begin
   Begin
     TOBL.PutValue('MODIF', 'X');
     TOBL.PutValue('TYPEMODIF', 'Q');
-  end;
+  end
+  else
+    TOBL.PutValue('MODIF', '-');
+
   TOBL.PutValue('BCO_QUANTITE',Valeur (TheValeur));
   result := true;
 
@@ -4933,10 +4945,10 @@ begin
   END;
 *)
 
-  if (OkSaisEquipe) and (TOBL.GetString('BCO_LINKEQUIPE')<>'')then
-  begin
-    TraiteLigneEquipe (TOBL);
-  end;
+  //if (OkSaisEquipe) and (TOBL.GetString('BCO_LINKEQUIPE')<>'')then
+  //begin
+  //  TraiteLigneEquipe (TOBL);
+  //end;
 
 end;
 
@@ -6764,10 +6776,15 @@ begin
     //   Begin
     //   if not VerifFacturable(TOBL,ZoneGrille) then cancel := true
        end;
-  if (OkSaisEquipe) and (TOBL.GetString('BCO_LINKEQUIPE')<>'')then
+
+  If TOBL.GetString('MODIF') = 'X' Then
   begin
-    TraiteLigneEquipe (TOBL);
-  end;
+    if (OkSaisEquipe) and (TOBL.GetString('BCO_LINKEQUIPE')<>'')then
+    begin
+      TraiteLigneEquipe (TOBL);
+    end;
+  End;
+
 end;
 
 procedure TOF_BTSAISIECONSO.RechArticleGrid(Grille: THGrid; TOBL: TOB);
@@ -7633,6 +7650,7 @@ begin
 
     if (Pos(TOBL.GetValue('BCO_NATUREMOUV'),'MO;RES;EXT')>0)  then
     begin
+      TOBL.PutValue('MODIF', 'X');
       if (CHOIX_CHANTIER.Checked) OR (CHOIX_CONTRAT.Checked) OR (CHOIX_APPEL.Checked) then
       begin
         // Dans ce cadre on enregistre dans les bonnes TOB (en creation ou en mise a jour)
