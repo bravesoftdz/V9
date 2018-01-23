@@ -185,7 +185,7 @@ begin
         SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER='''+Cle+''')';
       end else
       begin
-        SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE= WHERE DSQ_CODE='''+Cle+'''';
+        SQL := 'SELECT DSQ_VALEUR FROM DESEQUENCES WHERE DSQ_CODE='''+Cle+'''';
       end;
       QQ.SQL.Text := SQL;
       QQ.Prepared := True;
