@@ -14340,7 +14340,16 @@ begin
     begin
       if not ArticleAutorise(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
       begin
+        Cancel := True;
         HPiece.Execute(2, Caption, '');
+        VideCodesLigne(TOBPiece, ARow);
+        InitialiseTOBLigne(TOBPiece, TOBTiers, TOBAffaire, ARow);
+      end
+      //FV1 : 10/01/2018 - FS#2806 - DELABOUDINIERE - Avertissement si utilisation d'un article non tenu en stock en saisie livraison
+      Else if not ArticleEnStock(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
+      Begin
+        Cancel := True;
+        PGIError('L''article n''est pas tenu en Stock !', Caption);
         VideCodesLigne(TOBPiece, ARow);
         InitialiseTOBLigne(TOBPiece, TOBTiers, TOBAffaire, ARow);
       end
@@ -14348,7 +14357,8 @@ begin
       begin
         UpdateCataLigne(ARow, False, False, 1);
         StCellCur := GS.Cells[ACol, ARow];
-      end else
+      end
+      else
       begin
         UpdateArtLigne(ARow, False, False, True, 1);
         if not TraiteRupture(ARow) then
@@ -14404,7 +14414,6 @@ begin
   end;
 
   TTNUMP.SetInfoLigne (TOBPiece,Arow);
-
 
   // ----
   if TOBL.getInteger('GL_NUMORDRE')=0 then
@@ -15663,8 +15672,8 @@ begin
           PGIError('L''article n''est pas tenu en Stock !', Caption);
           VideCodesLigne(TOBPiece, ARow);
           InitialiseTOBLigne(TOBPiece, TOBTiers, TOBAffaire, ARow);
-        end;
-        if not ArticleAutorise(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
+        end
+        Else if not ArticleAutorise(TOBPiece, TOBArticles, CleDoc.NaturePiece, ARow) then
         begin
           HPiece.Execute(2, Caption, '');
           VideCodesLigne(TOBPiece, ARow);

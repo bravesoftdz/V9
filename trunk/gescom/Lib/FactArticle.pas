@@ -166,6 +166,8 @@ Begin
 
   Result := True;
 
+  If Not GetParamSocSecur('SO_ARTNONTENUESTOCK', False) then Exit;
+
   if (NaturePiece <> 'LBT') then Exit;
 
   TOBA := FindTOBArtRow(TOBPiece, TOBArticles, ARow);
