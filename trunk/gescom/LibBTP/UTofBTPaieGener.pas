@@ -483,8 +483,10 @@ var SL, Fichlard: TStringList;
   d, r: Double;
   Paramz, SQL, StReq, StMsg, FichierMvt, AccesFichierMvt, CurLigne: string;
   CSection, LSection, CExercice, LExercice, NoDossier: string;
+  LiaisonY2 : boolean;
 begin
-
+  LiaisonY2 := GetParamSocSecur('SO_BTLIENPAIEY2',false);
+  //
   if not GetParamSocSecur('SO_AFLIENPAIEANA',False) and not GetParamSocSecur('SO_AFLIENPAIEVAR',False) then
   begin
     PGIInfoAF(textemessage[3], ecran.caption);
@@ -834,15 +836,30 @@ begin
               for i_ana := 0 to Rub.VentAnal.Count - 1 do // Parcourage des ventilations
               begin
           	    CreerSectionVolee (Rub.VentAnal.Ana[i_ana].Section,Rub.VentAnal.Ana[i_ana].Libelle,StrToInt(copy(Rub.VentAnal.Ana[i_ana].Axe,2,1)));
-                CurLigne := 'ANA' + Sep +
-                  TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
-                StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
-                Rub.CodeRub + Sep +
-                  Rub.VentAnal.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
-                Rub.VentAnal.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
-                Format('%.2f', [Rub.VentAnal.Ana[i_ana].Pourcent]) + Sep +
-                  inttostr(Rub.VentAnal.Ana[i_ana].NumVen) + Sep +
-                  Rub.VentAnal.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+                if LiaisonY2 then
+                begin
+                  CurLigne := 'ANA' + Sep +
+                              TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
+                              StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
+                              Rub.CodeRub + Sep +
+                              Rub.VentAnal.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
+                              'S1' + Sep + // Mettre ici le sous plan
+                              Rub.VentAnal.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
+                              Format('%.2f', [Rub.VentAnal.Ana[i_ana].Pourcent]) + Sep +
+                              inttostr(Rub.VentAnal.Ana[i_ana].NumVen) + Sep +
+                              Rub.VentAnal.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+                end else
+                begin
+                  CurLigne := 'ANA' + Sep +
+                              TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
+                              StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
+                              Rub.CodeRub + Sep +
+                              Rub.VentAnal.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
+                              Rub.VentAnal.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
+                              Format('%.2f', [Rub.VentAnal.Ana[i_ana].Pourcent]) + Sep +
+                              inttostr(Rub.VentAnal.Ana[i_ana].NumVen) + Sep +
+                              Rub.VentAnal.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+                end;
                 Fichlard.Add(CurLigne);
               end;
             end;
@@ -858,14 +875,28 @@ begin
           for i_ana := 0 to AnaListVen.Count - 1 do
           begin
           	CreerSectionVolee (AnaListVen.Ana[i_ana].Section,AnaListVen.Ana[i_ana].Libelle,StrToInt(copy(AnaListVen.Ana[i_ana].Axe,2,1)));
-            CurLigne := 'VSA' + Sep +
-              TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
-                StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
-            AnaListVen.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
-            AnaListVen.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
-            Format('%.2f', [AnaListVen.Ana[i_ana].Pourcent]) + Sep +
-              inttostr(AnaListVen.Ana[i_ana].NumVen) + Sep +
-              AnaListVen.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+            if LiaisonY2 then
+            begin
+              CurLigne := 'VSA' + Sep +
+                          TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
+                          StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
+                          AnaListVen.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
+                          'S1' + Sep + // Mettre ici l'axe analytique
+                          AnaListVen.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
+                          Format('%.2f', [AnaListVen.Ana[i_ana].Pourcent]) + Sep +
+                          inttostr(AnaListVen.Ana[i_ana].NumVen) + Sep +
+                          AnaListVen.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+            end else
+            begin
+              CurLigne := 'VSA' + Sep +
+                          TobDet.GetValue('ARS_SALARIE') + Sep + // Code Salarié
+                          StringReplace(SL.Values['PERIODE'], ',', Sep, []) + Sep + // Dates Début/Fin Période
+                          AnaListVen.Ana[i_ana].Axe + Sep + // Mettre ici l'axe analytique
+                          AnaListVen.Ana[i_ana].Section + Sep + // Mettre ici la section analytique
+                          Format('%.2f', [AnaListVen.Ana[i_ana].Pourcent]) + Sep +
+                          inttostr(AnaListVen.Ana[i_ana].NumVen) + Sep +
+                          AnaListVen.Ana[i_ana].Libelle; //Libelle de la section rajoutée
+            end;
             Fichlard.Add(CurLigne);
           end;
         end;
