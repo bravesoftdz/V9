@@ -30,6 +30,10 @@ Type
      private
        TypeCommercial : string;
        ChangeType : Boolean;
+       //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+       ChkFerme   : THCheckbox;
+       DateSupp   : THEdit;
+       Action     : TActionFiche;
 {$IFDEF NOMADESERVER}
 {$IFNDEF EAGLCLIENT}
        LesSites : TCollectionSites ;
@@ -38,6 +42,7 @@ Type
        Procedure AfSpecifApporteur;
        procedure majcontact;
        procedure PositionneEtabUser (NomChamp : string);
+    procedure FermeOnClick(Sender: Tobject);
      public
        procedure OnArgument (stArgument : String ) ; override ;
        procedure OnChangeField (F : TField)  ; override ;
@@ -163,17 +168,36 @@ if Ctrl <> nil then
   end;
 MakeZoomOLE(ecran.Handle) ;
 
-if not(ctxaffaire in V_PGI.PGIContexte ) then   // Paramétrage des libellés des tables libres
+  if not(ctxaffaire in V_PGI.PGIContexte ) then   // Paramétrage des libellés des tables libres
   begin
-  GCMAJChampLibre (TForm (Ecran), False, 'EDIT', 'GCL_VALLIBRE', 3, '');
-  GCMAJChampLibre (TForm (Ecran), False, 'EDIT', 'GCL_DATELIBRE', 3, '');
+    GCMAJChampLibre (TForm (Ecran), False, 'EDIT', 'GCL_VALLIBRE', 3, '');
+    GCMAJChampLibre (TForm (Ecran), False, 'EDIT', 'GCL_DATELIBRE', 3, '');
   end;
-  
+
+  //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+  DateSupp := THEdit(GetControl('GCL_DATESUPP'));
+
+  if Assigned(GetControl('GCL_FERME')) then
+  begin
+    ChkFerme := THCheckbox(GetControl('GCL_FERME'));
+    ChkFerme.OnClick := FermeOnClick;
+  end;
+
 PositionneEtabUser('GCL_ETABLISSEMENT') ;
 {$IFNDEF CCS3}
 AppliquerConfidentialite(Ecran,'GCL'); //JT eQualité 10964
 {$ENDIF}
 SetActiveTabSheet('PGeneral');
+end;
+
+//FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+Procedure TOM_COMMERCIAL.FermeOnClick(Sender : Tobject);
+begin
+
+  if not (DS.State in [dsInsert, dsEdit]) then DS.edit; // pour passer DS.state en mode dsEdit
+
+  if Chkferme.Checked then dateSupp.text := DateToStr(Now) else Datesupp.text := DateToStr(Idate2099);
+
 end;
 
 procedure TOM_Commercial.OnChangeField(F: TField);
@@ -187,21 +211,25 @@ procedure TOM_Commercial.OnNewRecord;
 var CC : THVAlComboBox;
 begin
 Inherited;
-SetControlEnabled('GCL_COMMERCIAL',True);
-SetField('GCL_DATESUPP', iDate2099);
 
-if ( (ctxaffaire in V_PGI.PGIContexte ) or (ctxgcaff in V_PGI.PGIContexte ))
-    and (not(changetype))   then
+  SetControlEnabled('GCL_COMMERCIAL',True);
+  SetField('GCL_DATESUPP', iDate2099);
+
+  if ((ctxaffaire in V_PGI.PGIContexte) or (ctxgcaff in V_PGI.PGIContexte)) and (not(changetype)) then
     SetField('GCL_TYPECOMMERCIAL', TypeCommercial);  // Type commercial forcé à apporteur
 
-if ctxMode in V_PGI.PGIContexte then
-    begin
+  if ctxMode in V_PGI.PGIContexte then
+  begin
     SetField('GCL_TYPECOMMERCIAL', 'VEN');  // Type commercial forcé à vendeur
     SetField('GCL_NATUREPIECEG', 'FAC');  // Nature pièce forcé à facture client
     SetField('GCL_ETABLISSEMENT', VH^.EtablisDefaut);  // Initialisé par l'établisst par défaut
-    end;
+  end;
 
-PositionneEtabUser ('GCL_ETABLISSEMENT');
+  //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+  Chkferme.Checked := False;
+  DateSupp.Text    := DateToStr(Idate2099);
+
+  PositionneEtabUser ('GCL_ETABLISSEMENT');
 
 end;
 
@@ -210,133 +238,153 @@ var err : integer;
     PrefixeTiers, CodeRep : string;
 begin
 Inherited;
-If GetField('GCL_TYPECOMMERCIAL')='' Then
-   BEGIN
-   MessErrCommun('GCL_TYPECOMMERCIAL', 5);
-   Exit;
-   END;
-SetField('GCL_COMMERCIAL',Trim(GetControlText('GCL_COMMERCIAL')));
-If GetField('GCL_COMMERCIAL')='' Then
-   BEGIN
-   if ctxMode in V_PGI.PGIContexte then err:= 20 else err:=6;
-   MessErrCommun('GCL_COMMERCIAL', err);
-   Exit;
-   END;
-If GetField('GCL_LIBELLE')='' Then
-   BEGIN
-   if ctxMode in V_PGI.PGIContexte then err:= 22 else err:=2;
-   MessErrCommun('GCL_LIBELLE', err);
-   Exit;
-   END;
-//valeur non négative
-VerifCommission(GetField('GCL_COMMISSION'));
-If GetField('GCL_TYPECOM')='' Then
-   BEGIN
-   MessErrCommun('GCL_TYPECOM',3);
-   Exit;
-   END;
-If (not (ctxMode in V_PGI.PGIContexte)) and (GetField('GCL_NATUREPIECEG')='') Then
-   BEGIN
-   MessErrCommun('GCL_NATUREPIECEG', 7);
-   Exit;
-   END;
-//Si le préfixe du code tiers est saisi
-if (GetField('GCL_PREFIXETIERS')<>'') then
-   begin
-   PrefixeTiers := GetField('GCL_PREFIXETIERS');
-   CodeRep      := GetField('GCL_COMMERCIAL');
-   //Test si le préfixe du code tiers > à 3 alphas
-   if Length(PrefixeTiers)>3 then
-      begin
+
+  If GetField('GCL_TYPECOMMERCIAL')='' Then
+  BEGIN
+    MessErrCommun('GCL_TYPECOMMERCIAL', 5);
+    Exit;
+  END;
+
+  SetField('GCL_COMMERCIAL',Trim(GetControlText('GCL_COMMERCIAL')));
+  If GetField('GCL_COMMERCIAL')='' Then
+  BEGIN
+    if ctxMode in V_PGI.PGIContexte then err:= 20 else err:=6;
+    MessErrCommun('GCL_COMMERCIAL', err);
+    Exit;
+  END;
+
+  If GetField('GCL_LIBELLE')='' Then
+  BEGIN
+    if ctxMode in V_PGI.PGIContexte then err:= 22 else err:=2;
+    MessErrCommun('GCL_LIBELLE', err);
+    Exit;
+  END;
+
+  //valeur non négative
+  VerifCommission(GetField('GCL_COMMISSION'));
+  If GetField('GCL_TYPECOM')='' Then
+  BEGIN
+    MessErrCommun('GCL_TYPECOM',3);
+    Exit;
+  END;
+
+  If (not (ctxMode in V_PGI.PGIContexte)) and (GetField('GCL_NATUREPIECEG')='') Then
+  BEGIN
+    MessErrCommun('GCL_NATUREPIECEG', 7);
+    Exit;
+  END;
+
+  //Si le préfixe du code tiers est saisi
+  if (GetField('GCL_PREFIXETIERS')<>'') then
+  begin
+    PrefixeTiers := GetField('GCL_PREFIXETIERS');
+    CodeRep      := GetField('GCL_COMMERCIAL');
+    //Test si le préfixe du code tiers > à 3 alphas
+    if Length(PrefixeTiers)>3 then
+    begin
       MessErrCommun('GCL_PREFIXTIERS', 23);
       Exit;
-   end;
-   //Test si déjà saisi dans Etablissement
-   if ExisteSql('select ET_ETABLISSEMENT from ETABLISS where ET_ETABLISSEMENT like "'+PrefixeTiers+'%"') then
-      begin
+    end;
+    //Test si déjà saisi dans Etablissement
+    if ExisteSql('select ET_ETABLISSEMENT from ETABLISS where ET_ETABLISSEMENT like "'+PrefixeTiers+'%"') then
+    begin
       MessErrCommun('GCL_PREFIXETIERS', 24);
       Exit;
-      end;
-   //Test si déjà saisi pour un autre représentant
-   if ExisteSql('select GCL_PREFIXETIERS from COMMERCIAL where GCL_COMMERCIAL<>"'+CodeRep+'" and GCL_PREFIXETIERS like "'+PrefixeTiers+'%"') then
-      begin
+    end;
+    //Test si déjà saisi pour un autre représentant
+    if ExisteSql('select GCL_PREFIXETIERS from COMMERCIAL where GCL_COMMERCIAL<>"'+CodeRep+'" and GCL_PREFIXETIERS like "'+PrefixeTiers+'%"') then
+    begin
       MessErrCommun('GCL_PREFIXETIERS', 25);
       Exit;
-      end;
-   //Test si déjà saisi pour la société
-   if GetParamSoc('SO_GCPREFIXETIERS') = PrefixeTiers then
+    end;
+    //Test si déjà saisi pour la société
+    if GetParamSoc('SO_GCPREFIXETIERS') = PrefixeTiers then
       begin
       MessErrCommun('GCL_PREFIXETIERS', 26);
       Exit;
-      end;
-   //Test si déjà saisi pour un code tiers
-   if ExisteSql('select T_TIERS from TIERS where T_TIERS like "'+PrefixeTiers+'%"') then
+    end;
+    //Test si déjà saisi pour un code tiers
+    if ExisteSql('select T_TIERS from TIERS where T_TIERS like "'+PrefixeTiers+'%"') then
       begin
       MessErrCommun('GCL_PREFIXETIERS', 27);
       Exit;
-      end;
-   end;
+    end;
+  end;
+
+  //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+  //Mise à jour des zônes non gérées dans la fiche
+  if ChkFerme.Checked then
+    SetField('GCL_FERME','X')
+  Else
+    SetField('GCL_FERME','-');
+  //
+  SetField('GCL_DATESUPP', StrToDateTime(DateSupp.Text));
+
 end;
 
 procedure TOM_Commercial.OnAfterUpdateRecord;
 begin
 inherited ;
-majcontact;
+  majcontact;
 end;
 
 procedure TOM_Commercial.majcontact;
 {var TOB_CON:TOB;}
 begin
 inherited ;
-if ctxAffaire in V_PGI.PGIContexte then exit;
-{        // Attendre pour création contact de l'établissement
-         // Manque liaison Commercial/contact JCF
-TOB_CON:=TOB.Create('CONTACT', NIL, -1);  // Création de la TOB des contacts
-TOB_CON.PutValue('C_TYPECONTACT','GCL') ;
-TOB_CON.PutValue('C_AUXILIAIRE',GetField('GCL_COMMERCIAL')) ;
-TOB_CON.PutValue('C_NUMEROCONTACT','1') ;
-TOB_CON.PutValue('C_NATUREAUXI','GCL') ;
-TOB_CON.PutValue('C_NOM',GetField('GCL_LIBELLE')) ;
-TOB_CON.PutValue('C_PRENOM',GetField('GCL_PRENOM')) ;
-TOB_CON.PutValue('C_PRINCIPAL','X') ;
-TOB_CON.InsertOrUpdateDB (FALSE);
-TOB_CON.free;
+
+  if ctxAffaire in V_PGI.PGIContexte then exit;
+
+{ // Attendre pour création contact de l'établissement
+  // Manque liaison Commercial/contact JCF
+  TOB_CON:=TOB.Create('CONTACT', NIL, -1);  // Création de la TOB des contacts
+  TOB_CON.PutValue('C_TYPECONTACT','GCL') ;
+  TOB_CON.PutValue('C_AUXILIAIRE',GetField('GCL_COMMERCIAL')) ;
+  TOB_CON.PutValue('C_NUMEROCONTACT','1') ;
+  TOB_CON.PutValue('C_NATUREAUXI','GCL') ;
+  TOB_CON.PutValue('C_NOM',GetField('GCL_LIBELLE')) ;
+  TOB_CON.PutValue('C_PRENOM',GetField('GCL_PRENOM')) ;
+  TOB_CON.PutValue('C_PRINCIPAL','X') ;
+  TOB_CON.InsertOrUpdateDB (FALSE);
+  TOB_CON.free;
 }
 end;
 
 procedure TOM_Commercial.OnDeleteRecord;
 var err : integer;
 begin
-if (GetField('GPL_TYPECOMMERCIAL') = 'APP') then
-    BEGIN
+
+  if (GetField('GPL_TYPECOMMERCIAL') = 'APP') then
+  BEGIN
     if (ExisteSQL('SELECT GP_APPORTEUR FROM PIECE WHERE GP_APPORTEUR="'
                     +GetField('GCL_COMMERCIAL')+'"')) or
        (ExisteSQL('SELECT GL_APPORTEUR FROM LIGNE WHERE GL_APPORTEUR="'
                     +GetField('GCL_COMMERCIAL')+'"')) then
-       BEGIN
-       MessErrCommun('GCL_COMMISSION',14); Exit;
-       END;
-    if ctxAffaire in V_PGI.PGIContexte then
-       BEGIN
-       if (ExisteSQL('SELECT AFT_APPORTEUR FROM AFFAIRE WHERE AFT_APPORTEUR="'
-                    +GetField('GCL_COMMERCIAL')+'"')) then
-         BEGIN
-         MessErrCommun('GCL_COMMISSION',15); Exit;
-         END;
-      END;
-    END
-else
     BEGIN
+      MessErrCommun('GCL_COMMISSION',14); Exit;
+    END;
+    if ctxAffaire in V_PGI.PGIContexte then
+    BEGIN
+      if (ExisteSQL('SELECT AFT_APPORTEUR FROM AFFAIRE WHERE AFT_APPORTEUR="'
+                    +GetField('GCL_COMMERCIAL')+'"')) then
+      BEGIN
+        MessErrCommun('GCL_COMMISSION',15); Exit;
+      END;
+    END;
+  END
+  else
+  BEGIN
     if (ExisteSQL('SELECT GP_REPRESENTANT FROM PIECE WHERE GP_REPRESENTANT="'
                     +GetField('GCL_COMMERCIAL')+'"')) or
        (ExisteSQL('SELECT GL_REPRESENTANT FROM LIGNE WHERE GL_REPRESENTANT="'
                     +GetField('GCL_COMMERCIAL')+'"')) then
-       BEGIN
-       if ctxMode in V_PGI.PGIContexte then err:= 21 else err:=13;
-       MessErrCommun('GCL_COMMISSION', err);
-       Exit;
-       END;
+    BEGIN
+      if ctxMode in V_PGI.PGIContexte then err:= 21 else err:=13;
+      MessErrCommun('GCL_COMMISSION', err);
+      Exit;
     END;
+  END;
+
 end;
 
 procedure TOM_Commercial.OnLoadRecord;
@@ -351,6 +399,14 @@ Inherited ;
   if ( (ctxaffaire in V_PGI.PGIContexte ) or (ctxgcaff in V_PGI.PGIContexte ))
     and (not(changetype))   then  AfSpecifApporteur;
 
+  //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+  If Getfield('GCL_FERME') ='X' then
+    Chkferme.Checked := True
+  else
+    Chkferme.Checked := False;
+
+  DateSupp.text := DateToStr(GetField('GCL_DATESUPP'));
+  
 end;
 
 procedure TOM_Commercial.OnClose ;
@@ -364,24 +420,27 @@ end ;
 
 procedure TOM_Commercial.MessErrCommun(NomChamp:String; TypeMessErr : Integer);
 begin
-SetFocusControl(NomChamp);
-LastError := TypeMessErr;
-LastErrorMsg := TexteMessage[LastError];
+  SetFocusControl(NomChamp);
+  LastError     := TypeMessErr;
+  LastErrorMsg  := TexteMessage[LastError];
 end;
 
 procedure TOM_Commercial.VerifCommission(ValComi : Double);
 begin
-If ValComi < 0 Then
-   BEGIN
-   MessErrCommun('GCL_COMMISSION',1);
-   Exit;
-   END;
-If ValComi > 100 then
-   BEGIN
-   MessErrCommun('GCL_COMMISSION',12);
-   Exit;
-   END;
-SetField('GCL_COMMISSION',ValComi);
+  If ValComi < 0 Then
+  BEGIN
+    MessErrCommun('GCL_COMMISSION',1);
+    Exit;
+  END;
+
+  If ValComi > 100 then
+  BEGIN
+    MessErrCommun('GCL_COMMISSION',12);
+    Exit;
+  END;
+
+  SetField('GCL_COMMISSION',ValComi);
+
 end;
 
 procedure TOM_Commercial.GestionSiteRepresentant ;
@@ -408,7 +467,7 @@ begin
       if ( LeSite <> nil ) and ( Commercial <> '' ) then
       begin
         SetControlText( 'SITECODE', LeSite.SSI_CODESITE ) ;
-        SetControlText( 'SITELIB', LeSite.SSI_LIBELLE ) ;
+        SetControlText( 'SITELIB',  LeSite.SSI_LIBELLE ) ;
       end ;
     end ;
     Itinerant.visible := ( LeSite <> nil ) ;
@@ -487,7 +546,8 @@ Var ExisteNom : Boolean;
     QQ : TQuery ;
 begin
 Inherited;
-NomComer := THEdit(GetControl('NOMCOMMERCIAL'));
+
+  NomComer := THEdit(GetControl('NOMCOMMERCIAL'));
 //Récupérer le nom commercial
 If (GetField('GCM_COMMERCIAL')<> '') Then
     BEGIN
@@ -729,46 +789,53 @@ Function TOM_Commission.TraiterArticle (CodeArticle : string; var TOBArt : TOB) 
 var RefUnique : string ;
     RechArt : T_RechArt ;
 BEGIN
-Result := False;
-if CodeArticle = '' then
-   Begin
-   Result := True;
-   exit;
-   END;
-RechArt := TrouverArticleSQL (CodeArticle, TOBArt) ;
-Case RechArt of
-     traOk    : BEGIN
-                Result := True;
-                END;
-     traGrille: BEGIN
-                RefUnique := TOBArt.GetValue ('GA_ARTICLE');
-                If ChoisirDimension (RefUnique, TOBArt) then Result := true;
-                END;
-     END;
+  Result := False;
+
+  if CodeArticle = '' then
+  Begin
+    Result := True;
+    exit;
+  END;
+
+  RechArt := TrouverArticleSQL (CodeArticle, TOBArt) ;
+  Case RechArt of
+       traOk    : BEGIN
+                    Result := True;
+                  END;
+       traGrille: BEGIN
+                    RefUnique := TOBArt.GetValue ('GA_ARTICLE');
+                    If ChoisirDimension (RefUnique, TOBArt) then Result := true;
+                  END;
+  END;
+
 END;
 
 function TOM_Commission.ChoisirDimension (St_CodeArt : string; var TOBArt : TOB) : Boolean;
 var QQ   :TQuery;
 BEGIN
-TheTOB:=TOB.Create('', nil, -1);
-AglLanceFiche ('GC','GCSELECTDIM','','', 'GA_ARTICLE='+ St_CodeArt +
-  	           ';ACTION=SELECT;CHAMP= ') ;
-if TheTOB = Nil then
-    BEGIN
+
+  TheTOB := TOB.Create('', nil, -1);
+
+  AglLanceFiche ('GC','GCSELECTDIM','','', 'GA_ARTICLE=' + St_CodeArt + ';ACTION=SELECT;CHAMP= ') ;
+
+  if TheTOB = Nil then
+  BEGIN
     Result := False;
-    END else
-    BEGIN
+  END
+  else
+  BEGIN
     Result := True;
-    QQ := OpenSQL('Select * from ARTICLE Where GA_ARTICLE="' +
-             TheTOB.Detail[0].GetValue ('GA_ARTICLE') +'" ',True) ;
+    QQ := OpenSQL('Select * from ARTICLE Where GA_ARTICLE="' + TheTOB.Detail[0].GetValue ('GA_ARTICLE') + '" ',True) ;
     if Not QQ.EOF then
-        BEGIN
-        TOBArt.SelectDB ('', QQ);
-        END;
+    BEGIN
+      TOBArt.SelectDB ('', QQ);
+    END;
     Ferme(QQ) ;
     TheTOB := Nil;
-    END;
-TheTOB.Free;
+  END;
+
+  TheTOB.Free;
+
 END;
 
 Function TOM_Commission.TrouverArticleSQL (CodeArticle: string; var ToBArt : TOB) : T_RechArt ;

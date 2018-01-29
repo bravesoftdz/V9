@@ -3458,8 +3458,9 @@ object FFacture: TFFacture
       
         '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
         '0\fnil Times New Roman;}}'
-      '{\*\generator Riched20 10.0.15063}\viewkind4\uc1 '
+      '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
       '\pard\f0\fs20 '
+      '\par '
       '\par '
       '\par '
       '\par '
@@ -4534,8 +4535,8 @@ object FFacture: TFFacture
     end
   end
   object TDescriptif: TToolWindow97
-    Left = 384
-    Top = 250
+    Left = 184
+    Top = 226
     ClientHeight = 259
     ClientWidth = 315
     Caption = 'Descriptif d'#233'taill'#233
@@ -4569,8 +4570,9 @@ object FFacture: TFFacture
         
           '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
           '0\fnil Times New Roman;}}'
-        '{\*\generator Riched20 10.0.15063}\viewkind4\uc1 '
+        '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
         '\pard\f0\fs20 '
+        '\par '
         '\par '
         '\par '
         '\par '

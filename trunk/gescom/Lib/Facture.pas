@@ -15207,7 +15207,20 @@ end;
 
 procedure TFFacture.GereCommercialEnabled;
 begin
+
   BZoomCommercial.Enabled := (GP_REPRESENTANT.Text <> '');
+
+  //FV1 : 29/01/2018 - FS#2882 - CLOSSUR - Donner la possibilité de fermer un commercial
+  //Vérification si le commercial n'est pas fermé...
+  if GP_REPRESENTANT.Text = '' then exit;
+
+  if ExecuteSQL('SELECT GCL_COMMERCIAL FROM COMMERCIAL WHERE GCL_COMMERCIAL="' + GP_REPRESENTANT.Text + '" AND GCL_FERME="-"') = 0 then
+  begin
+    PGIError('Commercial fermé', 'Commercial');
+    GP_REPRESENTANT.Text := '';
+    BZoomCommercial.Enabled := False;
+  end;
+
 end;
 
 //FV1 : 20/02/2014 - FS#898 - BAGE : Ajouter une zone pour indiquer le contact du bon de commande
