@@ -68,6 +68,9 @@ Begin
   //Si aucun blocage sur le document cela signifie que l'on continue...
   if Not QBloc.Eof then
   begin
+    // je retire l'ancien blocage
+    ExecuteSQL('DELETE FROM BTBLOCAGE WHERE BTB_TYPE="' + TypeDoc +'" AND BTB_IDDOC="' + NumDoc + '" AND BTB_GUID<>"VALIDATION"');
+    // j'affecte le blocage au nouvel utilisateur
     Result := CalculGuid;
     DateDay := Now;
     //si le blocage qui existe n'est pas pour cet utilisateur on créer une autre ligne afin
