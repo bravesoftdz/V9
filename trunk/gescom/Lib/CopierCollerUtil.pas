@@ -559,7 +559,7 @@ begin
   end;
   Arow := SavRow;
   if TOBIMP = nil then exit;
-  
+
   TRY
     if (TOBImp.getValue('TYPE') = fTypeInfo) then
     BEGIN
@@ -802,7 +802,7 @@ end;
 
 procedure TCopieColleDoc.CopieDonnee;
 var Indice : Integer;
-    TOBSEL: TOB;
+    TOBSEL : TOB;
 begin
   if fgrid.nbselected = 0 then exit;
   fgrid.OnFlipSelection := nil;
@@ -1160,7 +1160,9 @@ begin
   TOBOO.PutValue('BLO_PUHTDEV',     TOBI.getValue('GL_PUHTDEV'));
   TOBOO.PutValue('BLO_PUHT',        TOBI.getValue('GL_PUHT'));
   TOBOO.PutValue('BLO_PUHT',        TOBI.getValue('GL_PUHT'));
-  TOBOO.PutValue('BLO_COEFMARG',    0);
+  //FV1 - 25/01/2018 : FS#2892 - TREUIL - Le copier-coller ne récupère pas le coef. de marge
+  //TOBOO.PutValue('BLO_COEFMARG',    0);
+  //
   if not MemeDoc then
   begin
     //
@@ -2184,15 +2186,15 @@ begin
   if TOBL.fieldExists ('BLO_PRXACHBASE') then
     if VarType (TOBL.GetValue('BLO_PRXACHBASE')) = VarString then
       TOBL.PutValue ('BLO_PRXACHBASE',Valeur(TOBL.GetValue('BLO_PRXACHBASE')));
-//
-for Indice := 0 to TOBL.ChampsSup.Count -1 do
-begin
-	NomChamp := TOBL.GetNomChamp(1000+indice);
-	if VarIsNull(TOBL.GetValue(NomChamp)) or (VarAsType(TOBL.GetValue(NomChamp), varString) = #0 ) then
+  //
+  for Indice := 0 to TOBL.ChampsSup.Count -1 do
   begin
-  	PGIInfo ('ATTENTION : le champs : '+NomChamp+' est NULL');
+    NomChamp := TOBL.GetNomChamp(1000+indice);
+    if VarIsNull(TOBL.GetValue(NomChamp)) or (VarAsType(TOBL.GetValue(NomChamp), varString) = #0 ) then
+    begin
+      PGIInfo ('ATTENTION : le champs : '+NomChamp+' est NULL');
+    end;
   end;
-end;
 
 end;
 
