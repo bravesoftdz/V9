@@ -394,11 +394,19 @@ begin
   FPPQ:=1;
   FEMPL := FQ.FindField('GQ_EMPLACEMENT').AsString;
   FPHY  := FQ.FindField('GQ_PHYSIQUE').AsFloat;
-  FDPA  := Ratioize(FQ.FindField('GQ_DPA').AsFloat, FUS, FUV, FPPQ);
-  FPMAP := Ratioize(FQ.FindField('GQ_PMAP').AsFloat, FUS, FUV, FPPQ);
-  FDPR  := Ratioize(FQ.FindField('GQ_DPR').AsFloat, FUS, FUV, FPPQ);
-  FPMRP := Ratioize(FQ.FindField('GQ_PMRP').AsFloat, FUS, FUV, FPPQ);
-
+  //
+  FDPA  := FQ.FindField('GQ_DPA').AsFloat;
+  FDPA  := Ratioize(FDPA, FUS, FUV, FPPQ);
+  //
+  FPMAP := FQ.FindField('GQ_PMAP').AsFloat;
+  FPMAP := Ratioize(FPMAP, FUS, FUV, FPPQ);
+  //
+  FDPR  := FQ.FindField('GQ_DPR').AsFloat;
+  FDPR  := Ratioize(FDPR, FUS, FUV, FPPQ);
+  //
+  FPMRP := FQ.FindField('GQ_PMRP').AsFloat;
+  FPMRP := Ratioize(FPMRP, FUS, FUV, FPPQ);
+  //
   if FCriTOB.GetValue('STOCKCLOS')='X' then
      begin
      // Recalcul de la quantité en stock, en partant du dernier arrêté de période

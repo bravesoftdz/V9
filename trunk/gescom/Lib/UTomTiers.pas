@@ -1264,6 +1264,7 @@ BEGIN
                THEdit(GetControl('C_TELEPHONE')).enabled := True;
           end;
      end;
+     
      if (client_particulier <> True) and (THEdit(GetControl('C_NOM')).text = '') then
      begin
           Qloc:=OpenSQL('select C_NOM, C_PRENOM, C_TELEPHONE, C_PRINCIPAL, C_CIVILITE, C_NUMEROCONTACT from CONTACT where C_AUXILIAIRE="'+GetField('T_AUXILIAIRE')+'" and C_TYPECONTACT="T" and C_PRINCIPAL = "X" AND C_FERME <> "X"',True) ;
@@ -1401,82 +1402,88 @@ var TobForm : TOB;
     stConfid : string;
 {$ENDIF}
 begin
-//Duplic:= True ;
-StCleDuplic:=CleDuplic;
-{$IFDEF EAGLCLIENT}
-StTable:='TIERS' ;
-{$ELSE}
-StTable := GetTableNameFromDataSet(DS);
-{$ENDIF}
-//TagFicheRech := 1; // pour DispatchRecherche
-TobForm := TOB.Create (StTable, Nil, -1);
-if TobForm <> Nil then
-    begin
-    if STCleDuplic = '' then
-        begin
-        if (DS.State=dsInsert) then  // si nouvelle fiche  recherche record à dupliquer
-            begin
-            // StCleDuplic:=DispatchRecherche( TagFicheRech, '');    // recherche de la fiche à dupliquer
-            G_CodeTiers := THCritMaskEdit.Create (nil);
-{$IFDEF GRC}
-            if ctxGRC in V_PGI.PgiContexte then
-               begin
-{$IFDEF BTP}
-               stConfid:='';
-{$ELSE}
-               if (ctxAffaire in V_PGI.PGIContexte) or (ctxMode in V_PGI.PGIContexte) then
-                 stConfid := ''
-               else
-                 stConfid := RTXXWhereConfident('CON');
-{$ENDIF}
-               if stNatureauxi='FOU' then stPlus:='((T_NATUREAUXI="FOU") OR (T_NATUREAUXI="CLI" '+ stConfid+'))'
-                  else if stNatureauxi='CON' then stPlus:='(T_NATUREAUXI="CON")'
-                  else stPlus:='(((T_NATUREAUXI="CLI") OR (T_NATUREAUXI="PRO")) '+ stConfid+') OR (T_NATUREAUXI="FOU") ' ;
-               end
-            else
-{$ENDIF}
-            if stNatureauxi='FOU' then stPlus:='(T_NATUREAUXI="FOU" OR T_NATUREAUXI="CLI")'
-               else if stNatureauxi='CON' then stPlus:='(T_NATUREAUXI="CON")'
-               else stPlus:='(T_NATUREAUXI="CLI") OR (T_NATUREAUXI="PRO") OR (T_NATUREAUXI="FOU") ' ;
-            DispatchRecherche (G_CodeTiers, 2, stPlus, '', '');
-            StCleDuplic := G_CodeTiers.Text;
-            QQ:=OPENSQL('SELECT * From TIERS WHERE T_TIERS="'+StCleDuplic+'"',True);
-            if not TobForm.SelectDB ('', QQ) then StCleDuplic:='' ;
-            Ferme(QQ);
-            G_CodeTiers.Free;
-            end else
-            begin
-            if not TobForm.SelectDB ('',TFFiche(Ecran).QFiche) then StCleDuplic:='' ;
-            stCleDuplic:='*' ;
-            TFFiche (Ecran).Bouge (NbInsert);
-            end;
-        end else
-        begin
-        if not TobForm.SelectDB ('"' + StCleDuplic + '"', Nil) then StCleDuplic:='' ;
-        end;
-    if StCleDuplic <> '' then
-        begin
-        ReInitDuplication(TobForm);
-        TobToEcran(TobForm);
-        ModifParticulier ;
-         // TobForm.PutEcran (F); A mettre quand fonctionnement ok (bloc note affiché)
-                             //mcd 05/03/02 pour tables libres
-        if not TobZonelibre.SelectDB('"'+TiersAuxiliaire (stCleDuplic,false)+'"',Nil )
-               then TobZonelibre.InitValeurs;
-        TobZonelibre.PutEcran(TFfiche(Ecran));
-        sIncoterm := RechDom('GCINCOTERM', TobZoneLibre.getValue('YTC_INCOTERM') , False);
-        If sIncoterm = 'Error' then sIncoterm := '';
-        SetControlCaption('TYTC_INCOTERM', sIncoterm);
-        TobZoneLibre.SetAllModifie(True);
-        end;
-    end;
+  //Duplic:= True ;
+  StCleDuplic:=CleDuplic;
+  {$IFDEF EAGLCLIENT}
+  StTable:='TIERS' ;
+  {$ELSE}
+  StTable := GetTableNameFromDataSet(DS);
+  {$ENDIF}
+  //TagFicheRech := 1; // pour DispatchRecherche
+  TobForm := TOB.Create (StTable, Nil, -1);
 
-TobForm.Free;
-SetActiveTabSheet (TFFiche(Ecran).pages.Pages[0].name);
-SetField('T_AUXILIAIRE','');
-SetControlText ('T_TIERS', ''); // DBR - suite fiche 10655 - pour avoir en duplication le message code obligatoire
-SetFocusControl ('T_TIERS');
-SetControlEnabled('BDUPLICATION',FALSE);
+  if TobForm <> Nil then
+  begin
+    //
+    if STCleDuplic = '' then
+    begin
+      if (DS.State=dsInsert) then  // si nouvelle fiche  recherche record à dupliquer
+      begin
+        // StCleDuplic:=DispatchRecherche( TagFicheRech, '');    // recherche de la fiche à dupliquer
+        G_CodeTiers := THCritMaskEdit.Create (nil);
+        {$IFDEF GRC}
+        if ctxGRC in V_PGI.PgiContexte then
+        begin
+          {$IFDEF BTP}
+          stConfid:='';
+          {$ELSE}
+          if (ctxAffaire in V_PGI.PGIContexte) or (ctxMode in V_PGI.PGIContexte) then
+            stConfid := ''
+          else
+            stConfid := RTXXWhereConfident('CON');
+          {$ENDIF}
+          if stNatureauxi='FOU'      then stPlus:='((T_NATUREAUXI="FOU") OR (T_NATUREAUXI="CLI" '+ stConfid+'))'
+          else if stNatureauxi='CON' then stPlus:='(T_NATUREAUXI="CON")'
+          else                            stPlus:='(((T_NATUREAUXI="CLI") OR (T_NATUREAUXI="PRO")) '+ stConfid+') OR (T_NATUREAUXI="FOU") ' ;
+        end
+        else
+        {$ENDIF}
+        if stNatureauxi='FOU'        then stPlus:='(T_NATUREAUXI="FOU" OR T_NATUREAUXI="CLI")'
+        else if stNatureauxi='CON'   then stPlus:='(T_NATUREAUXI="CON")'
+        else                              stPlus:='(T_NATUREAUXI="CLI") OR (T_NATUREAUXI="PRO") OR (T_NATUREAUXI="FOU") ' ;
+        DispatchRecherche (G_CodeTiers, 2, stPlus, '', '');
+        StCleDuplic := G_CodeTiers.Text;
+        QQ:=OPENSQL('SELECT * From TIERS WHERE T_TIERS="'+StCleDuplic+'"',True);
+        if not TobForm.SelectDB ('', QQ) then StCleDuplic:='' ;
+        Ferme(QQ);
+        G_CodeTiers.Free;
+      end
+      else
+      begin
+        if not TobForm.SelectDB ('',TFFiche(Ecran).QFiche) then StCleDuplic:='' ;
+        stCleDuplic:='*' ;
+        TFFiche (Ecran).Bouge (NbInsert);
+      end;
+    end
+    else
+    begin
+      if not TobForm.SelectDB ('"' + StCleDuplic + '"', Nil) then StCleDuplic:='' ;
+    end;
+    //
+    if StCleDuplic <> '' then
+    begin
+      //
+      ReInitDuplication(TobForm);
+      TobToEcran(TobForm);
+      ModifParticulier ;
+      // TobForm.PutEcran (F); A mettre quand fonctionnement ok (bloc note affiché)
+      //mcd 05/03/02 pour tables libres
+      if not TobZonelibre.SelectDB('"'+TiersAuxiliaire (stCleDuplic,false)+'"',Nil ) then TobZonelibre.InitValeurs;
+      TobZonelibre.PutEcran(TFfiche(Ecran));
+      sIncoterm := RechDom('GCINCOTERM', TobZoneLibre.getValue('YTC_INCOTERM') , False);
+      If sIncoterm = 'Error' then sIncoterm := '';
+      SetControlCaption('TYTC_INCOTERM', sIncoterm);
+      TobZoneLibre.SetAllModifie(True);
+    end;
+  end;
+
+  TobForm.Free;
+  SetActiveTabSheet (TFFiche(Ecran).pages.Pages[0].name);
+  SetField('T_AUXILIAIRE','');
+  SetControlText ('T_TIERS', ''); // DBR - suite fiche 10655 - pour avoir en duplication le message code obligatoire
+  SetFocusControl ('T_TIERS');
+  SetControlEnabled('BDUPLICATION',FALSE);
+
 end;
 
 procedure TOM_TIERS.tobToEcran (TobForm : TOB);
@@ -1539,31 +1546,31 @@ end;
 
 procedure TOM_TIERS.ReInitDuplication(TobForm : TOB);
 begin
-TobForm.PutValue('T_TOTALDEBIT', 0);
-TobForm.PutValue('T_TOTALCREDIT', 0);
-TobForm.PutValue('T_DATEDERNMVT', IDate1900);
-TobForm.PutValue('T_DEBITDERNMVT', 0);
-TobForm.PutValue('T_CREDITDERNMVT', 0);
-TobForm.PutValue('T_NUMDERNMVT', 0);
-TobForm.PutValue('T_LIGNEDERNMVT', 0);
-TobForm.PutValue('T_DERNLETTRAGE', '');
-TobForm.PutValue('T_TOTDEBP', 0);
-TobForm.PutValue('T_TOTCREP', 0);
-TobForm.PutValue('T_TOTDEBE', 0);
-TobForm.PutValue('T_TOTCREE', 0);
-TobForm.PutValue('T_TOTDEBS', 0);
-TobForm.PutValue('T_TOTCRES', 0);
-TobForm.PutValue('T_TOTDEBANO', 0);
-TobForm.PutValue('T_TOTCREANO', 0);
-TobForm.PutValue('T_TOTDEBANON1', 0);
-TobForm.PutValue('T_TOTCREANON1', 0);
-TobForm.PutValue('T_DATEDERNRELEVE', IDate1900);
-TobForm.PutValue('T_DATEDERNPIECE', IDate1900);
-TobForm.PutValue('T_NUMDERNPIECE', 0);
-TobForm.PutValue('T_TOTDERNPIECE', 0);
-TobForm.PutValue('T_DATECREATION', Date);       // ajout PCS 28052002
-TobForm.PutValue('T_DATEMODIF', Date);          // ajout PCS 28052002
-TobForm.PutValue('T_UTILISATEUR', V_PGI.User);   // ajout PCS 28052002
+  TobForm.PutValue('T_TOTALDEBIT', 0);
+  TobForm.PutValue('T_TOTALCREDIT', 0);
+  TobForm.PutValue('T_DATEDERNMVT', IDate1900);
+  TobForm.PutValue('T_DEBITDERNMVT', 0);
+  TobForm.PutValue('T_CREDITDERNMVT', 0);
+  TobForm.PutValue('T_NUMDERNMVT', 0);
+  TobForm.PutValue('T_LIGNEDERNMVT', 0);
+  TobForm.PutValue('T_DERNLETTRAGE', '');
+  TobForm.PutValue('T_TOTDEBP', 0);
+  TobForm.PutValue('T_TOTCREP', 0);
+  TobForm.PutValue('T_TOTDEBE', 0);
+  TobForm.PutValue('T_TOTCREE', 0);
+  TobForm.PutValue('T_TOTDEBS', 0);
+  TobForm.PutValue('T_TOTCRES', 0);
+  TobForm.PutValue('T_TOTDEBANO', 0);
+  TobForm.PutValue('T_TOTCREANO', 0);
+  TobForm.PutValue('T_TOTDEBANON1', 0);
+  TobForm.PutValue('T_TOTCREANON1', 0);
+  TobForm.PutValue('T_DATEDERNRELEVE', IDate1900);
+  TobForm.PutValue('T_DATEDERNPIECE', IDate1900);
+  TobForm.PutValue('T_NUMDERNPIECE', 0);
+  TobForm.PutValue('T_TOTDERNPIECE', 0);
+  TobForm.PutValue('T_DATECREATION', Date);       // ajout PCS 28052002
+  TobForm.PutValue('T_DATEMODIF', Date);          // ajout PCS 28052002
+  TobForm.PutValue('T_UTILISATEUR', V_PGI.User);   // ajout PCS 28052002
 end;
 
 {$IFDEF MODE}
@@ -1903,6 +1910,7 @@ var CodeTiers, NumChrono, LibelleTiers, NatureTiers, ret, stNat : String;
 {$ENDIF}
   	LePays : string;
     Etat   : string;
+    i      : Integer;
 begin
 Inherited;
 
@@ -2843,7 +2851,7 @@ begin
   SetPlusNumAdresseFac(Self);
 end;
 
-AfficheContactTiers;
+  AfficheContactTiers;
 
   // Activation ou désactivation du bouton d'affichage des contrats
   if (GetField ('T_NATUREAUXI') = 'CLI') then
@@ -3428,7 +3436,7 @@ else
     end;
 if RTFormCti<> Nil then RTFormCti:=Nil;
 {$ENDIF}
-TobContact.free; 
+TobContact.free;
 TobZonelibre.free;
 if TobSuspect<>nil then begin TobSuspect.free ; TobSuspect:=nil ; end ;
 if TOBSuspectCompl<>nil then begin TOBSuspectCompl.free ; TOBSuspectCompl:=nil ; end ;
@@ -3501,21 +3509,23 @@ end;
 Procedure TOM_TIERS.ModifParticulier;
 var Bouton : TradioGroup;
 BEGIN
-// cette fct est appelé depuis le script TIERS
-Bouton := TradioGroup(GetControl ('T_PARTICULIER'));
+  // cette fct est appelé depuis le script TIERS
+  Bouton := TradioGroup(GetControl ('T_PARTICULIER'));
 
-//FV1 - 29/08/2017 - FS#2652 - LAFOSSE : pb en duplication de fournisseur
-if bouton = nil then exit;
+  //FV1 - 29/08/2017 - FS#2652 - LAFOSSE : pb en duplication de fournisseur
+  if bouton = nil then exit;
 
-if (Bouton.Itemindex = 0) then
-   begin
-   SetField('T_PARTICULIER','X');
-   AfficheEcranClientMode(TRUE);
-   end else
-   begin
-   SetField('T_PARTICULIER','-');
-   AfficheEcranClientMode(FALSE);
-   end;
+  if (Bouton.Itemindex = 0) then
+  begin
+    SetField('T_PARTICULIER','X');
+    AfficheEcranClientMode(TRUE);
+  end
+  else
+  begin
+    SetField('T_PARTICULIER','-');
+    AfficheEcranClientMode(FALSE);
+  end;
+
 END;
 
 Procedure TOM_TIERS.AffIndisponible (AffMes : boolean);
