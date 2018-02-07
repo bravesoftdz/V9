@@ -97,6 +97,7 @@ begin
   FACTURE_ := THEDit(GetControl('FACTURE_'));
   GP_NATUREPIECEG := THValComboBox (GetCOntrol('GP_NATUREPIECEG'));
   GP_NATUREPIECEG.OnChange := NaturePieceChanged;
+  TgroupBox(GetControl('GRPOPTIONS')).visible := false;
 end ;
 
 procedure TOF_BTISFACTURE.OnClose ;
