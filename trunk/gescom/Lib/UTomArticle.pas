@@ -161,6 +161,13 @@ type
     TypeNomenc      : string;
     //AfficheToutesTailles : string;
 
+    //FV1 : 08/01/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
+  	DecQte				  : String;
+    DecPrix 			  : string;
+   	NBDecPrix			  : Integer;
+    NbdecQte 			  : integer;
+
+
     OldDimMasque      : string; // Ancien GA_DIMMASQUE : test si modif.
     TypeMasque        : string; // Type de masque utilisé passé en paramètre : "TYPEMASQ="
     Top, Left         : integer;
@@ -833,11 +840,11 @@ begin
     if prixParam <> 0 then SetField('GCA_PRIXBASE', prixParam);
     if (ArticleParam <> '') then
     begin
-      ArticleFourn := true;
-      SetField('GCA_ARTICLE', ArticleParam);
-      SetControlText('_ARTICLE_GEN', trim(copy(ArticleParam, 1, 18)));
-      CodeUnique;
-    end;
+    ArticleFourn := true;
+    SetField('GCA_ARTICLE', ArticleParam);
+    SetControlText('_ARTICLE_GEN', trim(copy(ArticleParam, 1, 18)));
+    CodeUnique;
+  end;
   end;
   {$ENDIF}
   SetControlText('_ARTICLE_GEN', Trim(Copy(GetControlText('GCA_ARTICLE'), 1, 18)));
@@ -1304,15 +1311,11 @@ var Critere				: String;
     StArg					: string;
     ChampMul			: String;
     ValMul				: string;
-  	DecQte				: String;
-    DecPrix 			: string;
     PrixUnique		: boolean;
 	  x							: Integer;
     i							: Integer;
     iCol					: Integer;
     pos1					: integer;
-  	NBDecPrix			: Integer;
-    NbdecQte 			: integer;
   {$IFDEF EAGLCLIENT}
   	Chp_Fournisseur	: THEdit;
   {$ELSE}
@@ -1362,10 +1365,10 @@ begin
   if not VH_GC.GCArticlesLies then SetControlProperty ('mnArtLie', 'Visible', False);
   //
   DecQte := '';
-  for i := 1 to GetParamSoc('SO_DECQTE') do DecQte := DecQte + '0';
+  for i := 1 to NBDecQte do DecQte := DecQte + '0';
   //
   DecPrix := '';
-  for i := 1 to GetParamSoc('SO_DECPRIX') do DecPrix := DecPrix + '0';
+  for i := 1 to NBDecPrix do DecPrix := DecPrix + '0';
 
   SetControlProperty('GA_POIDSNET', 'DisplayFormat', '#,##0.' + DecQte);
   SetControlProperty('GA_POIDSBRUT', 'DisplayFormat', '#,##0.' + DecQte);
@@ -1381,6 +1384,9 @@ begin
   SetControlProperty('GA_QPCBPROD', 'DisplayFormat', '#,##0.' + DecQte);
   SetControlProperty('GA_PRIXPOURQTE', 'DisplayFormat', '#,##0.' + DecQte);
   SetControlProperty('GA_PRIXPOURQTEAC', 'DisplayFormat', '#,##0.' + DecQte);
+  //FV1 : 08/02/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
+  SetControlProperty('GA_PAUA','DisplayFormat', '#,##0.' + DecPrix);
+  //
   SetControlProperty('GA_DPA', 'DisplayFormat', '#,##0.' + DecPrix);
   SetControlProperty('GA_DPR', 'DisplayFormat', '#,##0.' + DecPrix);
   SetControlProperty('GA_PVHT', 'DisplayFormat', '#,##0.' + DecPrix);
@@ -1420,10 +1426,36 @@ begin
     THNumEdit(GetControl('TPVHTMO')).NumericType := ntDecimal;
     SetControlProperty('TPVTTCMO','Decimals',NBDecPrix);
     THNumEdit(GetControl('TPVTTCMO')).NumericType := ntDecimal;
+    //
     SetControlProperty('GA_PAHT1','DisplayFormat', '#,##0.' + DecPrix);
     SetControlProperty('GA_DPR1','DisplayFormat', '#,##0.' + DecPrix);
     SetControlProperty('GA_PVHT1','DisplayFormat', '#,##0.' + DecPrix);
     SetControlProperty('GA_PVTTC1','DisplayFormat', '#,##0.' + DecPrix);
+    //
+    //FV1 : 08/02/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
+    SetControlProperty('GA_DPR_',     'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_DPR_')).NumericType := ntDecimal;
+    SetControlProperty('GA_PVHT_',    'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_PVHT_')).NumericType := ntDecimal;
+    SetControlProperty('GA_PVTTC_',   'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_PVTTC_')).NumericType := ntDecimal;
+    SetControlProperty('TOTALPA_',    'Decimals',NBDecPrix);
+    THNumEdit(GetControl('TOTALPA_')).NumericType := ntDecimal;
+    SetControlProperty('TOTALPR_',    'Decimals',NBDecPrix);
+    THNumEdit(GetControl('TOTALPR_')).NumericType := ntDecimal;
+    SetControlProperty('TOTALPVHT_',  'Decimals',NBDecPrix);
+    THNumEdit(GetControl('TOTALPVHT_')).NumericType := ntDecimal;
+    SetControlProperty('TOTALPVTTC_', 'Decimals',NBDecPrix);
+    THNumEdit(GetControl('TOTALPVTTC_')).NumericType := ntDecimal;
+    //
+    SetControlProperty('GA_DPR_1',    'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_DPR_1')).NumericType := ntDecimal;
+    SetControlProperty('GA_PVHT_1',   'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_PVHT_1')).NumericType := ntDecimal;
+    SetControlProperty('GA_PVTTC_1',  'Decimals',NBDecPrix);
+    THNumEdit(GetControl('GA_PVTTC_1')).NumericType := ntDecimal;
+    SetControlProperty('TOTALPA_1',   'Decimals',NBDecPrix);
+    //
     SetControlProperty('TOTALPA','Decimals',NBDecPrix);
     THNumEdit(GetControl('TOTALPA')).NumericType := ntDecimal;
     SetControlProperty('TOTALPR','Decimals',NBDecPrix);
@@ -1434,10 +1466,14 @@ begin
     THNumEdit(GetControl('TOTALPVTTC')).NumericType := ntDecimal;
     SetControlProperty('DQTEPREST','Decimals',NBDecQte);
     THNumEdit(GetControl('DQTEPREST')).NumericType := ntDecimal;
+    //FV1 : 08/02/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
+    SetControlProperty('GCA_PRIXBASE','DisplayFormat', '#,##0.' + DecPrix);    //
+    SetControlProperty('GF_PRIXUNITAIRE','DisplayFormat', '#,##0.' + DecPrix);    //
+    //
     SetControlProperty('GCA_PRIXBASE','Decimals',NBDecPrix);
-    THNumEdit(GetControl('GCA_PRIXBASE')).NumericType := ntDecimal;
+    //THNumEdit(GetControl('GCA_PRIXBASE')).NumericType := ntDecimal;
     SetControlProperty('GF_PRIXUNITAIRE','Decimals',NBDecPrix);
-    THNumEdit(GetControl('GF_PRIXUNITAIRE')).NumericType := ntDecimal;
+    //THNumEdit(GetControl('GF_PRIXUNITAIRE')).NumericType := ntDecimal;
   end;
 
   SetControlProperty('GA_PCB', 'DisplayFormat', '#,##0');
@@ -1697,33 +1733,33 @@ begin
     SetControlVIsible('TGA_PERTEPROP',true);
   end;
   if TypeArticle = 'OUV' then
-  begin
-    THDbValComboBox(GetControl('GA_FAMILLENIV1')).DataType := 'BTFAMILLEOUV1';
-    THDbValComboBox(GetControl('GA_FAMILLENIV2')).DataType := 'BTFAMILLEOUV2';
-    THDbValComboBox(GetControl('GA_FAMILLENIV3')).DataType := 'BTFAMILLEOUV3';
-    THButton(GetControl('BPARAMOU2')).visible := true;
-    THButton(GetControl('BPARAMOU3')).visible := true;
-    THButton(GetControl('BPARAMNV2')).visible := false;
-    THButton(GetControl('BPARAMNV3')).visible := false;
-    TDBCHeckBox(GetControl('GA_PRIXPASMODIF')).visible := false;
-    SetControlVisible('GA_REMISELIGNE',false);
+  	 begin
+  	 THDbValComboBox(GetControl('GA_FAMILLENIV1')).DataType := 'BTFAMILLEOUV1';
+   	 THDbValComboBox(GetControl('GA_FAMILLENIV2')).DataType := 'BTFAMILLEOUV2';
+  	 THDbValComboBox(GetControl('GA_FAMILLENIV3')).DataType := 'BTFAMILLEOUV3';
+     THButton(GetControl('BPARAMOU2')).visible := true;
+     THButton(GetControl('BPARAMOU3')).visible := true;
+     THButton(GetControl('BPARAMNV2')).visible := false;
+     THButton(GetControl('BPARAMNV3')).visible := false;
+     TDBCHeckBox(GetControl('GA_PRIXPASMODIF')).visible := false;
+     SetControlVisible('GA_REMISELIGNE',false);
   end else if copy(TypeArticle,1,2) = 'PA' then  // articles parcs
-  begin
-    THDbValComboBox(GetControl('GA_FAMILLENIV1')).DataType := 'BTFAMILLEPARC1';
-    THDbValComboBox(GetControl('GA_FAMILLENIV2')).DataType := 'BTFAMILLEPARC2';
-    THDbValComboBox(GetControl('GA_FAMILLENIV3')).DataType := 'BTFAMILLEPARC3';
-    THButton(GetControl('BPARAMPA2')).visible := true;
-    THButton(GetControl('BPARAMPA3')).visible := true;
-    THButton(GetControl('BPARAMNV2')).visible := false;
-    THButton(GetControl('BPARAMNV3')).visible := false;
-    SetControlVisible('GA_REMISELIGNE',false);
+  	 begin
+  	 THDbValComboBox(GetControl('GA_FAMILLENIV1')).DataType := 'BTFAMILLEPARC1';
+   	 THDbValComboBox(GetControl('GA_FAMILLENIV2')).DataType := 'BTFAMILLEPARC2';
+  	 THDbValComboBox(GetControl('GA_FAMILLENIV3')).DataType := 'BTFAMILLEPARC3';
+     THButton(GetControl('BPARAMPA2')).visible := true;
+     THButton(GetControl('BPARAMPA3')).visible := true;
+     THButton(GetControl('BPARAMNV2')).visible := false;
+     THButton(GetControl('BPARAMNV3')).visible := false;
+     SetControlVisible('GA_REMISELIGNE',false);
   end else
-  begin
-    if (GetControl('BPARAMOU2')) <> nil then THButton(GetControl('BPARAMOU2')).visible := false;
-    if (GetControl('BPARAMOU3')) <> nil then THButton(GetControl('BPARAMOU3')).visible := false;
-    if (GetControl('BPARAMNV2')) <> nil then THButton(GetControl('BPARAMNV2')).visible := true;
-    if (GetControl('BPARAMNV3')) <> nil then THButton(GetControl('BPARAMNV3')).visible := true;
-  end;
+  	 begin
+		 if (GetControl('BPARAMOU2')) <> nil then THButton(GetControl('BPARAMOU2')).visible := false;
+		 if (GetControl('BPARAMOU3')) <> nil then THButton(GetControl('BPARAMOU3')).visible := false;
+ 		 if (GetControl('BPARAMNV2')) <> nil then THButton(GetControl('BPARAMNV2')).visible := true;
+		 if (GetControl('BPARAMNV3')) <> nil then THButton(GetControl('BPARAMNV3')).visible := true;
+  	 end;
   //
   TFFiche(ecran).OnAfterFormShow := AfterFormShow;
   //
@@ -2254,7 +2290,8 @@ Begin
   	 begin
      // Gestion des métrés
      BExcel := TToolbarButton97(GetControl('BTEXCEL'));
-     BExcel.Visible := false;
+     // Modified by f.vautrain 14/11/2017 14:36:54 - MICHEL SA : Violation d'accès sur ouverture article pourcentage
+     If Assigned(BExcel) then BExcel.Visible := false;
      // gestion des nomenclatures : déclaration bouton
      BNomenclature := TToolbarButton97(ecran.FindComponent('BNOMENC'));
      BNomenclature.onclick := OuvreNomenclature;
