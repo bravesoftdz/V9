@@ -600,32 +600,38 @@ begin
   //Si la sous Famille est sur plusieurs famille
   if Pos(';',Libre) > 0 then
   begin
-    if Pos(Famille2,Libre) < Pos(';',Libre) then
-      Libre := AnsiReplaceStr(libre, Famille2 + ';', '')
+    if Pos(Famille1,Libre) < Pos(';',Libre) then
+      Libre := AnsiReplaceStr(libre, Famille1 + ';', '')
     else
-      Libre := AnsiReplaceStr(libre, ';' + Famille2, '');
+      Libre := AnsiReplaceStr(libre, ';' + Famille1, '');
     TOBL.PutValue('CC_Libre', Libre);
     TOBL.UpdateDB(false, False, '');
-    //suppression des sous-famille niuveau 3
+    //suppression de la  ligne dans la grille
     GSFAM2.DeleteRow(GSFAM2.Row);
     //
     FreeAndNil(TOBL);
     //
+    //suppression des sous-famille niuveau 3
     if TOBFAM3.Detail.count > 0 then DeleteFamille3;
   end
   else
   begin
+    //Suppression de la famille 2 dans la table
     StSQL := 'DELETE FROM CHOIXCOD WHERE CC_TYPE ="' + Niveau2 + '" AND CC_CODE="' + Famille2 + '"';
     if ExecuteSQL(StSQL) > 0 then
     begin
-      //suppression des sous-famille niuveau 3
+      //suppression de la  ligne dans la grille
       GSFAM2.DeleteRow(GSFAM2.Row);
+      //
       FreeAndNil(TOBL);
+      //
+      //suppression des sous-famille niuveau 3
       if TOBFAM3.Detail.count > 0 then DeleteFamille3;
     end
     else
       PGIError('Suppression ' + LibFam2.Caption + ' Impossible');
   end;
+
 
   AfficheLesGrilles;
 
