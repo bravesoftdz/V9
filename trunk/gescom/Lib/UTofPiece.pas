@@ -599,7 +599,7 @@ procedure TOF_ComplPiece.GP_TIERSLIVREOnExit(Sender: TObject);
 begin
   if (sTiersLivreOnEnter<>GetControlText('GP_TIERSLIVRE')) then
   begin
-    SetControlText('GP_NADRESSELIV',IntToStr(GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr)));
+    SetControlText('GP_NADRESSELIV',GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr));
     SetControlProperty('ADL_NUMEROCONTACT', 'Plus', GetCodeAuxi('ADL'));
     RechercheAdresseLivraison;
   end;
@@ -623,7 +623,7 @@ procedure TOF_ComplPiece.GP_TIERSFACTUREOnExit(Sender: TObject);
 begin
   if (sTiersFactureOnEnter<>GetControlText('GP_TIERSFACTURE')) then
   begin
-    SetControlText('GP_NADRESSEFAC',IntToStr(GetNumAdresseFromTiers('', GetControlText('GP_TIERSFACTURE'), taFact)));
+    SetControlText('GP_NADRESSEFAC',GetNumAdresseFromTiers('', GetControlText('GP_TIERSFACTURE'), taFact));
     SetControlProperty('ADF_NUMEROCONTACT', 'Plus', GetCodeAuxi('FAC'));
     RechercheAdresseFacturation;
   end;

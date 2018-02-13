@@ -146,10 +146,10 @@ function GetTobTiers(sChamp, sWhere: String; TobTiers: Tob; SelectDB:Boolean = F
 function ExistCommercial(sCodeCommercial : string; WithAlert: Boolean = false):Boolean;
 
 { Renvoie field de TIERS ou de TIERSCOMPL }
-function GetFieldFromTiers(Field, sNatureAux, sTiers: string): Variant;
+function GetFieldFromTiers(Field, sNatureAux, sTiers: string): String;
 function GetFieldFromT(Const FieldName, Tiers: string): Variant;
 { Retourne le numéro de l'adresse par défaut d'un tiers }
-function GetNumAdresseFromTiers(NatureAuxi, Tiers: String; TheType: TypeAdresse): Integer;
+function GetNumAdresseFromTiers(NatureAuxi, Tiers: String; TheType: TypeAdresse): String;
 { Recherche du pays d'un code postal ou d'une ville }
 function GetFieldFromCodePostal(Field, sCodePostal, sVille: string): Variant;
 function GetNomsFromContact(Fields: Array of string; Auxiliaire: string; NumeroContact: integer): MyArrayValue;
@@ -1600,14 +1600,14 @@ Créé le ...... : 11/09/2002
 Modifié le ... : 11/02/2003
 Description .. : Construction du WHERE pour la fiche TIERSCOMPL
 *****************************************************************}
-function GetFieldFromTiers(Field, sNatureAux, sTiers: string): Variant;
+function GetFieldFromTiers(Field, sNatureAux, sTiers: string): String;
 begin
    if wGetPrefixe(Field) = 'T' then
 	   Result := wGetSqlFieldValue(Field, 'TIERS', WhereTiers(sNatureAux, sTiers))
    else if wGetPrefixe(Field) = 'YTC' then
       Result := wGetSqlFieldValue(Field, 'TIERSCOMPL', WhereTiersCompl(sNatureAux, sTiers))
    else
-      Result := null;
+      Result := '';
 end;
 
 function GetFieldFromT(Const FieldName, Tiers: string): Variant;
@@ -1678,7 +1678,7 @@ Auteur  ...... : Thierry Petetin
 Créé le ...... : 31/01/2003
 Description .. : Retourne le numéro de l'adresse par défaut d'un tiers
 *****************************************************************}
-function GetNumAdresseFromTiers(NatureAuxi, Tiers: String; TheType: TypeAdresse): Integer;
+function GetNumAdresseFromTiers(NatureAuxi, Tiers: String; TheType: TypeAdresse): String;
 var
   FieldName: String;
 begin
@@ -1690,7 +1690,7 @@ begin
   if FieldName <> '' then
     Result := GetFieldFromTiers(FieldName, NatureAuxi, Tiers)
   else
-    Result := 0;
+    Result := '';
 end;
 
 {***********A.G.L.***********************************************

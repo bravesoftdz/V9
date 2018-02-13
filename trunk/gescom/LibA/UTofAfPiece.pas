@@ -485,7 +485,7 @@ begin
   TOBADR_Old.Dupliquer (TOBAdresses,true,true); // sauvegarde des adresses origine
 
   {$IFDEF BTP}
-  SetControlText('GP_NADRESSELIV',IntToStr(GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr)));
+  SetControlText('GP_NADRESSELIV', GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr));
 	if ExisteAdresseLiv (LaTOB.GetValue('GP_TIERSLIVRE')) then
   begin
     THEdit(GetControl('LNUMLIVR')).visible := true;
@@ -1817,7 +1817,7 @@ procedure TOF_AFPiece.GP_TIERSLIVRE_OnExit(Sender : TObject);
 begin
 	if TiersLivre <> THEdit(GetControl('GP_TIERSLIVRE')).Text then
   begin
-    SetControlText('GP_NADRESSELIV',IntToStr(GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr)));
+    SetControlText('GP_NADRESSELIV', GetNumAdresseFromTiers('', GetControlText('GP_TIERSLIVRE'), taLivr));
     SetControlProperty('ADL_NUMEROCONTACT', 'Plus', GetCodeAuxi('ADL'));
     RechercheAdresseLivraison;
     if ExisteAdresseLiv (LaTOB.GetValue('GP_TIERSLIVRE')) then

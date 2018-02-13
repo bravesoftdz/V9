@@ -378,9 +378,9 @@ begin
   if WithLigneCompl then
     Sql := MakeSelectLigne;
 {$ENDIF GPAOLIGHT}
+  Document.cledoc := CledocLigne;
 	if FromExcel then
   begin
-		Document.cledoc := CledocLigne;
 		Sql := MakeSelectLigneBtp (WithLigneCompl,false,WithLigneFac,true,Document);
   end else
   begin
