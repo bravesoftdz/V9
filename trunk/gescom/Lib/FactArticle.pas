@@ -166,6 +166,7 @@ Begin
 
   Result := True;
 
+  //FV1 : 07/02/2018 - FS#2854 - Report V9 : Avertissement si utilisation d'un article non tenu en stock en saisie livraison
   If Not GetParamSocSecur('SO_ARTNONTENUESTOCK', False) then Exit;
 
   if (NaturePiece <> 'LBT') then Exit;
