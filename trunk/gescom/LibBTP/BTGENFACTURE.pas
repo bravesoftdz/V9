@@ -348,6 +348,9 @@ begin
   //
   if not result then Exit;
   //
+  //FV1 - 13/02/2018 : FS#2943 - CLOSSUR - Erreur de numéro de situation pour la génération d'avoir à partir de préparation
+  if GenereAvoir then NumSItuation := NumSItuation + 1;
+  //
   PassP := GetInfoParPiece(NewNature, 'GPP_TYPEECRCPTA');
   OkCpta := ((PassP <> '') and (PassP <> 'RIE'));
   //
