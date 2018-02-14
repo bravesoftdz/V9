@@ -569,6 +569,7 @@ Var TobAff  : TOB;
     TobBPI  : TOB;
     TobTiers: TOB;
     TobContact  : tob;
+    TobBanque   : Tob;
     Req     : String;
     QQ      : TQuery;
 begin
@@ -613,10 +614,10 @@ begin
     begin
       TobBPI.SelectDB('',QQ);
       PTOB.AddChampSupValeur ('BPI_TYPEINTERV',     TOBBPI.GetValue('BPI_TYPEINTERV'));
-      PTOB.AddChampSupValeur ('BPI_TYPEPAIE',       TOBBPI.GetValue('BPI_TYPEPAIE'));
+      PTOB.AddChampSupValeur ('TYPEPAIE',           TOBBPI.GetValue('BPI_TYPEPAIE'));
       PTOB.AddChampSupValeur ('NUMEROCONTACT',      TOBBPI.GetValue('BPI_NUMEROCONTACT'));
-      PTOB.AddChampSupValeur ('BPI_NUMERORIB',      TOBBPI.GetValue('BPI_NUMERORIB'));
-      PTOB.AddChampSupValeur ('BPI_DATECONTRAT',    TOBBPI.GetValue('BPI_DATECONTRAT'));
+      PTOB.AddChampSupValeur ('NUMERORIB',          TOBBPI.GetValue('BPI_NUMERORIB'));
+      PTOB.AddChampSupValeur ('DATECONTRAT',        TOBBPI.GetValue('BPI_DATECONTRAT'));
     end;
     Ferme(QQ);
     FreeAndNil(TobBpI);
@@ -629,8 +630,8 @@ begin
     begin
       TobBAI.SelectDB('',QQ);
       PTOB.AddChampSupValeur ('BAI_NUMERO',         TOBBAI.GetValue('BAI_NUMERO'));
-      PTOB.AddChampSupValeur ('BAI_NUMERORIB',      TOBBAI.GetValue('BAI_NUMERORIB'));
-      PTOB.AddChampSupValeur ('BAI_TYPEPAIE',       TOBBAI.GetValue('BAI_TYPEPAIE'));
+      PTOB.AddChampSupValeur ('NUMERORIB',          TOBBAI.GetValue('BAI_NUMERORIB'));
+      PTOB.AddChampSupValeur ('TYPEPAIE',           TOBBAI.GetValue('BAI_TYPEPAIE'));
       PTOB.AddChampSupValeur ('NUMEROCONTACT',      TOBBAI.GetValue('BAI_NUMEROCONTACT'));
     end;
     Ferme(QQ);
@@ -657,6 +658,19 @@ begin
       PTOB.AddChampSupValeur('NOMCONTACT', TOBcontact.GetString('C_NOM')+ ' ' + TOBcontact.GetString('C_PRENOM'));
   end;
   FreeAndNil(TobContact);
+
+  //Lecture des références Banquaires -----
+  if PTOB.GetInteger('NUMERORIB') <> 0 then
+  begin
+    TobBanque := TOB.Create('BANQUE', nil, -1);
+    If GetCodeBQ(TobBanque, Fournisseur,  PTOB.GetInteger('NUMERORIB')) then
+    begin
+      PTOB.AddChampSupValeur('REFBANCAIRE', TobBanque.GetString('R_ETABBQ') + '-' + TobBanque.GetString('R_GUICHET') + '-' + TobBanque.GetString('R_NUMEROCOMPTE') + '-' + TobBanque.GetString('R_CLERIB'));
+      PTOB.AddChampSupValeur('DOMICILIATION', TobBanque.GetString('R_DOMICILIATION'));
+    end;
+  end;
+  FreeAndNil(TobBanque);
+
 
 end;
 
@@ -754,7 +768,6 @@ var qualif  : string;
     XX      : WideString;
     OkLib   : Boolean;
 begin
-
   OKLib := GetParamSocSecur('SO_BTLIBVSBN', False);
 
 	sTOB.putValue('REFLIGNE',fTOB.getValue('REFLIGNE'));
@@ -762,7 +775,7 @@ begin
 
   if fTOB.getValue('GL_REFARTSAISIE') <> '' then sTOB.putValue('REFARTLIGNE',fTOB.getValue('GL_REFARTSAISIE'));
 
-  if fTOB.getValue('GL_LIBELLE') <> '' then sTOB.putValue('LIBELLELIGNE', fTOB.getValue('GL_LIBELLE'));
+  if fTOB.getValue('GL_LIBELLE') <> '' then sTOB.putValue('LIBELLELIGNE',fTOB.getValue('GL_LIBELLE'));
 
   if not OKLib then
   begin

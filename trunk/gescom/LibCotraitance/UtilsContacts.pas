@@ -126,6 +126,9 @@ begin
   if fContact = '0' then
   begin
     RechContactTiers;
+    //FV1 - 14/02/2018 : FS#2901 - MOUTHON : <Erreur> ou violation d'accès sur le mail envoyé au ST ou COT
+    if TobContact = nil then exit;
+    //
     if TobContact.Detail.Count > 1 then
         AppelContact
     else

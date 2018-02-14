@@ -3030,9 +3030,9 @@ Begin
   end;
   if QueFacture then SqlPlus := 'AND BST_NATUREPIECE IN ("FBT","DAC") ';
   // récupération numéro de facture de la dernière situation
-  Req:='SELECT BST_NUMEROFAC,BST_NATUREPIECE FROM BSITUATIONS WHERE '+
+  Req:='SELECT BST_NUMEROFAC,BST_NATUREPIECE,BST_NUMEROSIT FROM BSITUATIONS WHERE '+
       'BST_SSAFFAIRE="'+ TOBPiece.GetValue('GP_AFFAIREDEVIS') +'" '+
-      SqlPlus+' AND BST_VIVANTE="X" '+
+      SqlPlus+' AND BST_VIVANTE="X" AND BST_NUMEROSIT > '+TOBPiece.GetString('NUMEROSIT') +' '+
       'ORDER BY BST_NUMEROSIT DESC';
   Q:=OpenSQL(Req,TRUE,1,'',true);
   if Not Q.EOF then
@@ -3569,11 +3569,15 @@ begin
               ModeleR:=GetParamsoc('SO_BTETATRECAPDIRECT');
             end;
           end;
-          if ModeleR='' then ModeleR:=Copy(Modele,1,2)+'R';
-          UneTOB := ImpressionViaTOB.TOBRECAP;
-    			if (MultiEtat) and ( NbSSTrait <= 5) then LastPdfBatch ; // inutile si pas de modèle et impression du tableau seul
-          if LanceEtatTOB ('E','GPJ',ModeleR,UneTOB,Bapercu,false,false,nil,'','',false) < 0 then V_PGI.IoError:=oeUnknown ;
-          // ---
+          //FV1 - 09/02/2018 : FS#2930 - TEST BL : Pb d'impression dans le cas d'une situation avec plus de 5 sous-traitants
+          if TableauSituation = 'X' then
+          begin
+            if ModeleR='' then ModeleR:=Copy(Modele,1,2)+'R';
+            UneTOB := ImpressionViaTOB.TOBRECAP;
+            if (MultiEtat) and ( NbSSTrait <= 5) then LastPdfBatch ; // inutile si pas de modèle et impression du tableau seul
+            if LanceEtatTOB ('E','GPJ',ModeleR,UneTOB,Bapercu,false,false,nil,'','',false) < 0 then V_PGI.IoError:=oeUnknown ;
+            // ---
+          end;
           if (NbSSTrait > 5) then
           begin
             ModeleS:=GetParamsoc('SO_BTETATSSTRAITANCE');
@@ -4629,8 +4633,7 @@ var Req : string;
 begin
 	result := false;
   Req := 'SELECT R_DOMICILIATION,R_ETABBQ,R_GUICHET,R_NUMEROCOMPTE,R_CLERIB FROM RIB WHERE ' +
-         'R_AUXILIAIRE="' + CodeAuxiliaire + '"' +
-         'R_NUMERORIB='+ IntToStr(NumeroRIB);
+         'R_AUXILIAIRE="' + CodeAuxiliaire + '" AND R_NUMERORIB='+ IntToStr(NumeroRIB);
   QQ := OpenSql(Req,True,-1,'',true);
   if not QQ.eof then
   begin
