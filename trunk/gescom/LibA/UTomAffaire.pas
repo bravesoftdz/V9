@@ -7554,9 +7554,16 @@ begin
     if Assigned(GetControl('AFF_REFEXTERNE')) then SetControlVisible('AFF_REFEXTERNE', True);
     if Assigned(GetControl('TAFF_REFEXTERNE')) then SetControlVisible('TAFF_REFEXTERNE', True);
     exit;
-  end else
+  end
+  else
   begin
-    TToolbarButton97  (getControl('MNCOTRAIT')).visible := true;
+    //FV1 : 14/02/2018 - FS#2906 - MOUTHON : Cotraitants déjà existants lors de la création de l'affaire
+    if AFTypeAction=taCreat then
+      TToolbarButton97  (getControl('MNCOTRAIT')).visible := False
+    else
+      TToolbarButton97  (getControl('MNCOTRAIT')).visible := True;
+    //
+    //TToolbarButton97  (getControl('MNCOTRAIT')).visible := true;
     if Assigned(GetControl('TS_COTRAITANCE')) then
     begin
     	SetControlVisible('TS_COTRAITANCE', true);
