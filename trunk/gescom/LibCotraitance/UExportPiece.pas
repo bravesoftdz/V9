@@ -427,7 +427,14 @@ begin
       begin
       	TOBL.free;
         continue;
-      end else
+      end
+      //FV1 : 14/02/2018 - FS#2898 - MOUTHON : Message lors de la visu du devis du STT sous EXCEL
+      else if (ffournisseur <> '') and (ffournisseur <> fournisseur) then
+      begin
+      	TOBL.free;
+        continue;
+      end
+      else
       begin
         if Isvariante(TOBl) then TOBL.putvalue('GL_TYPELIGNE','VAR');
         TOBL.AddChampSupValeur ('REFLIGNE',DebutRefLigne +IntToStr(NumOrdre)+';;');
