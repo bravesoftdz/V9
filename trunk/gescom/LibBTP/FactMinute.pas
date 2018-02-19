@@ -46,6 +46,7 @@ TOBMinute.AddChampSupValeur ('BMN_UNITEHRS','',false);
 TOBMinute.AddChampSupValeur ('BMN_PUV',0,false);
 TOBMinute.AddChampSupValeur ('BMN_MONTANT',0,false);
 TOBMinute.AddChampSupValeur ('BMN_QTEDUDETAIL',1,false);
+TOBMinute.AddChampSupValeur ('BMN_VARIANTE','-',false);
 end;
 
 procedure AjouteTotDocument (TOBPiece,TOBTiers,TOBAffaire,TOBMinute : TOB);
@@ -111,10 +112,19 @@ TOBM.PutValue ('BMN_NBHRS',Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue
 TOBM.PutValue ('BMN_PUV',         TOBL.GetValue('GL_PUHTDEV'));
 TOBM.PutValue ('BMN_MONTANT',     TOBL.GetValue('GL_MONTANTHTDEV'));
 //
-TOTPATOT  := TOTPATOT  + TOBL.GetValue('GL_MONTANTPA');
-TOTPRTOT  := TOTPRTOT  + TOBL.GetValue('GL_MONTANTPR');
-TOTPVTOT  := TOTPVTOT  + TOBL.GetValue('GL_MONTANTHTDEV') ;
-TOTHRSTOT := TOTHRSTOT + Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ);
+  //FV1 : 19/02/2018 - FS#2927 - TREUIL - Edition minute : En totalisation générale ne pas prendre en compte les variantes
+  if IsVariante(TOBL) then
+  Begin
+    TOBMinute.PutValue('BMN_VARIANTE','X');
+  end
+  else
+  begin
+    TOTPATOT  := TOTPATOT  + TOBL.GetValue('GL_MONTANTPA');
+    TOTPRTOT  := TOTPRTOT  + TOBL.GetValue('GL_MONTANTPR');
+    TOTPVTOT  := TOTPVTOT  + TOBL.GetValue('GL_MONTANTHTDEV') ;
+    TOTHRSTOT := TOTHRSTOT + Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ);
+  end;
+
 end;
 
 procedure AjouteOuvrageMinute (TOBPiece,TOBL,TOBTiers,TOBAffaire,TOBOuvrage,TOBMinute : TOB);
@@ -123,63 +133,76 @@ var Indice,niveau : integer;
     Qte : double;
 begin
 
-if TOBL.GetValue('GL_INDICENOMEN') = 0 then Exit;
-TOBGO := TOBOuvrage.detail [TOBL.GetValue('GL_INDICENOMEN')-1];
-if TOBGO = nil then exit;
-TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
-AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
-AddchampLigne (TOBM);
+  if TOBL.GetValue('GL_INDICENOMEN') = 0 then Exit;
+  TOBGO := TOBOuvrage.detail [TOBL.GetValue('GL_INDICENOMEN')-1];
+  if TOBGO = nil then exit;
+  TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
+  AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
+  AddchampLigne (TOBM);
 
-TOBM.PutValue ('BMN_TYPELIGNE','OUV');
-TOBM.PutValue ('BMN_CODEARTICLE',TOBL.GetValue('GL_CODEARTICLE'));
-TOBM.PutValue ('BMN_LIBELLE',TOBL.GetValue('GL_LIBELLE'));
-TOBM.PutValue ('BMN_UNITE',TOBL.GetValue('GL_QUALIFQTEVTE'));
-TOBM.PutValue ('BMN_QTEFACT',TOBL.GetValue('GL_QTEFACT'));
-TOBM.PutValue ('BMN_PUA',TOBL.GetValue('GL_DPA'));
-TOBM.PutValue ('BMN_MTDEBOURSE',TOBL.GetValue('GL_MONTANTPA'));
-TOBM.PutValue ('BMN_MTREVIENT',TOBL.GetValue('GL_MONTANTPR'));
-TOBM.PutValue ('BMN_NBHRS',Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ));
-TOBM.PutValue ('BMN_PUV',TOBL.GetValue('GL_PUHTDEV'));
-TOBM.PutValue ('BMN_MONTANT',TOBL.GetValue('GL_MONTANTHTDEV'));
+  TOBM.PutValue ('BMN_TYPELIGNE','OUV');
+  TOBM.PutValue ('BMN_CODEARTICLE',TOBL.GetValue('GL_CODEARTICLE'));
+  TOBM.PutValue ('BMN_LIBELLE',TOBL.GetValue('GL_LIBELLE'));
+  TOBM.PutValue ('BMN_UNITE',TOBL.GetValue('GL_QUALIFQTEVTE'));
+  TOBM.PutValue ('BMN_QTEFACT',TOBL.GetValue('GL_QTEFACT'));
+  TOBM.PutValue ('BMN_PUA',TOBL.GetValue('GL_DPA'));
+  TOBM.PutValue ('BMN_MTDEBOURSE',TOBL.GetValue('GL_MONTANTPA'));
+  TOBM.PutValue ('BMN_MTREVIENT',TOBL.GetValue('GL_MONTANTPR'));
+  TOBM.PutValue ('BMN_NBHRS',Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ));
+  TOBM.PutValue ('BMN_PUV',TOBL.GetValue('GL_PUHTDEV'));
+  TOBM.PutValue ('BMN_MONTANT',TOBL.GetValue('GL_MONTANTHTDEV'));
 
-if TOBGO.detail.count > 0 then
-begin
-	TOBM.PutValue('BMN_QTEDUDETAIL',TOBGO.detail[0].getValue('BLO_QTEDUDETAIL'));
-	for Indice := 0 to TOBGO.detail.Count -1 do
+  //FV1 : 19/02/2018 - FS#2927 - TREUIL - Edition minute : En totalisation générale ne pas prendre en compte les variantes
+  If isvariante(TOBL) then
+  Begin
+    TOBM.PutValue('BMN_VARIANTE','X');
+  end;
+
+  if TOBGO.detail.count > 0 then
+  begin
+    TOBM.PutValue('BMN_QTEDUDETAIL',TOBGO.detail[0].getValue('BLO_QTEDUDETAIL'));
+    for Indice := 0 to TOBGO.detail.Count -1 do
     begin
-    TOBO := TOBGO.detail[Indice];
-    // VARIANTE
-    if IsVariante(TOBO) then continue;
-    // --
-    TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
-    AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
-    AddchampLigne (TOBM);
-    TOBM.PutValue ('BMN_TYPELIGNE','ART');
-    TOBM.PutValue ('BMN_TYPEARTICLE','MAR');
-    TOBM.PutValue ('BMN_CODEARTICLE',TOBO.GetValue ('BLO_CODEARTICLE'));
-    TOBM.PutValue ('BMN_LIBELLE',TOBO.GetValue ('BLO_LIBELLE'));
-    TOBM.PutValue ('BMN_QTEFACT',TOBO.GetValue ('BLO_QTEFACT'));
-		TOBM.PutValue ('BMN_UNITE',TOBO.GetValue('BLO_QUALIFQTEVTE'));
-    TOBM.PutValue ('BMN_PUA',TOBO.GetValue('BLO_DPA'));
-		TOBM.PutValue ('BMN_MTDEBOURSE',TOBO.GetValue('BLO_MONTANTPA'));
-		TOBM.PutValue ('BMN_MTREVIENT',TOBO.GetValue('BLO_MONTANTPR'));
-    TOBM.PutValue ('BMN_NBHRS',Arrondi(TOBO.GetValue('BLO_TPSUNITAIRE')*TOBO.GetValue('BLO_QTEFACT'),V_PGI.OKDecQ));
-    TOBM.PutValue ('BMN_PUV',TOBO.GetValue('BLO_PUHTDEV'));
-    TOBM.PutValue ('BMN_MONTANT',TOBO.GetValue('BLO_MONTANTHTDEV'));
+      TOBO := TOBGO.detail[Indice];
+      TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
+      if not GetParamSocSecur('SO_IMPVARIANTEMINUTE', False) then Continue;
+      AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
+      AddchampLigne (TOBM);
+      TOBM.PutValue ('BMN_TYPELIGNE','ART');
+      TOBM.PutValue ('BMN_TYPEARTICLE','MAR');
+      TOBM.PutValue ('BMN_CODEARTICLE',TOBO.GetValue ('BLO_CODEARTICLE'));
+      TOBM.PutValue ('BMN_LIBELLE',TOBO.GetValue ('BLO_LIBELLE'));
+      TOBM.PutValue ('BMN_QTEFACT',TOBO.GetValue ('BLO_QTEFACT'));
+      TOBM.PutValue ('BMN_UNITE',TOBO.GetValue('BLO_QUALIFQTEVTE'));
+      TOBM.PutValue ('BMN_PUA',TOBO.GetValue('BLO_DPA'));
+      TOBM.PutValue ('BMN_MTDEBOURSE',TOBO.GetValue('BLO_MONTANTPA'));
+      TOBM.PutValue ('BMN_MTREVIENT',TOBO.GetValue('BLO_MONTANTPR'));
+      TOBM.PutValue ('BMN_NBHRS',Arrondi(TOBO.GetValue('BLO_TPSUNITAIRE')*TOBO.GetValue('BLO_QTEFACT'),V_PGI.OKDecQ));
+      TOBM.PutValue ('BMN_PUV',TOBO.GetValue('BLO_PUHTDEV'));
+      TOBM.PutValue ('BMN_MONTANT',TOBO.GetValue('BLO_MONTANTHTDEV'));
+      // VARIANTE
+      //FV1 : 19/02/2018 - FS#2927 - TREUIL - Edition minute : En totalisation générale ne pas prendre en compte les variantes
+      if IsVariante(TOBO) then
+      Begin
+        TOBM.PutValue('BMN_VARIANTE','X');
+      end;
     end;
-//
-end;
+  end;
 
-TOTPATOT := TOTPATOT + TOBL.GetValue('GL_MONTANTPA');
-TOTPRTOT := TOTPRTOT + TOBL.GetValue('GL_MONTANTPR');
-TOTPVTOT := TOTPVTOT + TOBL.GetValue('GL_MONTANTHTDEV') ;
-TOTHRSTOT := TOTHRSTOT + Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ);
+  //FV1 : 19/02/2018 - FS#2927 - TREUIL - Edition minute : En totalisation générale ne pas prendre en compte les variantes
+  if not IsVariante(TOBL) then
+  begin
+    TOTPATOT := TOTPATOT + TOBL.GetValue('GL_MONTANTPA');
+    TOTPRTOT := TOTPRTOT + TOBL.GetValue('GL_MONTANTPR');
+    TOTPVTOT := TOTPVTOT + TOBL.GetValue('GL_MONTANTHTDEV') ;
+    TOTHRSTOT := TOTHRSTOT + Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ);
+  end;
 
-TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
-AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
-AddchampLigne (TOBM);
+  TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
+  AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
+  AddchampLigne (TOBM);
 
-TOBM.PutValue ('BMN_TYPELIGNE','FOV');
+  TOBM.PutValue ('BMN_TYPELIGNE','FOV');
 
 end;
 
