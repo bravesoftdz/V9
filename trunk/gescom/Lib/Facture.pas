@@ -5338,7 +5338,8 @@ begin
   //
   TheMetreDoc.OkMetre       := TheMetreDoc.ControleMetreDoc(NomRepDoc);
   //
-
+  TDescriptif.Width := (canvas.TextWidth('W')*70) +16;
+  //
   CopierColler.Activate;
   TheBordereauMen.Activate;
   {$ENDIF}
@@ -19357,7 +19358,8 @@ begin
   begin
     CacherDesc := False;
     //
-    TDescriptif.Width := (canvas.TextWidth('W')*70) +16;
+    //FV1 - 27/02/2018 : FS#2971 - RESINA - Redimensionnement automatique en largeur de la fenêtre de descriptif détaillé des articles
+    //TDescriptif.Width := (canvas.TextWidth('W')*70) +16;
     //
     //{$IFDEF BTP}
     if (TOBL.GetValue('GL_REFARTSAISIE') = '') or (TOBL.GetValue('GL_TYPELIGNE')='COM') then CacherDesc := True;
@@ -28609,6 +28611,7 @@ procedure TFFacture.BRENUMClick(Sender: TObject);
 var force : boolean;
     CBtnTxt : PCustBtnText;
 begin
+
   force := false;
   if TTNUMP.IsOneManuel then
   begin
