@@ -1331,6 +1331,7 @@ BEGIN
   {RMVT}
   TOBE.PutValue('E_JOURNAL',MM.Jal)          ; TOBE.PutValue('E_EXERCICE',MM.Exo) ;
   TOBE.PutValue('E_DATECOMPTABLE',MM.DateC)  ; TOBE.PutValue('E_ETABLISSEMENT',MM.Etabl) ;
+  //
   TOBE.PutValue('E_DEVISE',MM.CodeD)         ; TOBE.PutValue('E_TAUXDEV',MM.TauxD) ;
   TOBE.PutValue('E_DATETAUXDEV',MM.DateTaux) ; TOBE.PutValue('E_QUALIFPIECE',MM.Simul) ;
   TOBE.PutValue('E_NATUREPIECE',MM.Nature)   ; TOBE.PutValue('E_NUMEROPIECE',MM.Num) ;
@@ -1789,7 +1790,8 @@ Var i : integer ;
   procedure GenereEcriture (LibelleForce : string='');
   begin
     {Ligne d'écriture}
-    TOBTTC:=Nil ; if TOBEcr.Detail.Count>0 then TOBTTC:=TOBEcr.Detail[0] ;
+    TOBTTC:=Nil ;
+    if TOBEcr.Detail.Count>0 then TOBTTC:=TOBEcr.Detail[0] ;
     TOBE:=TOB.Create('ECRITURE',TOBEcr,-1) ;
     PieceVersECR(MM,TOBPiece,TOBTiers,TOBE,False) ;
     {Général}
@@ -1833,7 +1835,7 @@ Var i : integer ;
       TOBE.PutValue('E_ETAT','0000000000') ;
       if TOBTTC<>Nil then
       BEGIN
-        TOBE.PutValue('E_MODEPAIE',TOBTTC.GetValue('E_MODEPAIE')) ;
+        TOBE.PutValue('E_MODEPAIE',    TOBTTC.GetValue('E_MODEPAIE')) ;
         TOBE.PutValue('E_DATEECHEANCE',TOBTTC.GetValue('E_DATEECHEANCE')) ;
       END ;
     END ;
@@ -2454,8 +2456,11 @@ var TOBPar,TOBE,TOBG : TOB;
     BEGIN
       TOBE.PutValue('E_ECHE','X') ; TOBE.PutValue('E_NUMECHE',TOBTTC.GetValue('E_NUMECHE')) ; TOBE.PutValue('E_ETATLETTRAGE','AL') ;
       TOBE.PutValue('E_ETAT','0000000000') ;
-      TOBE.PutValue('E_MODEPAIE',TOBTTC.GetValue('E_MODEPAIE')) ;
-      TOBE.PutValue('E_DATEECHEANCE',TOBTTC.GetValue('E_DATEECHEANCE')) ;
+      if TOBTTC<>Nil then
+      BEGIN
+        TOBE.PutValue('E_MODEPAIE',TOBTTC.GetValue('E_MODEPAIE')) ;
+        TOBE.PutValue('E_DATEECHEANCE',TOBTTC.GetValue('E_DATEECHEANCE')) ;
+      end;
     END ;
     {Montants}
     DP:=0 ; CP:=0 ; DD:=0 ; CD:=0 ;
@@ -2662,6 +2667,8 @@ begin
     TOBTTC.PutValue('E_CODEACCEPT',MPTOACC(ModePaie)) ;
     TOBTTC.PutValue('E_DATEPAQUETMIN',MM.DateC) ;
     TOBTTC.PutValue('E_DATEPAQUETMAX',MM.DateC) ;
+    //FV1 - 23/02/2018 : FS#2964 - Viviane - Il faut charger le champ E_DATEVALEUR avec le champ E_DATECOMPTABLE pour la ligne « TTC »
+    TOBTTC.PutValue('E_DATEVALEUR', MM.DateC) ;
     {Montants}
     DP:=0 ; CP:=0 ; DD:=0 ; CD:=0 ;
     RecupLesDC(TOBH,XD,XP) ;
@@ -2752,6 +2759,8 @@ BEGIN
         TOBTTC.PutValue('E_CODEACCEPT',MPTOACC(ModePaie)) ;
         TOBTTC.PutValue('E_DATEPAQUETMIN',MM.DateC) ;
         TOBTTC.PutValue('E_DATEPAQUETMAX',MM.DateC) ;
+        //FV1 - 23/02/2018 : FS#2964 - Viviane - Il faut charger le champ E_DATEVALEUR avec le champ E_DATECOMPTABLE pour la ligne « TTC »
+        TOBTTC.PutValue('E_DATEVALEUR', MM.DateC) ;
         {Montants}
         DP:=0 ; CP:=0 ; DD:=0 ; CD:=0 ;
         RecupLesDC(TOBL,XD,XP) ;
@@ -2816,6 +2825,8 @@ BEGIN
       TOBTTC.PutValue('E_CODEACCEPT',MPTOACC(ModePaie)) ;
       TOBTTC.PutValue('E_DATEPAQUETMIN',MM.DateC) ;
       TOBTTC.PutValue('E_DATEPAQUETMAX',MM.DateC) ;
+      //FV1 - 23/02/2018 : FS#2964 - Viviane - Il faut charger le champ E_DATEVALEUR avec le champ E_DATECOMPTABLE pour la ligne « TTC »
+      TOBTTC.PutValue('E_DATEVALEUR', MM.DateC) ;
       {Montants}
       DP:=0 ; CP:=0 ; DD:=0 ; CD:=0 ;
       RecupLesDC(TOBH,XD,XP) ;
@@ -2877,6 +2888,8 @@ BEGIN
     ModePaie := GetParamSocSecur ('SO_BTMODEPAIEASS','RG');
     TOBTTC.PutValue('E_MODEPAIE',ModePaie) ;
     TOBTTC.PutValue('E_DATEECHEANCE',LastDate) ;
+    //FV1 - 23/02/2018 : FS#2964 - Viviane - Il faut charger le champ E_DATEVALEUR avec le champ E_DATECOMPTABLE pour la ligne « TTC »
+    TOBTTC.PutValue('E_DATEVALEUR', MM.DateC) ;
     {Montants}
     DP:=0 ; CP:=0 ; DD:=0 ; CD:=0 ;
     GetMontantRGReliquat(TOBPIeceRG, XD, XP,True);
@@ -4120,6 +4133,9 @@ BEGIN
   if TOBPorcs.detail.count = 0 then exit;
   DEV.Code:=TOBPiece.GetValue('GP_DEVISE') ; GetInfosDevise(DEV) ;
   //
+  //FV1 - 27/02/2018 : FS#2963 - TREUIL - Absence de mode de paiement dans l'écriture sur la ligne du Port et Frais
+  TobTTC := TOBEcr.Detail[0];
+  //
   RecalculeRetenues (TOBpiece,TOBPorcs,TOBBases,DEV);
   //
   for II := 0 To TOBPorcs.detail.count -1 do
@@ -4127,7 +4143,7 @@ BEGIN
     TOBP := TOBPorcs.detail[II];
     if not TOBP.GetBoolean('GPT_RETENUEDIVERSE') then continue;
     {Montants}
-    
+
 // On garde les montants signés. Voir + bas : BRL 4/08
 //    XP := Abs(TOBP.getDouble('GPT_TOTALTTC'));
 //    XD := Abs(TOBP.getDouble('GPT_TOTALTTCDEV'));
@@ -4170,7 +4186,8 @@ BEGIN
     BEGIN
       TOBE.PutValue('E_ECHE','X') ; TOBE.PutValue('E_NUMECHE',1) ; TOBE.PutValue('E_ETATLETTRAGE','AL') ;
       TOBE.PutValue('E_ETAT','0000000000') ;
-      if TOBTTC <> nil then
+      //??????? c'est quoi ce truc ?????
+      //if TOBTTC <> nil then
       if TOBTTC<>Nil then
       BEGIN
         TOBE.PutValue('E_MODEPAIE',TOBTTC.GetValue('E_MODEPAIE')) ;
