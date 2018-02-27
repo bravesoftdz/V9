@@ -4134,7 +4134,8 @@ BEGIN
   DEV.Code:=TOBPiece.GetValue('GP_DEVISE') ; GetInfosDevise(DEV) ;
   //
   //FV1 - 27/02/2018 : FS#2963 - TREUIL - Absence de mode de paiement dans l'écriture sur la ligne du Port et Frais
-  TobTTC := TOBEcr.Detail[0];
+  TOBTTC:=Nil ;
+  if TOBEcr.Detail.Count>0 then TOBTTC:=TOBEcr.Detail[0] ;
   //
   RecalculeRetenues (TOBpiece,TOBPorcs,TOBBases,DEV);
   //
@@ -4177,7 +4178,8 @@ BEGIN
     TOBE.PutValue('E_TYPEMVT','TTC') ;
     {Client}
     TOBE.PutValue('E_AUXILIAIRE',TOBTiers.GetValue('T_AUXILIAIRE')) ;
-    AlimLibEcr(TobE,TobPiece,TobTiers,TOBP.GetString('GPT_LIBELLE'),tecRG,True,(MM.Simul='S'));
+    //FV1 : 27/02/2018 - FS#2957 - DSA - En écriture comptable le libellé des Ports & Frais est erroné
+    //AlimLibEcr(TobE,TobPiece,TobTiers,TOBP.GetString('GPT_LIBELLE'),tecRG,True,(MM.Simul='S'));
     {Eche+Vent}
     NumL:=TOBEcr.Detail.Count-NbEches+1 ; TOBE.PutValue('E_NUMLIGNE',NumL) ;
     if OkVent then TOBE.PutValue('E_ANA','X') ;
