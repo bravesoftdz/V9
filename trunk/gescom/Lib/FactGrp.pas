@@ -4129,6 +4129,9 @@ BEGIN
 
   for i:= 0 to TOBLigne.detail.count -1 do
   begin
+    //Juste pour assurer le coup
+    QteLivrable := 0;
+    Qte         := 0;
     TOBL:=TOBLigne.Detail[i];
     Ok_Reliquat := CtrlOkReliquat(TOBL, 'GL');
 {$IFDEF BTP}
