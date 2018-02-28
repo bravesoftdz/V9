@@ -31,7 +31,7 @@ procedure InitTobLigne(TobLigne: Tob);
 function  GetChampLigne(TOBPiece: TOB; Champ: string; ARow: integer): Variant;
 procedure InitTOBPiece(TOBP: TOB);
 procedure InitLesCols;
-function  FabricWhereNatArt(NaturePieceG, DomainePiece, SelectFourniss: string): string;
+function  FabricWhereNatArt(NaturePieceG, DomainePiece, SelectFourniss : string): string;
 function  EstRempliGC(GS: THGrid; Lig: integer): boolean;
 procedure DepileTOBLignes(GS: THGrid; TOBPiece: TOB; ARow, NewRow: integer);
 procedure VideCodesLigne(TOBPiece: TOB; ARow: integer);
@@ -766,7 +766,7 @@ begin
 {$ENDIF}
 end;
 
-function FabricWhereNatArt(NaturePieceG, DomainePiece, SelectFourniss: string): string;
+function FabricWhereNatArt(NaturePieceG, DomainePiece, SelectFourniss : string): string;
 var sNatArt, StF, VenteAchat, ChampFiltre, ValsFiltre, ChampArt: string;
   ArtStock: boolean;
 begin

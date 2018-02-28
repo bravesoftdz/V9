@@ -33,6 +33,7 @@ Type
      FamilleN1,FamilleN2,FamilleN3 : THvalComboBox;
      FamilleN1Ouv,FamilleN2Ouv,FamilleN3Ouv : THvalComboBox;
      FamilleTarif,SousFamilleTarif : THvalComboBox;
+     CodeDepot    : THValComboBox;
         procedure OnUpdate ; override ;
         procedure OnLoad ; override ;
         procedure OnArgument (st : String ) ; override ;
@@ -122,6 +123,7 @@ Inherited;
   BDuplication := TToolbarButton97(ecran.FindComponent ('B_DUPLICATION'));
   if BDuplication <> nil then BDuplication.OnClick := DuplicationArticle;
 
+  CodeDepot := THValComboBox(Ecran.FindComponent('GQ_DEPOT'));
 
   if copy(ecran.Name,1,16) = 'BTPRESTATION_MUL' then
   begin
@@ -141,7 +143,7 @@ Inherited;
       SetControlVisible ('GA_LIBREART3',False);
       SetControlVisible ('TGA_LIBREART1',False);
       SetControlVisible ('TGA_LIBREART2',False);
-      SetControlVisible ('TGA_LIBREART3',False);      
+      SetControlVisible ('TGA_LIBREART3',False);
     end
     else
     If (st ='NOM') Then

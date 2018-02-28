@@ -313,10 +313,10 @@ var sw, sWhere, CodeArt, StChamps : string;
 begin
   Result := False;
   CodeArt := GS.Cells[GS.Col, GS.Row];
-  sWhere := '';
+  //sWhere := '';
   {$IFDEF BTP}
   sW := FabricWhereNatArt(NaturePieceG, DomainePiece, SelectFourniss);
-  if sw <> '' then sWhere := sWhere + ' AND (' + sw + ')';
+  if sw <> '' then sWhere := stWhere + ' AND (' + sw + ')';
   if CodeArt <> '' then StChamps := 'GA_CODEARTICLE=' + Trim(Copy(CodeArt, 1, 18)) + ';XX_WHERE=' + sWhere
                    else StChamps := 'XX_WHERE=' + sWhere;
 

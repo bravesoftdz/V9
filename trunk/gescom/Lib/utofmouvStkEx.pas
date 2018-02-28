@@ -730,9 +730,18 @@ if GS.Col=SG_RefArt then ZoomOuChoixArt(GS.Col,GS.Row) else
 end;
 
 Function TOF_MouvStkEx.GereElipsis ( LaCol : integer ) : boolean ;
+Var StWhere : string;
 BEGIN
-Result:=False ;
-if LaCol=SG_RefArt then Result:=GetArticleRecherche(GS,TexteMessage[1],CleDoc.NaturePiece,GP_DOMAINE.Value,'') else
+
+  Result:=False ;
+  //
+  //FV1 - 28/02/2018 : FS#2970 - RESINA - Problème de relation articles / dépots dans l'affichage de la liste des articles
+  if  GP_DEPOT.Value <> '' then
+    StWhere := ' GQ_DEPOT="' + GP_DEPOT.Value + '" '
+  else
+    StWhere := '';
+  //
+  if LaCol=SG_RefArt then Result:=GetArticleRecherche(GS,TexteMessage[1],CleDoc.NaturePiece,GP_DOMAINE.Value,StWhere) else
    ;
 END ;
 

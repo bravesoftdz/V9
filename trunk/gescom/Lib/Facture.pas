@@ -8727,6 +8727,7 @@ end;
 
 function TFFacture.GereElipsis(LaCol: integer;Var FromBordereau : boolean): boolean;
 var SelectFourniss: string;
+    StWhere       : String;
   {$IFDEF GPAO}
     TobParam, TobL: Tob;
   {$ENDIF GPAO}
@@ -8735,6 +8736,13 @@ begin
   if LaCol = SG_RefArt then
   begin
     SelectFourniss := '';
+    //
+    //FV1 - 28/02/2018 : FS#2970 - RESINA - Problème de relation articles / dépots dans l'affichage de la liste des articles
+    if  GP_DEPOT.Value <> '' then
+      StWhere := ' GQ_DEPOT="' + GP_DEPOT.Value + '" '
+    else
+      StWhere := '';
+    //
     if (ctxMode in V_PGI.PGIContexte) then
     begin
       // Dans le cas d'une gestion Mono-fournisseur, seuls les articles du fournisseur
@@ -8768,7 +8776,9 @@ begin
         end;
       end
       else
+      Begin
         Result := GetArticleRecherche(GS, HTitres.Mess[1], CleDoc.NaturePiece, GP_DOMAINE.Value, SelectFourniss);
+      end;
       {$ELSE}
       // ICI LS
       result := TheBordereau.RechArticlesFromBordereau (GS.Cells[GS.Col, GS.Row],Cledoc.NaturePiece);
@@ -8780,7 +8790,7 @@ begin
       // --
       if not FromBordereau then
       begin
-      	Result := GetArticleRecherche(GS, HTitres.Mess[1], CleDoc.NaturePiece, GP_DOMAINE.Value, SelectFourniss);
+      	Result := GetArticleRecherche(GS, HTitres.Mess[1], CleDoc.NaturePiece, GP_DOMAINE.Value, SelectFourniss, StWhere);
       end;
       {$ENDIF GPAO}
     end
