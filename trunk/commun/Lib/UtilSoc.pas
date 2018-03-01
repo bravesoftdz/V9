@@ -7050,7 +7050,7 @@ begin
 
   if not JournalAnaOk(THValComboBox(GetFromNam('SO_BTJNLANALSTOCK', FF)).Value) then
   begin
-    HShowmessage('13;Société;Ce journal est inconnu.;W;O;O;O;','','');
+    HShowmessage('13;Société; Le journal d''enregistrement de suivi analytique inconnu.;W;O;O;O;','','');
     Result := false;
     Exit;
   end;
