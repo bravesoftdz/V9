@@ -3149,8 +3149,13 @@ begin
     TOBEches.ClearDetail;
     if ((GereLot) and (TOBPiece_O.GetValue('GP_ARTICLESLOT') <> 'X')) then MajLotZero := True;
     if ((GereSerie) and (TOBSerie_O.Detail.Count <= 0)) then MajSerieZero := True;
-    if CtxMode in V_PGI.PGIContexte then GereEcheancesMODE(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG, Action, DEV, False)
-    else GereEcheancesGC(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG,TOBPieceTrait,TOBPorcs,Action, DEV, False);
+    if CtxMode in V_PGI.PGIContexte then
+    begin
+      GereEcheancesMODE(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG, Action, DEV, False)
+    end else
+    begin
+      GereEcheancesGC(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG,TOBPieceTrait,TOBPorcs,Action, DEV, False);
+    end;
     {Etudier modif dépôt O/N}
     ColPlus := GetInfoParPiece(OldNat, 'GPP_QTEPLUS');
     ColMoins := GetInfoParPiece(OldNat, 'GPP_QTEMOINS');
@@ -9257,11 +9262,17 @@ begin
   begin
     ReinitPieceForCalc;
   end;
-
-  if DateChange then
+  if (DateChange) then
+  begin
     TOBEches.ClearDetail;
-  if CtxMode in V_PGI.PGIContexte then GereEcheancesMODE(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG, Action, DEV, False)
-  else GereEcheancesGC(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG,TOBPieceTrait,TOBPorcs, Action, DEV, False);
+  end;
+  if CtxMode in V_PGI.PGIContexte then
+  begin
+    GereEcheancesMODE(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG, Action, DEV, False)
+  end else
+  begin
+    GereEcheancesGC(TOBPiece, TOBTiers, TOBEches, TOBAcomptes, TOBPieceRG,TOBPieceTrait,TOBPorcs, Action, DEV, False);
+  end;
 
   // AJout LS -- FS#550
   ReceptionModifie := ControlePieceDateModifie (Action,TOBPiece);
