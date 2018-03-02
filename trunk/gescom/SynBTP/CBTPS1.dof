@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=9
 MinorVer=1
 Release=0
-Build=149
+Build=151
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=LSE
 FileDescription=LSE BUSINESS LINE BTP
-FileVersion=9.1.0.149
+FileVersion=9.1.0.151
 InternalName=CBTPS1
 LegalCopyright=LSE 2011
 LegalTrademarks=LSE
 OriginalFilename=
 ProductName=LSE BUSINESS LINE BTP
-ProductVersion=9.1.0.149
+ProductVersion=9.1.0.151
 Comments=Référence base 998
 [Excluded Packages]
 c:\borland\borland\delphi7\Bin\DBWEBXPRT.BPL=Paquet Expert Web Borland

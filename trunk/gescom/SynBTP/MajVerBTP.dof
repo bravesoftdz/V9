@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=9
 MinorVer=1
 Release=998
-Build=149
+Build=151
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=LSE
 FileDescription=Administration base PGI - BTP
-FileVersion=9.1.998.149
+FileVersion=9.1.998.151
 InternalName=MAJVERBTP
 LegalCopyright=LSE 2011
 LegalTrademarks=LSE
 OriginalFilename=MajverBTP
 ProductName=Administration base PGI - BTP
-ProductVersion=9.1.998.149
+ProductVersion=9.1.998.151
 Comments=
 [Excluded Packages]
 c:\borland\borland\delphi7\Bin\DBWEBXPRT.BPL=Paquet Expert Web Borland
