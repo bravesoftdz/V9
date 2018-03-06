@@ -18,6 +18,7 @@ uses factvariante,
      ParamSoc;
 
 var TOTPATOT,TOTPVTOT,TOTHRSTOT,TOTPRTOT : double;
+    ImprimeVariante : Boolean;
 
 procedure AddchampBase (TOBMinute,TOBPiece,TOBTiers,TOBAffaire : TOB);
 begin
@@ -165,7 +166,7 @@ begin
     begin
       TOBO := TOBGO.detail[Indice];
       TOBM := TOB.Create ('MINUTE',TOBMinute,-1);
-      if not GetParamSocSecur('SO_IMPVARIANTEMINUTE', False) then Continue;
+      //if ImprimeVariante then Continue;
       AddchampBase (TOBM,TOBPiece,TOBTiers,TOBAffaire);
       AddchampLigne (TOBM);
       TOBM.PutValue ('BMN_TYPELIGNE','ART');
@@ -192,9 +193,9 @@ begin
   //FV1 : 19/02/2018 - FS#2927 - TREUIL - Edition minute : En totalisation générale ne pas prendre en compte les variantes
   if not IsVariante(TOBL) then
   begin
-    TOTPATOT := TOTPATOT + TOBL.GetValue('GL_MONTANTPA');
-    TOTPRTOT := TOTPRTOT + TOBL.GetValue('GL_MONTANTPR');
-    TOTPVTOT := TOTPVTOT + TOBL.GetValue('GL_MONTANTHTDEV') ;
+    TOTPATOT  := TOTPATOT + TOBL.GetValue('GL_MONTANTPA');
+    TOTPRTOT  := TOTPRTOT + TOBL.GetValue('GL_MONTANTPR');
+    TOTPVTOT  := TOTPVTOT + TOBL.GetValue('GL_MONTANTHTDEV') ;
     TOTHRSTOT := TOTHRSTOT + Arrondi(TOBL.GetValue('GL_TPSUNITAIRE')*TOBL.GetValue('GL_QTEFACT'),V_PGI.OKDecQ);
   end;
 
@@ -213,6 +214,9 @@ var Indice      : integer;
     TypeArticle : string;
     Modele      : string;
 begin
+
+  ImprimeVariante := GetParamSocSecur('SO_IMPVARIANTEMINUTE', False);
+
   TOBMinute := TOB.Create ('DESCRIPTIFMINUTES',nil,-1);
 
   TRY
@@ -233,7 +237,7 @@ begin
         AjouteParagrapheMinute (TOBPiece,TOBTiers,TOBAffaire,TOBL,TOBMinute);
       end;
       // VARIANTE
-      if GetParamSocSecur('SO_IMPVARIANTEMINUTE', False) then
+      if ImprimeVariante then
       begin
         if ((TypeArticle='MAR') or (TypeArticle = 'PRE') or (TypeArticle = 'POU') or (TypeArticle = 'ARP')) and (not IsSousDetail(TOBL)) and (not IsCommentaire(TOBL)) then
         begin
