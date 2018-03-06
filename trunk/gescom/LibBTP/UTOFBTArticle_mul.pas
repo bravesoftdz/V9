@@ -59,6 +59,7 @@ Type
      END ;
 VAR
    IndiceArt : Integer;
+   XXWhere   : string;
 implementation
 
 uses Grids,UFonctionsCBP;
@@ -272,6 +273,7 @@ Inherited;
       until Critere = '';
       //
       Critere:=THEdit(getcontrol('XX_WHERE')).Text;
+      XXWhere:=THEdit(getcontrol('XX_WHERE')).Text;
       //
       Critere := GetPlusTypeArticle (Critere);
       if critere <> '' then
@@ -769,8 +771,9 @@ begin
     FamilleN1.value := '';
     FamilleN2.value := '';
     FamilleN3.value := '';
-
-  end else
+    THEdit(getcontrol('XX_WHERE')).Text := '';
+  end
+  else
 	if ThvalComboBox(getCOntrol('GA_TYPEARTICLE')).Value = 'PRE' then
   begin
   	TFMul(ecran).SetDBListe ('BTPRESTATIONSMUL');
@@ -783,7 +786,9 @@ begin
     FamilleN1Ouv.value := '';
     FamilleN2Ouv.value := '';
     FamilleN3Ouv.value := '';
-  end else
+    THEdit(getcontrol('XX_WHERE')).Text := '';
+  end
+  else
   begin
   	TFMul(ecran).SetDBListe ('BTRECHARTICLE');
     THValComboBox(getControl('GA_FAMILLENIV1')).Visible := True;
@@ -795,6 +800,7 @@ begin
     FamilleN1Ouv.value := '';
     FamilleN2Ouv.value := '';
     FamilleN3Ouv.value := '';
+    THEdit(getcontrol('XX_WHERE')).Text := XXWhere;
   end;
 
   for iCol:=1 to 3 do
