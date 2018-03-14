@@ -340,6 +340,7 @@ var Indice : integer;
     TheListRef : TOB;
     QQ : TQUery;
     VersionElt : string;
+    TypeD,DonneD : string;
 begin
 //  if not IsModeMajHalley then
   begin
@@ -360,6 +361,8 @@ begin
     begin
       TheListref := TheListModifRef.detail[Indice];
       VersionElt := Trim(TheListRef.GetString('BTV_VERSIONBASEB'));
+      TypeD := TheListRef.getSTring('BTV_TYPEELT');
+      DonneD := TheListRef.GetString('BTV_NOMELT');
       // controle si l'element en cours n'est pas déja traité
       if (VersionElt <= VersionBaseDest ) then Continue;
       // Traitement des éléments jusqu'a la version de la base ref
@@ -2309,10 +2312,10 @@ begin
     if TOBdest <> nil then TOBDest.free;
     exit; // --> pas a traiter
   end;
-
   TOBREF.SetAllModifie(True);
   TOBREF.InsertOrUpdateDB;
   LanceMajVues := True;
+
   TOBREf.free;
   TOBDest.free;
 end;
@@ -2346,6 +2349,7 @@ end;
 function TMajStructBTP.IsTraiteVue (TheListRef,TOBRef,TOBDest : TOB) : boolean;
 begin
   result := true;
+  if TOBREF = nil then BEGIN fCodeStatus := 0; result := false;  Exit; End;
   if TOBDest = nil then exit; // -> pas de destination c'est donc une création
   if (ForceGlobale) or (IsModeMajHalley) then Exit;
   if (TheListRef.GetString('BTV_FORCE') = 'X') then exit; // --> Force donc on lance
