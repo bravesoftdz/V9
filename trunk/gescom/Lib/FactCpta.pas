@@ -6716,7 +6716,7 @@ if (LeAcc.LienCpta <> 'DIF') and (LeACC.IsModif) then
      if Not ACC_CompleteBanque(TOBPiece,TOBTiers,TOBE,LeAcc) then BEGIN TOBEcr.Free ; V_PGI.IoError:=oeUnknown ; Exit ; END ;
      TOBE.SetString('E_REFGESCOM',''); // pour eviter le bug de la ref gescom possitionné sur l'écriture de reglement
      {Enregistrement}
-     if IsComptaPce(TOBPiece.GetValue('GP_NATUREPIECEG')) then  //AC 18/08/03 NV GESTION COMPTA DIFF
+     if IsComptaAcc(TOBPiece.GetValue('GP_NATUREPIECEG')) then  //AC 18/08/03 NV GESTION COMPTA DIFF
      begin
        if LeAcc.LienCpta<>'DIF' then
           BEGIN
