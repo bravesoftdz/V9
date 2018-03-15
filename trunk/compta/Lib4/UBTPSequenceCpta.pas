@@ -75,25 +75,23 @@ begin
         begin
           OldValue := QQ.Fields[0].AsInteger;
           Result := OldValue + QQ.fields[1].AsInteger;
+          // -------------------------
+          QQ.Active := false;
+          QQ.SQL.Clear;
+          if wExistTable ('CPSEQCORRESP') then
+          begin
+            SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+InttoStr(Result)+' WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER='''+Cle+''') AND DSQ_VALEUR='+InttoStr(OldValue);
+          end else
+          begin
+            SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+InttoStr(Result)+' WHERE DSQ_CODE='''+Cle+''' AND DSQ_VALEUR='+InttoStr(OldValue);
+          end;
+          QQ.sql.text := SQL;
+          if QQ.ExecSQL = 0 then
+          begin
+            Result := -1;
+            Raise Exception.Create('Erreur mise à jour compteur pièece comptable');
+          end;
         end;
-        QQ.Close;
-        // -------------------------
-        QQ.Active := false;
-        QQ.SQL.Clear;
-        if wExistTable ('CPSEQCORRESP') then
-        begin
-          SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+InttoStr(Result)+' WHERE DSQ_CODE=(SELECT CSC_SEQUENCE FROM CPSEQCORRESP WHERE CSC_METIER='''+Cle+''') AND DSQ_VALEUR='+InttoStr(OldValue);
-        end else
-        begin
-          SQL := 'UPDATE DESEQUENCES SET DSQ_VALEUR='+InttoStr(Result)+' WHERE DSQ_CODE='''+Cle+''' AND DSQ_VALEUR='+InttoStr(OldValue);
-        end;
-        QQ.sql.text := SQL;
-        if QQ.ExecSQL = 0 then
-        begin
-          Result := -1;
-          Raise Exception.Create('Erreur mise à jour compteur pièece comptable');
-        end;
-
       FINALLY
         QQ.Free;
       end;
