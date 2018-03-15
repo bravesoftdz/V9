@@ -14149,7 +14149,7 @@ begin
   ExecuteSQLContOnExcept ('update dechamps set dh_libelle="Type d''unité de manutention" where dh_nomchamp="ELI_REFUM"');
 
   // initialisation des séquences à partir des souches de type GES
-  GCInitSequenceSouche;
+//  GCInitSequenceSouche;
 End;
 
 procedure MajVer948;
@@ -14498,7 +14498,7 @@ begin
   J.Position := J.Position + 1;
   Application.ProcessMessages;
   // Lek 4992
-  CpInitSequenceCompta;
+//  CpInitSequenceCompta;
   // JTR 5001
   {JTR - Pour affichage des champs dans une FSL }
 //  ExecuteSQLContOnExcept('UPDATE DECHAMPS SET DH_CONTROLE = "LDZV" WHERE DH_PREFIXE = "GEE" AND DH_CONTROLE <> ""');
