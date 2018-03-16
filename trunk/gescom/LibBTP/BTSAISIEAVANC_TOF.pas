@@ -450,7 +450,11 @@ begin
       ferme (QQ);
       //
       QQ := openSql ('SELECT SUM(BST_MONTANTHT) AS DEJAFACT '+
-      							 'FROM BSITUATIONS WHERE BST_SSAFFAIRE="'+TOBL.getValue('GP_AFFAIREDEVIS')+'" AND BST_VIVANTE="X"',true,-1,'',true);
+      							 'FROM BSITUATIONS '+
+                     'WHERE '+
+                     'BST_SSAFFAIRE="'+TOBL.getValue('GP_AFFAIREDEVIS')+'" AND '+
+                     'BST_NATUREPIECE<>"B00" AND '+
+                     'BST_VIVANTE="X"',true,-1,'',true);
       if not QQ.eof then
       begin
         DejaFacture := QQ.findField('DEJAFACT').AsFloat;
