@@ -750,7 +750,8 @@ begin
   if copy(Ecran.name,1,13) <> 'BTARTICLE_MUL' then
   BEGIN
   	TypeArticle := THValComboBox (GetControl ('GA_TYPEARTICLE')).Value  ;
-  END else
+  END
+  else
   BEGIN
   	TypeArticle := THMultiValComboBox (GetControl ('GA_TYPEARTICLE')).Text  ;
   END;
