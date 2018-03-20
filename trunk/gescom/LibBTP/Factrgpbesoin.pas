@@ -8,7 +8,7 @@ uses Hctrls,classes,UTOB,EntGC,forms,
   {$ELSE}
   DBCtrls, Db, {$IFNDEF DBXPRESS} dbTables, {$ELSE} uDbxDataSet, {$ENDIF} fe_main, UserChg, AglIsoflex,
   {$ENDIF}
-  Menus,HEnt1,HmsgBox,AglInit,Windows,Graphics,SysUtils;
+  Menus,HEnt1,HmsgBox,AglInit,Windows,Graphics,SysUtils,SaisUtil;
 const MAXITEMS = 2;
 
 type
@@ -47,11 +47,11 @@ type
 function IsDetailBesoin (TOBL : TOB; NumOrdre : integer=0) : boolean;
 function IsCentralisateurBesoin (TOBL : TOB) : boolean;
 procedure InformeCentralisation (FF : TForm ; TOBL : TOB; Arect : Trect);
-procedure RepercutePrixCentralisation (TOBpiece,TOBL : TOB;EnHt : boolean);
+procedure RepercutePrixCentralisation (TOBpiece,TOBL : TOB;EnHt : boolean; DEV : RDevise);
 
 implementation
 
-uses facture,FactTOB,FactureBtp,FactComm,SaisUtil,FactVariante, BTPUtil;
+uses facture,FactTOB,FactureBtp,FactComm,FactVariante, BTPUtil,UtilPGI,factCalc;
 
 procedure InformeCentralisation (FF : TForm ; TOBL : TOB; Arect : Trect);
 var FFact : TFFacture;
@@ -566,7 +566,7 @@ begin
   end;
 end;
 
-procedure RepercutePrixCentralisation (TOBpiece,TOBL : TOB;EnHt : boolean);
+procedure RepercutePrixCentralisation (TOBpiece,TOBL : TOB;EnHt : boolean; DEV : RDevise);
 var TOBR : TOB;
 		Centralisateur : integer;
 begin
@@ -578,8 +578,17 @@ begin
     repeat
       if TOBR <> nil then
       begin
-        if EnHT then TOBR.PutValue('GL_PUHTDEV',TOBL.GetValue('GL_PUHTDEV'))
-                else TOBR.PutValue('GL_PUTTCDEV',TOBL.GetValue('GL_PUTTCDEV'));
+        TOBR.SetDouble('GL_DPA',TOBL.getDouble('GL_DPA'));
+        TOBR.SetDouble('GL_COEFFG',TOBL.getDouble('GL_COEFFG'));
+        TOBR.SetDouble('GL_COEFFC',TOBL.getDouble('GL_COEFFC'));
+        TOBR.SetDouble('GL_COEFFR',TOBL.getDouble('GL_COEFFR'));
+        TOBR.SetDouble('GL_COEFMARG',TOBL.getDouble('GL_COEFMARG'));
+        TOBR.SetDouble('GL_DPR',TOBL.getDouble('GL_DPR'));
+        TOBR.PutValue('GL_PUHTDEV',TOBL.GetValue('GL_PUHTDEV'));
+        TOBR.PutValue('GL_PUTTCDEV',TOBL.GetValue('GL_PUTTCDEV'));
+        TOBR.SetDouble('GL_PUHT',TOBL.getDouble('GL_PUHT'));
+        TOBR.SetDouble('GL_PUHTNET',TOBL.getDouble('GL_PUHTNET'));
+        TOBR.SetDouble('GL_PUHTNETDEV',TOBL.getDouble('GL_PUHTNETDEV'));
         TOBR.PutValue('GL_RECALCULER','X');
   			TOBR := TOBPiece.findnext(['GL_TYPELIGNE','GL_LIGNELIEE'],['ART',Centralisateur],true);
       end;

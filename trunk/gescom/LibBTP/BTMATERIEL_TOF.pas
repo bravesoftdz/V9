@@ -291,7 +291,8 @@ Uses  TiersUtil,
       UtilsParc,
       UtilRessource,
       BTPUtil,
-      TntGrids;
+      TntGrids,
+      EntGC;
 
 procedure TOF_BTMATERIEL.OnArgument (S : String ) ;
 var Critere : string;
@@ -1597,7 +1598,10 @@ begin
   title := 'Recherche Ressource Matériel';
 
   //stWhere := 'AND ARS_TYPERESSOURCE IN ("OUT","MAT","LOC","AUT")';
-  stWhere := 'TYPERESSOURCE : OUT,MAT,LOC,AUT';
+  if (VH_GC.AFRechResAv) then
+    stWhere := 'TYPERESSOURCE : OUT,MAT,LOC,AUT'
+  else
+    stWhere := 'AND ARS_TYPERESSOURCE IN ("OUT","MAT","LOC","AUT")';
 
   StChamp  := CodeRessource.Text;
 

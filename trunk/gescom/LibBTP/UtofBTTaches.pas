@@ -509,6 +509,14 @@ begin
 
   fBoClose := result;
 
+  //FV1 : 14/03/20018 - FS#3006 - ESPACS - En création de tâches contrat les lignes sont doublées
+  SetControlVisible('BINSERT',        True);
+  SetControlVisible('BDUPLIQUE',      True);
+  SetControlVisible('BINSERTMODELE',  True);
+  SetControlVisible('BDELETE',        True);
+  SetControlEnabled('BDELETE',        True);
+  SetControlVisible('BGENERER',       True);
+
 end;
 
 procedure TOF_BTTACHES.OnLoad;
@@ -2831,6 +2839,14 @@ begin
   // on stocke le libellé de création de l'article par défaut
   // pour le remplacer si on choisit un autre article et qu'on ne l'a pas modifié
   fStLibelleParDefaut := GetControlText('ATA_LIBELLETACHE1');
+
+  //FV1 : 14/03/20018 - FS#3006 - ESPACS - En création de tâches contrat les lignes sont doublées
+  SetControlVisible('BINSERT',        False);
+  SetControlVisible('BDUPLIQUE',      False);
+  SetControlVisible('BINSERTMODELE',  False);
+  SetControlVisible('BDELETE',        False);
+  SetControlVisible('BGENERER',       False);
+
 
 end;
 

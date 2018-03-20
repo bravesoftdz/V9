@@ -335,7 +335,7 @@ begin
   ZeroligneMontant (TOBL);
   TFFacture(XX).CalculheureTot (TOBL);
   TOBPiece.PutValue('GP_RECALCULER', 'X');
-  TFFacture(XX).CalculeLaSaisie(-1, -1, True);
+  TFFacture(XX).CalculeLaSaisie(-1, TOBL.getIndex+1, True);
 end;
 
 constructor TModifSousDetail.create (TheForm : Tform);

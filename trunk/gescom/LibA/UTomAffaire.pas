@@ -2526,11 +2526,11 @@ begin
 
   // Gestion des com des apporteurs sur options
   if not (VH_GC.AFGestionCom) then
-  	 begin
+  begin
      SetControlVisible ('AFF_APPORTEUR', False) ;
      SetControlVisible ('TAFF_APPORTEUR', False) ;
      SetControlVisible ('LIBAFF_APPORTEUR', False) ;
-  	 end;
+  end;
 
   if (ctxScot in V_PGI.PGIContexte) and (GetParamSoc ('SO_AfFormatExer') = 'AUC') then
   	 begin

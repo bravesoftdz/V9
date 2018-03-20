@@ -1296,8 +1296,15 @@ begin
       DecodeDate (DateEch,Y,M,D);
       if typeCalcul = 'A' then DCivile := EncodeDate (Y,1,1)
                           else DCivile := EncodeDate (Y,M,1);
-      TobDet.PutValue('AFA_DATEECHE',DCivile);
-    end else
+      //FV1 : 19/03/2018 -  FS#3010 - ACTUACOM - Date d'échéance incorrecte pour la première échéance
+      //Si la date d'échéance est différente de Dcivile on recharge avec dateEch.
+      if DateEch > DCivile then
+        TobDet.PutValue('AFA_DATEECHE',DateEch)
+      else
+        TobDet.PutValue('AFA_DATEECHE',DCivile);
+      //
+    end
+  else
     begin
       TobDet.PutValue('AFA_DATEECHE',DateEch);
     end;

@@ -3772,6 +3772,9 @@ object FFacture: TFFacture
       '\par '
       '\par '
       '\par '
+      '\par '
+      '\par '
+      '\par '
       '\par }')
   end
   object BZoomRessource: THBitBtn
@@ -4575,6 +4578,9 @@ object FFacture: TFFacture
           '0\fnil Times New Roman;}}'
         '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
         '\pard\f0\fs20 '
+        '\par '
+        '\par '
+        '\par '
         '\par '
         '\par '
         '\par '
