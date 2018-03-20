@@ -672,7 +672,9 @@ begin
         if not IsLivChantier (TOBMvts.detail[II].GetString('GL_PIECEPRECEDENTE'),TOBMvts.detail[II].GetString('GL_PIECEORIGINE')) then
         begin
       	  AffecteLigneStock (TOBFather,TOBMvts.detail[II],LastDay,'OD RETOUR CHANTIER - '+MM,ModeGenere,'-');
-        end;
+        end
+        //FV1 : 20/03/2018 - FS#3020 - TEAM - Génération OD analytique boucle
+        else inc(II);
       until II >= TOBMvts.detail.count ;
     end;
   FINALLY
