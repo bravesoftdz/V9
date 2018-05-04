@@ -1821,10 +1821,10 @@ begin
     TMenuItem (GetControl('MnPhotos')).Enabled := false;
   END;
   TMenuItem (GetControl('MnPhotos')).onclick := BvoirPhotosClick;
-  if IsBLobVide (Ecran,TOBDevis,'LO_OBJET') then
-  BEGIN
-    TMenuItem (GetControl('MnDevis')).Enabled := false;
-  END;
+  //if IsBLobVide (Ecran,TOBDevis,'LO_OBJET') then
+  //BEGIN
+  //  TMenuItem (GetControl('MnDevis')).Enabled := false;
+  //END;
   TMenuItem (GetControl('MnDevis')).onclick := BvoirDevisClick;
 
   CodeTiers     := TobAppel.GetValue('AFF_TIERS');

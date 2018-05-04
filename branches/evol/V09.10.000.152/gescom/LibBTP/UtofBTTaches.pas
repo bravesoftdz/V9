@@ -121,6 +121,7 @@ type
     FCB_RAPPLANNING     : TcheckBox;
 
     fED_AFFAIRE         : THEdit;
+    CodeRessource       : THEdit;
 
     fDtDebutAffaire     : TDateTime;
     fDtFinAffaire       : TDateTime;
@@ -766,6 +767,7 @@ begin
   Ed := THEdit(GetControl('ATA_NBINTERVENTION'));
   Ed.OnExit := ModifZoneExit;
 
+  CodeRessource := THEdit(Getcontrol('RESSOURCE'));
   BloquerTaches;
 
 end;
@@ -1381,12 +1383,9 @@ var Title         : String;
     StChamp       : string;
     StFonction    : String;
     StWhere       : string;
-    CodeRessource : THCritMaskEdit;
 begin
 
   if fGSRes.Col <> cInColRes then exit;
-
-  CodeRessource := ThCritMaskEdit.Create(TFvierge(ecran));
 
   title       := 'Recherche Ressource tâches';
 
@@ -1395,7 +1394,7 @@ begin
 
   if (VH_GC.AFRechResAv) then
   begin
-    stWhere     := 'TYPERESSOURCE:SAL,INT';
+    stWhere := 'TYPERESSOURCE : SAL, INT, ST';
     if stFonction <> '' then
     begin
       if StWhere <> '' then stWhere := stWhere + ';ARS_FONCTION1:' + stFonction + '';
@@ -1403,7 +1402,7 @@ begin
   end
   else
   begin
-    stWhere     := 'ARS_TYPERESSOURCE="SAL" OR ARS_TYPERESSOURCE = "INT"';
+    stWhere := ' AND ARS_TYPERESSOURCE IN ("SAL","INT","ST")';
     if stFonction <> '' then
     begin
       if StWhere <> '' then stWhere := stWhere + 'AND ARS_FONCTION1="' + stFonction + '"';
@@ -1412,7 +1411,7 @@ begin
 
   DispatchRecherche(CodeRessource, 3, StWhere,'ARS_RESSOURCE=' + Trim(StChamp), '');
 
-  if StChamp <> '' then
+  if CodeRessource.text <> '' then
   begin
     fGSRes.Cells[fGSRes.Col, fGSRes.Row] := CodeRessource.text;
     fStatut := taModif;
@@ -1445,8 +1444,6 @@ begin
     end;
   end;
   *}
-
-  CodeRessource.Free;
 
 end;
 
@@ -1639,7 +1636,8 @@ begin
        FtobDet.PutValue('ATA_NUMEROTACHE', IntToStr(StrToInt(NoTacheDup)+i));
        FtobDet.PutValue('ATA_FAITPARQUI', '');
        LoadAdresseTache(False, fTobDet);
-       fTobDet.PutEcran(Ecran, fPaDet);
+    //fTobDet.PutEcran(Ecran, fPaDet);
+    RefreshAdresse;
        FtobDet.InsertDB(nil, true);
        end;
 
@@ -1672,18 +1670,21 @@ for indZone := 1 to high(V_PGI.DeChamps[iTableLig]) do
 end;
 
 procedure TOF_BTTACHES.bInsertResOnClick(SEnder: TObject);
-var
-  vTobRessources, vTobTacheRess, vTobRess: Tob;
-  i_ind, i_row: integer;
-  stRange: string;
-  CodeRess : string;
+var vTobRessources:Tob;
+    vTobTacheRess : Tob;
+    vTobRess      : Tob;
+    i_ind         : Integer;
+    i_row         : integer;
+    StChamp       : string;
+    StFonction    : String;
+    stWhere       : string;
 
-  procedure AjoutRessource (CodeRessource : string);
+  procedure AjoutRessource (CodeRess : string);
   var fTOBRess : TOB;
   		QQ : TQuery;
   begin
   	fTOBRess := TOB.Create ('RESSOURCE',nil,-1);
-    QQ := OpenSql ('SELECT ARS_RESSOURCE,ARS_LIBELLE FROM RESSOURCE WHERE ARS_RESSOURCE="'+CodeRessource+'"',true,1,'',true);
+    QQ := OpenSql ('SELECT ARS_RESSOURCE,ARS_LIBELLE FROM RESSOURCE WHERE ARS_RESSOURCE="' + CodeRess +'"',true,1,'',true);
     fTOBREss.SelectDB('',QQ);
     //
     ferme (QQ);
@@ -1708,41 +1709,59 @@ begin
 
   // C.B 07/11/2006
   if fBoNoSuppression then
-    PGIBoxAF(TexteMessage[41], ecran.Caption) //Action interdite
+  begin
+    PGIBoxAF(TexteMessage[41], ecran.Caption); //Action interdite
+    Exit;
+  end;
 
+  StChamp     := fGSRes.Cells[fGSRes.Col, fGSRes.Row];
+  StFonction  := THValComboBox(GetControl('ATA_FONCTION')).Value;
+
+  //
+  if (VH_GC.AFRechResAv) then
+  begin
+    stWhere := 'TYPERESSOURCE : SAL, INT, ST';
+    if stFonction <> '' then
+    begin
+      if StWhere <> '' then stWhere := stWhere + ';ARS_FONCTION1:' + stFonction + '';
+    end;
+  end
   else
   begin
-    if (fGSRes.row = 1) or ((fGSRes.row <> 1) and (fGSRes.cells[cInColRes, fGSRes.row] <> '')) then
+    stWhere := ' AND ARS_TYPERESSOURCE IN ("SAL","INT","ST")';
+    if stFonction <> '' then
     begin
-      i_row := fGSRes.row;
-      if THValComboBox(GetControl('ATA_FONCTION')).Text <> '' then
-        stRange := 'ARS_FONCTION1=' + THValComboBox(GetControl('ATA_FONCTION')).value
-      else
-        stRange := '';
-      CodeRess := AFLanceFiche_Rech_Ressource(stRange, 'MULTI');
-      if CodeRess <> '' then
-      begin
-        fTobDet := TOB(fGSTaches.Objects[0, fGSTaches.Row]);
-        fTobDet.SetAllModifie(true);
-
-        if (fTobDet <> nil) and (fTobDet.detail.count > 0) then
-        begin
-          if fTobDet.FindFirst(['ATR_NUMEROTACHE', 'ATR_RESSOURCE'], [fTobDet.GetValue('ATA_NUMEROTACHE'), CodeRess], false) = nil then
-          begin
-            vTobTacheRess := TOB.Create('TACHERESSOURCE', fTobDet, i_row);
-            inc(i_row);
-            fGSRes.InsertRow(i_row);
-        		AjoutRessource (CodeRess);
-          end;
-        end else
-        begin
-          vTobTacheRess := TOB.Create('TACHERESSOURCE', fTobDet, i_row - 1);
-        	AjoutRessource (CodeRess);
-        end;
-      end;
+      if StWhere <> '' then stWhere := stWhere + 'AND ARS_FONCTION1="' + stFonction + '"';
     end;
-    SetControlText('ATA_NBRESSOURCE', inttoStr(fGsRes.RowCount - 1)); //mcd 25/08/04 compteur non alimenté, donc alim palnning pas ok sans sortir (11309)
   end;
+
+  DispatchRecherche(CodeRessource, 3, StWhere,'ARS_RESSOURCE=' + Trim(StChamp), '');
+
+  if CodeRessource.text <> '' then
+  begin
+    i_Row := fGSRes.Row;
+    //
+    fTobDet := TOB(fGSTaches.Objects[0, fGSTaches.Row]);
+    fTobDet.SetAllModifie(true);
+    //
+    if (fTobDet <> nil) and (fTobDet.detail.count > 0) then
+    begin
+      if fTobDet.FindFirst(['ATR_NUMEROTACHE', 'ATR_RESSOURCE'], [fTobDet.GetValue('ATA_NUMEROTACHE'), CodeRessource.Text], false) = nil then
+      begin
+        vTobTacheRess := TOB.Create('TACHERESSOURCE', fTobDet, i_row);
+        inc(i_row);
+        fGSRes.InsertRow(i_row);
+        AjoutRessource (CodeRessource.Text);
+        SetControlText('ATA_NBRESSOURCE', IntToStr(StrToInt(GetControlText('ATA_NBRESSOURCE')) + 1));
+      end;
+    end
+    else
+    begin
+      vTobTacheRess := TOB.Create('TACHERESSOURCE', fTobDet, i_row - 1);
+      AjoutRessource (CodeRessource.Text);
+    end;
+  end;
+
 end;
 
 {***********A.G.L.***********************************************
@@ -1760,10 +1779,13 @@ begin
 
   // C.B 07/11/2006
   if fBoNoSuppression then
-    PGIBoxAF(TexteMessage[41], ecran.Caption) //Suppression interdite
+  begin
+    PGIBoxAF(TexteMessage[41], ecran.Caption); //Suppression interdite
+    Exit;
+  end;
 
   // suppression d'une tache
-  else if fGSTaches.Row <> 0 then
+  if fGSTaches.Row <> 0 then
   begin
     fTobDet := TOB(fGSTaches.Objects[0, fGSTaches.Row]);
     // on verifie si des éléments planifiés existent
@@ -1830,97 +1852,56 @@ begin
 end;
 
 procedure TOF_BTTACHES.bDeleteResOnClick(SEnder: TObject);
-var
-  vTob: Tob;
-  vInRow: integer;
-
+var vTob    : Tob;
+    vInRow  : integer;
 begin
 
-  // C.B 07/11/2006
+  // C.B 07/11/2006 //Suppression interdite
   if fBoNoSuppression then
-    PGIBoxAF(TexteMessage[41], ecran.Caption) //Suppression interdite
+  begin
+    PGIBoxAF(TexteMessage[41], ecran.Caption);
+    Exit;
+  end;
 
   // suppression d'une ressource
-  else
+  if Screen.ActiveControl <> fGSRes then
   begin
-    if Screen.ActiveControl = fGSRes then
-    begin
-
-      if (fTobDet.detail.count = 0) and
-        (GetControlText('ATA_NBRESSOURCE') > '1') then
-      begin
-        if fGSRes.RowCount > 2 then
-        begin
-          fGSRes.DeleteRow(fGSRes.Row);
-          fGSRes.Row := 1;
-          UpdateGridRes(True, -1);
-          SetFocusControl('GSRES');
-        end;
-      end
-
-      else
-        if (fTobDet.detail.count = 0) and
-        (GetControlText('ATA_NBRESSOURCE') = '1') then
-        UpdateGridRes(False, 0)
-
-      else
-        if ((fGSRes.Cells[fGSRes.Col, fGSRes.Row] = '') and
-        (fTobDet.Detail.count = (fGSRes.RowCount - 2))) or
-        (PGIAskAF(TexteMessage[12], ecran.Caption) = mrYes) then //Confirmez vous la suppression de la ressource et du planning associé#13#10(si de l''activité a été générée pour ce planning, elle ne sera pas supprimée) ?
-      begin
-
-        if (fTobDet.Detail.count >= (fGSRes.RowCount - 1)) then
-        begin
-          //ajout a la liste de suppression
-          SetLength(fUpdateRes, length(fUpdateRes) + 1);
-          fUpdateRes[length(fUpdateRes) - 1].StOldRes := fTobDet.Detail[fGSRes.Row - 1].GetValue('ATR_RESSOURCE');
-          fUpdateRes[length(fUpdateRes) - 1].StNewRes := fGSRes.Cells[fGSRes.Col, fGSRes.Row];
-          fUpdateRes[length(fUpdateRes) - 1].rdAffaire := fCurAffaire;
-          fUpdateRes[length(fUpdateRes) - 1].StNumTache := fTobDet.Detail[fGSRes.Row - 1].GetValue('ATR_NUMEROTACHE');
-          fUpdateRes[length(fUpdateRes) - 1].InStatut := cInDelete;
-
-          fTobDet := fTobTaches.Detail[fGSTaches.Row - 1];
-          vTob := fTobDet.Detail[fGSRes.Row - 1];
-          vTob.ChangeParent(fTobSupRes, -1);
-        end;
-
-        // pour gerer le pb de raffraichissement
-        if fGSRes.RowCount > 2 then
-        begin
-          fGSRes.ElipsisButton := false;
-          if fGSRes.Row = fGSRes.RowCount - 1 then
-            vInRow := fGSRes.Row - 2
-          else
-            vInRow := fGSRes.Row - 1;
-          if vInRow = 0 then
-            vInRow := 1;
-
-          fGSRes.DeleteRow(fGSRes.Row);
-          UpdateGridRes(True, -1);
-          // mettre dans la tob les ressources sans sauvegarder
-          ScreenToTob;
-          SetFocusControl('GSRES');
-          fGSRes.ElipsisButton := true;
-          fGSRes.Row := vInRow;
-        end
-
-        else
-        begin
-          fGSRes.DeleteRow(fGSRes.Row);
-          UpdateGridRes(False, 0);
-          fGSRes.Row := 1;
-          fGSRes.FixedRows := 1;
-          // mettre dans la tob les ressources sans sauvegarder
-          ScreenToTob;
-          SetFocusControl('GSRES');
-          fGSRes.ElipsisButton := false;
-        end;
-      end;
-      if fGSRes.RowCount < 2 then fGSRes.rowCount := 2;
-    end
-    else
-      PGIBoxAF(TexteMessage[14], ecran.Caption);  //Aucune ressource n''est sélectionnée.
+    PGIBoxAF(TexteMessage[14], ecran.Caption);  //Aucune ressource n''est sélectionnée.
+    Exit;
   end;
+
+  //Confirmez vous la suppression de la ressource et du planning associé#13#10(si de l''activité a été générée pour ce planning, elle ne sera pas supprimée) ?
+  if PGIAskAF(TexteMessage[12], ecran.Caption) = mrNo then exit;
+
+  if (fTobDet.detail.count = 0) then
+  begin
+    PGIBoxAF(TexteMessage[14], ecran.Caption);  //Aucune ressource n''est sélectionnée.
+    exit;
+  end;
+
+  vInRow := fGSRes.Row -1;
+  fGSRes.DeleteRow(fGSRes.Row);
+
+  //UpdateGridRes(True, -1);
+  SetFocusControl('GSRES');
+  SetControlText('ATA_NBRESSOURCE', IntToStr(StrToInt(GetControlText('ATA_NBRESSOURCE')) - 1));
+  //
+  //ajout a la liste de suppression
+  SetLength(fUpdateRes, length(fUpdateRes) + 1);
+  fUpdateRes[length(fUpdateRes) - 1].StOldRes   := fTobDet.Detail[vInRow].GetValue('ATR_RESSOURCE');
+  fUpdateRes[length(fUpdateRes) - 1].StNewRes   := fGSRes.Cells[fGSRes.Col, fGSRes.Row];
+  fUpdateRes[length(fUpdateRes) - 1].rdAffaire  := fCurAffaire;
+  fUpdateRes[length(fUpdateRes) - 1].StNumTache := fTobDet.Detail[vInRow].GetValue('ATR_NUMEROTACHE');
+  fUpdateRes[length(fUpdateRes) - 1].InStatut   := cInDelete;
+
+  fTobDet := fTobTaches.Detail[fGSTaches.Row - 1];
+  vTob := fTobDet.Detail[vInRow];
+  vTob.ChangeParent(fTobSupRes, -1);
+
+  if fGSRes.RowCount = 0 then exit;
+
+  fGSRes.Row := 1;
+
 end;   
 
 procedure TOF_BTTACHES.bCompetArticleOnClick(SEnder: TObject);
@@ -5329,7 +5310,8 @@ begin
   end;
 
   LoadAdresseTache(False, fTobDet);
-  fTobDet.PutEcran(Ecran, fPaDet);
+  //FV1 - 20/04/2018 : FS#3065 - VIVIANE - En création tâche contrat perte information tâche après recherche adresse.
+  //fTobDet.PutEcran(Ecran, fPaDet);
 
   RefreshAdresse;
 
@@ -5347,7 +5329,8 @@ begin
   fTobDet.PutValue('ATA_TYPEADRESSE', '');
   fTobDet.SetAllModifie(true);
   LoadAdresseTache(false, fTobDet);
-  fTobDet.PutEcran(Ecran, fPaDet);
+  //FV1 - 20/04/2018 : FS#3065 - VIVIANE - En création tâche contrat perte information tâche après recherche adresse.
+  //fTobDet.PutEcran(Ecran, fPaDet);
   RefreshAdresse;
   //Recherche du Contact et du type d'action evenement en affichage des lignes de la grille
   LectureTypeAction(GetControlText('ATA_BTETAT'));

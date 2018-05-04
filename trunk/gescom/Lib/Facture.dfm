@@ -3176,6 +3176,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Voir les totalisations documents'
+            Glyph.Data = {00000000}
+            GlyphMask.Data = {00000000}
             ImageIndex = 0
             Images = HimgTOT
             Opaque = False
@@ -3458,6 +3460,7 @@ object FFacture: TFFacture
         '0\fnil Times New Roman;}}'
       '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
       '\pard\f0\fs20 '
+      '\par '
       '\par '
       '\par '
       '\par '
@@ -4540,8 +4543,8 @@ object FFacture: TFFacture
     end
   end
   object TDescriptif: TToolWindow97
-    Left = 184
-    Top = 226
+    Left = 144
+    Top = 338
     ClientHeight = 259
     ClientWidth = 315
     Caption = 'Descriptif d'#233'taill'#233
@@ -4577,6 +4580,7 @@ object FFacture: TFFacture
           '0\fnil Times New Roman;}}'
         '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
         '\pard\f0\fs20 '
+        '\par '
         '\par '
         '\par '
         '\par '

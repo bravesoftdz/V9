@@ -113,14 +113,15 @@ end;
 procedure TOF_GCTIERS_RECH.BInsert_OnClick(Sender: TObject);
 begin
 
-  if GetControlText('NATUREAUXI')='CLI' then
-  //uniquement en line
-  //  AGLLanceFiche ('BTP', 'BTTIERS_S1', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
+  if GetControlText('NATUREAUXI')='' then
+  Begin
      if PGIAsk('Voulez-vous créer un client (répondre Oui) ou un prospect (répondre Non) ?',TFFiche(ecran).Caption) = mrYes then
         AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
      else
         AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=PRO')
-
+  end
+  else if GetControlText('NATUREAUXI')='CLI' then
+    AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
   else if GetControlText('NATUREAUXI')='FOU' then
     AGLLanceFiche ('GC', 'GCFOURNISSEUR', '', '', 'ACTION=CREATION;T_NATUREAUXI=FOU');
 

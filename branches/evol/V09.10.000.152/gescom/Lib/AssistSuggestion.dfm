@@ -692,8 +692,9 @@ inherited FAssistReappro: TFAssistReappro
         ObjectMenuPrefix = '&Object'
         LinesRTF.Strings = (
           '{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Arial;}}'
-          '{\*\generator Riched20 10.0.15063}\viewkind4\uc1 '
+          '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
           '\pard\f0\fs16\lang1036 '
+          '\par '
           '\par '
           '\par '
           '\par '

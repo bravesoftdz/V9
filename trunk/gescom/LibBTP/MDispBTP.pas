@@ -237,8 +237,8 @@ var stParamsocAffiche, stParamsocVire : String;
     //StatutAffaire : string;
     stMessage : String;
     Souche    : string;
-    Cnx : TADOConnection;
-    TheChaine : string;
+    //Cnx : TADOConnection;
+    //TheChaine : string;
 BEGIN
 	if VersionInterne then V_PGI.VersionDemo:=false;
     ReinitTOBAffaires ; // Eviter les effets de bords
@@ -2894,7 +2894,7 @@ V_PGI.NumVersion:='9.1.0' ;
 V_PGI.NumVersionBase:=998 ;
 V_PGI.NumBuild:='000.151';
 V_PGI.CodeProduit:='034' ;
-V_PGI.DateVersion:=EncodeDate(2018,03,02);
+V_PGI.DateVersion:=EncodeDate(2018,03,28);
 V_PGI.ImpMatrix := True ;
 V_PGI.OKOuvert:=FALSE ;
 V_PGI.Halley:=TRUE ;

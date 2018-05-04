@@ -3121,12 +3121,13 @@ var QQ          : Tquery;
     Else if (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'BCE') > 0) then TypeSaisie := 'BCE'
     Else If (Venteachat = 'ACH') then TypeSaisie := Venteachat;
     //
+  end;
     if not ControleAffaire(Affaire, 'Saisie de document', TypeSaisie) then
     begin
       result := false;
       exit;
     end;
-  end;
+  //
 
   {*
   TypeAffaire := copy(UpperCase (Affaire),1,1);

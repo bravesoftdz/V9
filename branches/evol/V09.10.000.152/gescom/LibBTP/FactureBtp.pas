@@ -3120,13 +3120,16 @@ var QQ          : Tquery;
     //FV1 - 10/01/2018 - FS#2844 - TEAM - Autoriser la saisie des contre-études sur devis non accepté
     Else if (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'BCE') > 0) then TypeSaisie := 'BCE'
     Else If (Venteachat = 'ACH') then TypeSaisie := Venteachat;
-    //
-    if not ControleAffaire(Affaire, 'Saisie de document', TypeSaisie) then
-    begin
-      result := false;
-      exit;
-    end;
   end;
+
+  //
+  //FV1 : 04/04/2018 - FS#3030 - EGCS : Pas de message indiquant "Chantier non accepté" lors de la duplication d'une facture Fourniss
+  if not ControleAffaire(Affaire, 'Saisie de document', TypeSaisie) then
+  begin
+    result := false;
+    exit;
+  end;
+  //
 
   {*
   TypeAffaire := copy(UpperCase (Affaire),1,1);

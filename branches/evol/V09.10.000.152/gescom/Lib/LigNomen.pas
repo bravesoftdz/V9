@@ -847,6 +847,7 @@ Procedure TFLigNomen.GetCellCanvas ( ACol,ARow : Longint; Canvas : TCanvas ; ASt
 {$IFDEF BTP}
 var IndPv : integer;
     Valeurpv : double;
+    Valtemp  : Double;
     TOBL : TOB;
 {$ENDIF}
 BEGIN
@@ -874,7 +875,8 @@ BEGIN
     valeurpv := pivottodevise (TOB(G_NLIG.objects[SGN_NUMLIG,ARow]).getvaleur(indpv),DEV.taux,DEV.quotite,V_PGI.okdecP);
   end else
   begin
-    valeurpv := arrondi(valeur(TOB(G_NLIG.objects[SGN_NUMLIG,ARow]).getvaleur(indpv)),V_PGI.OKdecP);
+    //valeurpv := arrondi(valeur(TOB(G_NLIG.objects[SGN_NUMLIG,ARow]).getvaleur(indpv)),V_PGI.OKdecP);
+    valeurpv := arrondi(valeur(TOBL.GetValue('BLO_PUHTBASE')),V_PGI.OKdecP);
   end;
 
   if (ACol = SGN_PVHT) and
@@ -887,9 +889,11 @@ BEGIN
     canvas.Font.Style := Canvas.Font.Style+[fsBold]
   end;
 
+  Valtemp := arrondi(valeur(G_NLIG.cells [SGN_PVht,Arow]),V_PGI.OkDecP);
   if (ACol = SGN_PVHT) and
      (TOBL.getValue('BLO_TYPEARTICLE') <> 'POU') and
-     (arrondi(valeur(G_NLIG.cells [SGN_PVht,Arow]),V_PGI.OkDecP) <> valeurpv) then
+     //(arrondi(valeur(G_NLIG.cells [SGN_PVht,Arow]),V_PGI.OkDecP) <> valeurpv) then
+     (Valtemp <> valeurpv) then
   begin
   	if Action <> TaConsult then
     begin
