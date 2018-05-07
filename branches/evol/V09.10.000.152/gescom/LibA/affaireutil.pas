@@ -3611,12 +3611,19 @@ begin
     else
     begin
       if GetParamSocSecur('SO_BTINTERDIREACHATS',False) then
-      begin
-        PGIBox (TraduireMemoire('Saisie non autorisée. Ce Chantier n''est pas accepté.'),TitleMsg);
-        Result := False;
+      Begin
+        If TypeSaisie = 'ACH' then
+        begin
+          PGIBox (TraduireMemoire('Saisie non autorisée. Ce Chantier n''est pas accepté.'),TitleMsg);
+          Result := False;
+        end
+        else
+        begin
+          PgiBox (TraduireMemoire('Attention, ce chantier n''est pas accepté'),TitleMsg);
+        end;
       end
       else
-      begin
+      Begin
         PgiBox (TraduireMemoire('Attention, ce chantier n''est pas accepté'),TitleMsg);
       end;
     end;
