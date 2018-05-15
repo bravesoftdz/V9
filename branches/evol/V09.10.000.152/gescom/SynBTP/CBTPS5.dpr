@@ -169,7 +169,7 @@ uses
   FactTOB in '..\LIB\FactTOB.pas',
   FactTOBbtp in '..\LIBBTP\FactTOBbtp.pas',
   FactTvaMilliem in '..\LIBBTP\FactTvaMilliem.pas',
-  Facture in '..\LIB\Facture.pas',
+  Facture  in '..\LIB\Facture.pas',
   FactureBtp in '..\LIBBTP\FactureBtp.pas',
   FactUtil in '..\LIB\FactUtil.pas',
   FactUtilBTP in '..\LIBBTP\FactUtilBTP.pas',

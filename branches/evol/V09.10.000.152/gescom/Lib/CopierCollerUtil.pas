@@ -615,7 +615,7 @@ begin
         if TOBL <> nil then
         begin
           Localisation := TOBL.getIndex;
-          LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,Localisation,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
+            LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,nil,Localisation,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
           ZeroLigneMontant (TOBL);
         end;
         TOBDLR.free;
@@ -2048,7 +2048,7 @@ begin
      exit;
      end;
   if Acol < fgrid.FixedCols then Acol := fgrid.fixedCols;
-  PositionneCell(Acol,Arow);
+//  PositionneCell(Acol,Arow);
 //  TFfacture(FF).GoToLigne(RowOri,ColOri);
   if TFFacture(fform).Action = TaConsult then MenuEnabled (false)
                                          else MenuEnabled (true);

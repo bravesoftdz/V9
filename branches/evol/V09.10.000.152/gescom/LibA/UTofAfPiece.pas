@@ -220,7 +220,6 @@ begin
   LibCommercial := THLabel(GetControl('LIBREPRESENTANT'));;
   Oldcommercial := '';
 
-
 	THEdit(GetCOntrol('ADL_NUMEROCONTACT')).OnElipsisClick    := NumeroContactLivClick;
   if THEdit(GetCOntrol('ADR_NUMEROCONTACT')) <> nil then
 		THEdit(GetCOntrol('ADR_NUMEROCONTACT')).OnElipsisClick  := NumeroContactClick;
