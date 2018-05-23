@@ -3330,14 +3330,14 @@ TRY
             GestionPhase.RepertorieReceptionsHLiensFromLIV (Tobgenere,TOBgenere.GetValue('GP_AFFAIRE'));
           end;
 {$ENDIF}
-          if gestionPhase <> nil then GestionPhase.AssocieAuxPhases (TobGenere,nil,false,false,false,TaCreat);
+          if gestionPhase <> nil then GestionPhase.AssocieAuxPhases (TobGenere,nil,false,false,false,TaCreat,false);
         end;
         {$ENDIF}
         LaPieceGeneree := TOB.Create ('PIECE',TOBResult,-1);
         LaPiecegeneree.Dupliquer (TOBgenere,true,true);
      end;
 {$IFDEF BTP}
-     if gestionPhase <> nil then GestionPhase.Clear;
+     //if gestionPhase <> nil then GestionPhase.Clear;
 {$ENDIF}
 // --
      END ;

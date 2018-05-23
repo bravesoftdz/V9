@@ -10916,9 +10916,9 @@ begin
 {$IFDEF BTP}
 	if IsCentralisateurBesoin (TOBL) then
   begin
-  	RepercutePrixCentralisation (TOBPiece,TOBL,EnHt,DEV);
     TOBPiece.PutValue('GP_RECALCULER', 'X');
     CalculeLaSaisie(-1, -1, True);
+  	RepercutePrixCentralisation (TOBPiece,TOBL,EnHt,DEV);
     exit;
   end;
 {$ENDIF}
