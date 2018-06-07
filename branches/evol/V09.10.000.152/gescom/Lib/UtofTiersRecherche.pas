@@ -48,8 +48,8 @@ inherited ;
   st:='';
   if x<>0 then st:=copy(stArg,x+14,3);
 
-  if VH_GC.GCIfDefCEGID then
-    if (st='CLI') and (pos('T_NATUREAUXI="PRO"',stArg) <> 0 ) then st:='PRO' ; // si cli et PRO on force NATUREAUXI à PRO pour creation de prospect par defaut
+  //FV1 : 07/06/2018 - FS#3118 - SWEETAIR - On ne pose plus la question en création tiers : prospect ou client
+  if (st='CLI') and (pos('T_NATUREAUXI="PRO"',stArg) <> 0 ) then st:='' ; // si cli et PRO on force NATUREAUXI à '' pour poser la question en creation
 
   if (ctxScot in V_PGI.PGIContexte) and (st ='FOU') then
   begin
@@ -58,6 +58,7 @@ inherited ;
   end;
 
   setcontroltext('NATUREAUXI',st) ;
+
   if (st='CLI' ) and (Not ExJaiLeDroitConcept(TConcept(gcCLICreat),False)) then
   BEGIN
     SetControlVisible('BINSERT',False) ;
