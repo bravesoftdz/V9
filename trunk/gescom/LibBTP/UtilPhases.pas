@@ -42,14 +42,13 @@ TGestionPhase = class
     destructor destroy ; override;
     property Piece : TOB read TOBpiece write TOBpiece;
     procedure clear;
-    procedure ClearPart;
     procedure AjoutePhase (TOBL : TOB);
     procedure RemontePhase;
     procedure AssocieALaPhase (TOBL : TOB);
     procedure CreeAssociation (TOBL : TOB ; Nummouv : double = 0);
     procedure Insere;
     procedure GenerelesPhases (TOBGenere,TOBCONSODEL : TOB;TransfoPiece,DuplicPiece,regroup : boolean;Action : TactionFiche);
-    procedure AssocieAuxPhases (TOBGenere,TOBCONSODEL : TOB;TransfoPiece,DuplicPiece,Regroup : boolean;Action : TactionFiche; ModeComplet : Boolean=true );
+    procedure AssocieAuxPhases (TOBGenere,TOBCONSODEL : TOB;TransfoPiece,DuplicPiece,Regroup : boolean;Action : TactionFiche);
     procedure MemoriseLienReception(TOBL: TOB;TOBReception : TOB);
     procedure RecupereReceptions (TOBL : TOB);
     procedure InitialisationLigne (TOBL : TOB);
@@ -614,7 +613,7 @@ begin
   END;
 end;
 
-procedure TGestionPhase.AssocieAuxPhases (TOBGenere,TOBCONSODEL : TOB;TransfoPiece,DuplicPiece,Regroup : boolean;Action : TactionFiche ;ModeComplet : Boolean=true );
+procedure TGestionPhase.AssocieAuxPhases (TOBGenere,TOBCONSODEL : TOB;TransfoPiece,DuplicPiece,Regroup : boolean;Action : TactionFiche);
 var indice        : integer;
     TOBL          : TOB;
     NumMouv : double;
@@ -659,7 +658,6 @@ begin
     Insere;
   FINALLY
     GestionConso.MajTableConso;
-    if ModeComplet then clear
                    else ClearPart;
   END;
 end;
@@ -670,15 +668,6 @@ begin
   TOBphasesDet.Cleardetail;
   TOBCompteur.ClearDetail;
   GestionConso.clear;
-  initphases;
-end;
-
-procedure TGestionPhase.clearPart;
-begin
-  TOBPhases.ClearDetail;
-  TOBphasesDet.Cleardetail;
-  TOBCompteur.ClearDetail;
-  GestionConso.clearPart;
   initphases;
 end;
 

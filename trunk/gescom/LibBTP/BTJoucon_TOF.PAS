@@ -82,7 +82,7 @@ type
   end;
 
 implementation
-uses Windows,vierge, affaireutil;
+uses Windows,vierge, affaireutil, TiersUtil;
 
 procedure TOF_BTJOUCON.OnNew;
 begin
@@ -376,13 +376,25 @@ end;
 procedure TOF_BTJOUCON.AddChampsSupLoc (TOBB : TOB);
 begin
 	TOBB.AddChampSupValeur ('Fournisseur','');
+  //FV1 - 26/03/2018 : FS#3026 - GUINIER - Possibilité d'avoir le nom du fournisseur en journal des consos à la place du code
+	TOBB.AddChampSupValeur ('Nom Fournisseur', '');
+  //
 	TOBB.AddChampSupValeur ('Provenance','');
 end;
 
 procedure TOF_BTJOUCON.AlimenteInfoProv (TOBL,TOBF : TOB);
-var prov : string;
+Var LibTiers  : String;
+    prov      : string;
 begin
-	TOBL.putValue('Fournisseur',TOBF.GetValue('GL_TIERS'));
+	TOBL.putValue('Fournisseur', TOBF.GetValue('GL_TIERS'));
+  //
+  //FV1 - 26/03/2018 : FS#3026 - GUINIER - Possibilité d'avoir le nom du fournisseur en journal des consos à la place du code
+  If TOBF.GetValue('GL_TIERS') <> '' Then
+  begin
+    if not GetLibTiers('FOU',TOBF.GetValue('GL_TIERS'),LibTiers) then LibTiers := 'Fournisseur inexistant';
+    TOBL.putValue('Nom Fournisseur', LibTiers);
+  end;
+  //
   Prov := RechDom ('GCNATUREPIECEG',TOBF.GetValue('BCO_NATUREPIECEG'),false)+' '+
   				IntToStr(TOBF.GetValue('BCO_NUMERO'))+ ' du '+DateToStr(TOBF.GetValue('GL_DATEPIECE'));
 	TOBL.putValue('Provenance',prov);

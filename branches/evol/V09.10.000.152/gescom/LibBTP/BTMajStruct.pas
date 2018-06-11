@@ -2312,6 +2312,7 @@ procedure TMajStructBTP.TraiteModifVue(TheListRef: TOB);
 var TOBREF,TOBDest : TOB;
 begin
   TOBREF := GetVueRef(TheListRef.getValue('BTV_NOMELT'));
+  if TOBREF = nil then exit;
   TOBDest := GetVueDestination(TheListRef.getValue('BTV_NOMELT'));
   if not IsTraiteVue (TheListRef,TOBRef,TOBDest) then
   begin
@@ -2333,7 +2334,8 @@ var QQ : TQuery;
 begin
   result := nil;
   QQ := OpenSQLDb (DBRef,'SELECT * FROM DEVUES WHERE DV_NOMVUE="'+NomVue+'"',true);
-  if QQ.eof then BEGIN fCodeStatus := 120; Exit; END;
+  //if QQ.eof then BEGIN fCodeStatus := 120; Exit; END;
+  if QQ.eof then BEGIN Exit; END;
   TOBresult := TOB.Create ('DEVUES',nil,-1);
   TOBresult.SelectDB ('',QQ);
   ferme (QQ);
@@ -2356,7 +2358,6 @@ end;
 function TMajStructBTP.IsTraiteVue (TheListRef,TOBRef,TOBDest : TOB) : boolean;
 begin
   result := true;
-  if TOBREF = nil then BEGIN fCodeStatus := 0; result := false;  Exit; End;
   if TOBDest = nil then exit; // -> pas de destination c'est donc une création
   if (ForceGlobale) or (IsModeMajHalley) then Exit;
   if (TheListRef.GetString('BTV_FORCE') = 'X') then exit; // --> Force donc on lance
@@ -2763,6 +2764,11 @@ begin
     if TableExiste ('BTYPELIGBAST') then ExecuteSQL('DELETE FROM BTYPELIGBAST');
   end;
   //
+  if VersionBaseDest < '998.ZZZK' then
+  begin
+    DropVuePourrie('BTPREVFACTPREPA');
+    ExecuteSQL('DELETE FROM DEVUES WHERE DV_NOMVUE="BTPREVFACTPREPA"');
+  end;
   if not TableExiste('BADRESSES') then
   begin
     ConstitueTableAdressesBTP;

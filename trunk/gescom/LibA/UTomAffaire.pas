@@ -7881,7 +7881,7 @@ begin
 
   TT := TOB.Create ('CONTRAT',nil,-1);
   TRY
-		NomFile := IncludeTrailingPathDelimiter(GetParamSocSecur('SO_BTCONREPERTMODELE',''))+'newDoc.docx';
+		NomFile := IncludeTrailingPathDelimiter(GetParamSocSecur('SO_BTCONREPERTMODELE',''))+'newDoc.doc';
     ConstitueTOB(TT,ListeChamps,GetControlText('AFF_AFFAIRE'),false);
   	LancePublipostage('NEW',NomFile,'',TT,ListeChamps,nil,False);
   finally

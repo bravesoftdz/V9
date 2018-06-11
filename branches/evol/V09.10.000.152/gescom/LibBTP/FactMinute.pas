@@ -239,6 +239,14 @@ begin
       // VARIANTE
       if ImprimeVariante then
       begin
+        if copy(TOBL.GetValue('GL_TYPELIGNE'),1,2)='TV' then
+        begin
+          AjouteFinParagrapheMinute (TOBPiece,TOBTiers,TOBAffaire,TOBL,TOBMinute);
+        end;
+        if copy(TOBL.GetValue('GL_TYPELIGNE'),1,2)='DV' then
+        begin
+          AjouteParagrapheMinute (TOBPiece,TOBTiers,TOBAffaire,TOBL,TOBMinute);
+        end;
         if ((TypeArticle='MAR') or (TypeArticle = 'PRE') or (TypeArticle = 'POU') or (TypeArticle = 'ARP')) and (not IsSousDetail(TOBL)) and (not IsCommentaire(TOBL)) then
         begin
           AjouteArticleMinute (TOBPiece,TOBL,TOBTiers,TOBAffaire,TOBArticles,TOBOuvrage,TOBMinute);

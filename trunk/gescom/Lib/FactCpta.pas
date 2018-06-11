@@ -539,10 +539,19 @@ BEGIN
      begin
      Fixe1:=Trim(GetInfoParPiece(Nature,'GPP_RACINELIBECR1')); Fixe2:=Trim(GetInfoParPiece(Nature,'GPP_RACINELIBECR2'));
      ValeurEcr1:=GetInfoParPiece(Nature,'GPP_VALEURLIBECR1'); ValeurEcr2:=GetInfoParPiece(Nature,'GPP_VALEURLIBECR2');
-     end else
+     end
+  else
      begin
-     Fixe1:=Trim(GetInfoParPiece(Nature,'GPP_RACINEREFINT1')); Fixe2:=Trim(GetInfoParPiece(Nature,'GPP_RACINEREFINT2'));
-     ValeurEcr1:=GetInfoParPiece(Nature,'GPP_VALEURREFINT1'); ValeurEcr2:=GetInfoParPiece(Nature,'GPP_VALEURREFINT2');
+       if TYpeEcr = TecRG then
+       Begin
+         Fixe1:=Trim(GetInfoParPiece(Nature,'GPP_RACINELIBECR1')); Fixe2:=Trim(GetInfoParPiece(Nature,'GPP_RACINELIBECR2'));
+         ValeurEcr1:=GetInfoParPiece(Nature,'GPP_VALEURLIBECR1'); ValeurEcr2:=GetInfoParPiece(Nature,'GPP_VALEURLIBECR2');
+       end
+       else
+       begin
+         Fixe1:=Trim(GetInfoParPiece(Nature,'GPP_RACINEREFINT1')); Fixe2:=Trim(GetInfoParPiece(Nature,'GPP_RACINEREFINT2'));
+         ValeurEcr1:=GetInfoParPiece(Nature,'GPP_VALEURREFINT1'); ValeurEcr2:=GetInfoParPiece(Nature,'GPP_VALEURREFINT2');
+       end;
      end;
 
   if (Fixe1='') And (Fixe2='') And (ValeurEcr1='') And (ValeurEcr2='') then Exit;
@@ -553,7 +562,15 @@ BEGIN
   Trim(stTot);
   if stTot <> '' then
      begin
-     if LibEcr then TOBE.PutValue('E_LIBELLE',Copy(stTot,1,35)) else TOBE.PutValue('E_REFINTERNE',Copy(stTot,1,35));
+    if LibEcr then
+      TOBE.PutValue('E_LIBELLE',Copy(stTot,1,35))
+    else
+    begin
+      if typeEcr = TecRG then
+        TOBE.PutValue('E_LIBELLE',Copy(stTot,1,35))
+      else
+        TOBE.PutValue('E_REFINTERNE',Copy(stTot,1,35))
+    end;
      end;
 END;
 
@@ -4199,7 +4216,7 @@ BEGIN
     {Client}
     TOBE.PutValue('E_AUXILIAIRE',TOBTiers.GetValue('T_AUXILIAIRE')) ;
     //FV1 : 27/02/2018 - FS#2957 - DSA - En écriture comptable le libellé des Ports & Frais est erroné
-    if GetParamSocSecur('SO_LIBRETENUE', True) then AlimLibEcr(TobE,TobPiece,TobTiers,TOBP.GetString('GPT_LIBELLE'),tecRG,True,(MM.Simul='S'));
+    AlimLibEcr(TobE,TobPiece,TobTiers,TOBP.GetString('GPT_LIBELLE'),tecRG,GetParamSocSecur('SO_LIBRETENUE', True),(MM.Simul='S'));
     //
     {Eche+Vent}
     NumL:=TOBEcr.Detail.Count-NbEches+1 ; TOBE.PutValue('E_NUMLIGNE',NumL) ;

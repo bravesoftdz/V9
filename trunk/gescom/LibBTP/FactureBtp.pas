@@ -1484,7 +1484,7 @@ begin
     //MBSoldeTousReliquat.visible := False; : modif brl 22/02/2011 on ne sait pas pourquoi le bouton était invisible ...
     if Not SaisieTypeAvanc then
     begin
-      BImprimer.visible := True;
+      BImprimer.visible := (Action = taModif) Or (Action = taConsult);
       Bminute.visible := ((TOBPiece.GetValue('GP_NATUREPIECEG') = VH_GC.AFNatAffaire) or
                           (TOBPiece.GetValue('GP_NATUREPIECEG') = VH_GC.AFNatProposition) or
                           (TOBPiece.GetValue('GP_NATUREPIECEG') = GetParamSoc('SO_BTNATCHANTIER'))) and (VenteAchat = 'VEN');
@@ -3089,6 +3089,7 @@ var QQ          : Tquery;
 
   //FV1 : 18/06/2014 - FS#921 - DELABOUDINIERE : Revoir les contrôles sur appels et contrats en fonction du code état
   Venteachat := GetInfoParPiece(TOBPiece.GetValue('GP_NATUREPIECEG'), 'GPP_VENTEACHAT');
+  TypeSaisie := Venteachat;
 
   if (TheAction=TaCreat) or ((Theaction=tamodif) and (Transfopiece or Duplic)) then
   begin
@@ -3116,7 +3117,7 @@ var QQ          : Tquery;
 
   if (TheAction=TaCreat) then
   Begin
-    If (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'FBT;ABT;FBP;ABP;')>0) then TypeSaisie := 'ACH'
+    If (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'FBT;ABT;FBP;ABP;')=0) then TypeSaisie := 'ACH'
     //FV1 - 10/01/2018 - FS#2844 - TEAM - Autoriser la saisie des contre-études sur devis non accepté
     Else if (Pos(TOBPiece.GetValue('GP_NATUREPIECEG'), 'BCE') > 0) then TypeSaisie := 'BCE'
     Else If (Venteachat = 'ACH') then TypeSaisie := Venteachat;

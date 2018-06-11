@@ -54,7 +54,6 @@ type TGestionConso = class
     constructor create;
     destructor destroy ; override;
     procedure Clear;
-    procedure ClearPart;
     Function CreerConso(TobLigne :TOB; Numphase : string; Mode: TTraitConso; TOBDest:TOB=nil) : Double;
     function GetTOBrecepHLien: TOB;
     Procedure MajTableConso;
@@ -763,22 +762,6 @@ begin
   //
 end;
 
-procedure TGestionConso.ClearPart;
-var II : integer;
-begin
-  TOBConso.ClearDetail ;
-  TOBOldConso.ClearDetail;
-  // ---
-  if TOBReceptionFou.detail.count > 0 then
-  begin
-    II := 0;
-    repeat
-      if TOBReceptionFou.detail[II].GetValue('A TRAITER') = 'X' then TOBReceptionFou.detail[II].free else Inc(II);
-    until II >= TOBReceptionFou.detail.count;
-  end;
-  TOBReceptHorsLien.clearDetail;
-  //
-end;
 
 procedure TGestionConso.FlagRetourChantierAssocie (NumConsoRecep : double;LienVente : double);
 var TOBC : TOB;
