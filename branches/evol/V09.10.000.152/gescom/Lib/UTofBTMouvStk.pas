@@ -109,7 +109,7 @@ var SWhere,StChamps : string;
     TheArticle : string;
 begin
   Article := THEdit(getControl('BTM_ARTICLE'));
-	sWhere := 'AND ((GA_TYPEARTICLE="MAR") OR (GA_TYPEARTICLE="ARP"))';
+	sWhere := 'AND ((GA_TYPEARTICLE="MAR") OR (GA_TYPEARTICLE="ARP")) AND GA_TENUESTOCK="X"';
   if Article.Text <> '' then StChamps := 'GA_CODEARTICLE=' + Trim(Copy(Article.text, 1, 18)) + ';XX_WHERE=' + sWhere
 		 										else StChamps := 'XX_WHERE=' + sWhere;
 
