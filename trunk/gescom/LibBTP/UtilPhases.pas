@@ -658,7 +658,6 @@ begin
     Insere;
   FINALLY
     GestionConso.MajTableConso;
-                   else ClearPart;
   END;
 end;
 
