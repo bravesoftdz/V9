@@ -1,7 +1,7 @@
 object FFacture: TFFacture
   Left = 326
   Top = 118
-  Width = 1011
+  Width = 1045
   Height = 698
   HelpContext = 119000017
   ActiveControl = GP_DATEPIECE
@@ -37,7 +37,7 @@ object FFacture: TFFacture
   object PEntete: THPanel
     Left = 0
     Top = 0
-    Width = 995
+    Width = 1029
     Height = 125
     Align = alTop
     FullRepaint = False
@@ -1200,7 +1200,7 @@ object FFacture: TFFacture
   object PPiedTot: TPanel
     Left = 0
     Top = 513
-    Width = 995
+    Width = 1029
     Height = 24
     Align = alBottom
     BevelOuter = bvNone
@@ -1208,7 +1208,7 @@ object FFacture: TFFacture
     object PGTG: TPanel
       Left = 0
       Top = -56
-      Width = 995
+      Width = 1029
       Height = 80
       Align = alBottom
       BevelOuter = bvNone
@@ -1216,7 +1216,7 @@ object FFacture: TFFacture
       object GTG: THGrid
         Left = 0
         Top = 0
-        Width = 995
+        Width = 1029
         Height = 80
         Align = alClient
         ColCount = 9
@@ -1242,7 +1242,7 @@ object FFacture: TFFacture
     object PGT: TPanel
       Left = 0
       Top = 0
-      Width = 995
+      Width = 1029
       Height = 21
       Align = alTop
       BevelOuter = bvNone
@@ -1250,7 +1250,7 @@ object FFacture: TFFacture
       object GT: THGrid
         Left = 0
         Top = 0
-        Width = 995
+        Width = 1029
         Height = 22
         Align = alTop
         DefaultRowHeight = 18
@@ -1336,7 +1336,7 @@ object FFacture: TFFacture
   object PGlobPied: THPanel
     Left = 0
     Top = 537
-    Width = 995
+    Width = 1029
     Height = 122
     Align = alBottom
     BevelOuter = bvNone
@@ -1350,7 +1350,7 @@ object FFacture: TFFacture
     object PPied: THPanel
       Left = 0
       Top = 0
-      Width = 995
+      Width = 1029
       Height = 87
       Align = alTop
       BevelOuter = bvNone
@@ -1364,7 +1364,7 @@ object FFacture: TFFacture
       TextEffect = tenone
       AutoResize = True
       DesignSize = (
-        995
+        1029
         87)
       object HGP_ESCOMPTE: THLabel
         Left = 222
@@ -1445,7 +1445,7 @@ object FFacture: TFFacture
         Visible = False
       end
       object BLanceCalc: TToolbarButton97
-        Left = 597
+        Left = 631
         Top = 2
         Width = 405
         Height = 101
@@ -2531,7 +2531,7 @@ object FFacture: TFFacture
     object PButtons: TPanel
       Left = 0
       Top = 86
-      Width = 995
+      Width = 1029
       Height = 36
       Align = alBottom
       BevelOuter = bvNone
@@ -2539,7 +2539,7 @@ object FFacture: TFFacture
       object DockBottom: TDock97
         Left = 0
         Top = 5
-        Width = 995
+        Width = 1029
         Height = 31
         BackgroundTransparent = True
         Position = dpBottom
@@ -2553,7 +2553,7 @@ object FFacture: TFFacture
           TabOrder = 0
           DesignSize = (
             906
-            27)
+            31)
           object BMenuZoom: TToolbarButton97
             Tag = -100
             Left = 28
@@ -2595,6 +2595,7 @@ object FFacture: TFFacture
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             Layout = blGlyphTop
+            NumGlyphs = 2
             Opaque = False
             ParentFont = False
             ParentShowHint = False
@@ -2741,7 +2742,7 @@ object FFacture: TFFacture
           end
           object BOffice: TToolbarButton97
             Tag = 1
-            Left = 508
+            Left = 536
             Top = 0
             Width = 28
             Height = 27
@@ -2832,29 +2833,6 @@ object FFacture: TFFacture
             Visible = False
             OnClick = BDeleteClick
             GlobalIndexImage = 'Z0005_S16G1'
-          end
-          object BImprimer: TToolbarButton97
-            Left = 536
-            Top = 0
-            Width = 28
-            Height = 27
-            Hint = 'Imprimer'
-            DisplayMode = dmGlyphOnly
-            Caption = 'Imprimer'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = [fsBold]
-            Layout = blGlyphTop
-            Margin = 2
-            Opaque = False
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            Visible = False
-            OnClick = BImprimerClick
-            GlobalIndexImage = 'Z0369_S16G1'
           end
           object BPorcs: TToolbarButton97
             Tag = 1
@@ -3176,6 +3154,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Voir les totalisations documents'
+            Glyph.Data = {00000000}
+            GlyphMask.Data = {00000000}
             ImageIndex = 0
             Images = HimgTOT
             Opaque = False
@@ -3253,6 +3233,32 @@ object FFacture: TFFacture
             GlyphMask.Data = {00000000}
             ParentShowHint = False
             ShowHint = True
+          end
+          object BImprimer: TToolbarButton97
+            Tag = 1
+            Left = 508
+            Top = 0
+            Width = 28
+            Height = 27
+            Hint = 'Edition du Document'
+            AllowAllUp = True
+            DisplayMode = dmGlyphOnly
+            Caption = 'Imprimer'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            Layout = blGlyphTop
+            Opaque = False
+            ParentFont = False
+            ParentShowHint = False
+            ShowHint = True
+            Spacing = -1
+            Visible = False
+            OnClick = BImprimerClick
+            GlobalIndexImage = 'M0072_S16G1'
+            IsControl = True
           end
         end
         object Valide97: TToolbar97
@@ -3456,8 +3462,9 @@ object FFacture: TFFacture
       
         '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
         '0\fnil Times New Roman;}}'
-      '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
+      '{\*\generator Riched20 10.0.17134}\viewkind4\uc1 '
       '\pard\f0\fs20 '
+      '\par '
       '\par '
       '\par '
       '\par '
@@ -3796,7 +3803,7 @@ object FFacture: TFFacture
   object PGS: TPanel
     Left = 0
     Top = 125
-    Width = 995
+    Width = 1029
     Height = 388
     Align = alClient
     BevelOuter = bvNone
@@ -3806,7 +3813,7 @@ object FFacture: TFFacture
       Tag = 1
       Left = 0
       Top = 0
-      Width = 995
+      Width = 1029
       Height = 388
       Align = alClient
       BorderStyle = bsNone
@@ -4575,8 +4582,9 @@ object FFacture: TFFacture
         
           '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
           '0\fnil Times New Roman;}}'
-        '{\*\generator Riched20 10.0.16299}\viewkind4\uc1 '
+        '{\*\generator Riched20 10.0.17134}\viewkind4\uc1 '
         '\pard\f0\fs20 '
+        '\par '
         '\par '
         '\par '
         '\par '
@@ -5565,8 +5573,7 @@ object FFacture: TFFacture
       'Z0885_S16G1'
       'Z1439_S16G1'
       'Z0284_S16G1')
-    Height = 18
-    Width = 18
+    Width = 17
     Left = 651
     Top = 152
   end
@@ -5655,8 +5662,6 @@ object FFacture: TFFacture
       'Z0415_S16G1'
       'Z0397_S16G1')
     DrawingStyle = dsTransparent
-    Height = 18
-    Width = 18
     Left = 725
     Top = 150
   end

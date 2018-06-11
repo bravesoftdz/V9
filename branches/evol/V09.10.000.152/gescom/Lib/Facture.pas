@@ -463,7 +463,6 @@ type
     BVentil: TToolbarButton97;
     BDescriptif: TToolbarButton97;
     BDelete: TToolbarButton97;
-    BImprimer: TToolbarButton97;
     BPorcs: TToolbarButton97;
     BSaisieAveugle: TToolbarButton97;
     BNouvelArticle: TToolbarButton97;
@@ -546,6 +545,7 @@ type
     MnBSVSTOCKE: TMenuItem;
     MnBSVVISU: TMenuItem;
     BGED: TToolbarButton97;
+    BImprimer: TToolbarButton97;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -4905,12 +4905,11 @@ begin
   //MBAnal.visible := false;
   //AnalyseDocHtrait.visible := true;
   MBModevisu.visible := False;
-  {$IFDEF CHR}
   //FV1 : 04/04/2018 - FS#2955 - DSA - Ne pas pouvoir éditer un document si en création ou modif mais que ce dernier n'est pas créé
-  //BImprimer.visible := True;
-  {$ELSE}
+  BImprimer.visible := False;
+  //{$ELSE}
   BImprimer.visible := (Action = TaConsult);
-  {$ENDIF}
+  //{$ENDIF}
   BprixMarche.Visible := (VH_GC.BTPrixMarche) or (SaisieTypeAvanc) or (ModifAvanc);
   BArborescence.Visible := VH_GC.BTGestParag;
 

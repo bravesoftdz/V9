@@ -1484,7 +1484,7 @@ begin
     //MBSoldeTousReliquat.visible := False; : modif brl 22/02/2011 on ne sait pas pourquoi le bouton était invisible ...
     if Not SaisieTypeAvanc then
     begin
-      BImprimer.visible := True;
+      BImprimer.visible := (Action = taModif) Or (Action = taConsult);
       Bminute.visible := ((TOBPiece.GetValue('GP_NATUREPIECEG') = VH_GC.AFNatAffaire) or
                           (TOBPiece.GetValue('GP_NATUREPIECEG') = VH_GC.AFNatProposition) or
                           (TOBPiece.GetValue('GP_NATUREPIECEG') = GetParamSoc('SO_BTNATCHANTIER'))) and (VenteAchat = 'VEN');
