@@ -9,8 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = BuildNewCptx.exe ImportExportCegid.exe CBTPS5_V10.exe UtilsBTP.exe \
-  MajVerBTP.exe CBTPS1.exe CBTPS3.exe CBTPS5.exe
+PROJECTS = BuildNewCptx.exe ImportExportCegid.exe CBTPS1.exe UtilsBTP.exe \
+  MajVerBTP.exe CBTPS3.exe CBTPS5.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -34,9 +34,6 @@ UtilsBTP.exe: UtilsBTP.dpr
   $(DCC)
 
 BuildNewCptx.exe: ..\..\BuildCPTX\Syn\BuildNewCptx.dpr
-  $(DCC)
-
-CBTPS5_V10.exe: CBTPS5_V10.dpr
   $(DCC)
 
 

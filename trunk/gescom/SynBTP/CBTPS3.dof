@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=9
 MinorVer=1
 Release=0
-Build=151
+Build=152
 Debug=0
 PreRelease=0
 Special=0
@@ -122,16 +122,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=LSE
 FileDescription=LSE BUSINESS BTP
-FileVersion=9.1.0.151
+FileVersion=9.1.0.152
 InternalName=CBTPS3
 LegalCopyright=LSE 2012
 LegalTrademarks=LSE
 OriginalFilename=
 ProductName=LSE BUSINESS BTP
-ProductVersion=9.1.0.151
+ProductVersion=9.1.0.152
 Comments=Référence base 998
-[Excluded Packages]
-c:\borland\borland\delphi7\Bin\DBWEBXPRT.BPL=Paquet Expert Web Borland
 [HistoryLists\hlConditionals]
 Count=5
 Item0=GCGC;BTP;AFFAIRE;AGL560;AGL560E;AGL570d;GRC;AGL570;CTI;AGL590;AGL700;BUSINESSPLACE;DBXPRESS;DBXADO
