@@ -122,6 +122,7 @@ type
 
     fED_AFFAIRE         : THEdit;
     CodeRessource       : THEdit;
+    NBRessource         : THEdit;
 
     fDtDebutAffaire     : TDateTime;
     fDtFinAffaire       : TDateTime;
@@ -609,6 +610,8 @@ begin
   fUpdateRes  := nil;
   fStatut     := taConsult;
 
+  NBRessource   := THEdit(Getcontrol('ATA_NBRESSOURCE'));
+
   fCurAffaire.StAffaire := '';
   fCurAffaire.StTiers   := '';
 
@@ -675,7 +678,7 @@ begin
   // si gestion du RAF et gestion en plan de charge                                      
   setControlVisible('BPLANDECHARGE', fBoAFPLANDECHARGE);
   setControlVisible('ATA_NUMEROTACHE', False);
-  setControlEnabled('ATA_NBRESSOURCE', False);
+  NBRessource.Enabled :=  False;
   setControlEnabled('ATA_UNITETEMPS', False);
   setControlEnabled('ATA_UNITETEMPS_', False);
 
@@ -768,6 +771,7 @@ begin
   Ed.OnExit := ModifZoneExit;
 
   CodeRessource := THEdit(Getcontrol('RESSOURCE'));
+
   BloquerTaches;
 
 end;
@@ -1753,13 +1757,14 @@ begin
         inc(i_row);
         fGSRes.InsertRow(i_row);
         AjoutRessource (CodeRessource.Text);
-        SetControlText('ATA_NBRESSOURCE', IntToStr(StrToInt(GetControlText('ATA_NBRESSOURCE')) + 1));
+        NBRessource.Text := IntToStr(StrToInt(NBRessource.text) + 1);
       end;
     end
     else
     begin
       vTobTacheRess := TOB.Create('TACHERESSOURCE', fTobDet, i_row - 1);
       AjoutRessource (CodeRessource.Text);
+      NBRessource.Text := '1';
     end;
   end;
 
@@ -1857,6 +1862,8 @@ var vTob    : Tob;
     vInRow  : integer;
 begin
 
+  if StrToInt(NbRessource.text) = 0 then Exit;
+
   // C.B 07/11/2006 //Suppression interdite
   if fBoNoSuppression then
   begin
@@ -1885,7 +1892,7 @@ begin
 
   //UpdateGridRes(True, -1);
   SetFocusControl('GSRES');
-  SetControlText('ATA_NBRESSOURCE', IntToStr(StrToInt(GetControlText('ATA_NBRESSOURCE')) - 1));
+  NBRessource.Text := IntToStr(StrToInt(NBRessource.text) - 1);
   //
   //ajout a la liste de suppression
   SetLength(fUpdateRes, length(fUpdateRes) + 1);
@@ -2530,7 +2537,7 @@ begin
   //  dPrevuTache := valeur(GetControlText('ATA_QTEINITIALE'));
   // cas particulier
   // 0 ressource, on ne fait pas le controle
-  if GetControlText('ATA_NBRESSOURCE') <> '0' then
+  if NBRESSOURCE.text <> '0' then
     for i := 1 to fGSRes.RowCount - 1 do
     begin
       vStRes := fGSRes.CellValues[cInColRes, i];
@@ -4244,15 +4251,13 @@ begin
 end;
 
 procedure TOF_BTTACHES.UpdateGridRes(pBoModifNbRes: Boolean; pInNum: Integer);
-var
-  NbRes: integer;
+var NbRes: integer;
 begin
 
   // si modif du nb de ressource
   if pBoModifNbRes then
   begin
-    NbRes := strToint(GetControlText('ATA_NBRESSOURCE')) + pInNum;
-    SetControlText('ATA_NBRESSOURCE', inttoStr(NbRes));
+    NbRessource.text := IntToStr(StrToInt(NBRessource.text) + pInNum);
     fGSRes.RowCount := NbRes + 1;
   end
 
@@ -4262,19 +4267,18 @@ begin
     if pInNum = 0 then
     begin
       RefreshGridRes;
-      SetControlText('ATA_NBRESSOURCE', intToStr(pInNum));
+      NBRessource.Text := intToStr(pInNum);
       fGSRes.RowCount := 2;
     end
     else
     begin
-      SetControlText('ATA_NBRESSOURCE', intToStr(pInNum));
+      NBRessource.Text := intToStr(pInNum);
       fGSRes.RowCount := pInNum + 1;
     end;
   end;
 
   // positionnement dans la grille
   fGSRes.row := fGSRes.rowcount - 1;
-//  fGSRes.Enabled := (GetControlText('ATA_NBRESSOURCE') <> '0');
   fGSRes.Enabled := (not TCheckBox(GetControl('ATA_TERMINE')).Checked);
   fGSRes.ElipsisButton := fGSRes.Enabled;
 end;             
@@ -4566,7 +4570,7 @@ end;
 
 function TOF_BTTACHES.RessourceSaisie: Boolean;
 begin
-  result := GetControlText('ATA_NBRESSOURCE') <> '0';
+  result := NBRessource.text <> '0';
 end;
 
 function TOF_BTTACHES.TacheHeure(pBoGlobal : Boolean) : Boolean;
