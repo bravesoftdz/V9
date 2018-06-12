@@ -48,8 +48,8 @@ inherited ;
   st:='';
   if x<>0 then st:=copy(stArg,x+14,3);
 
-  if VH_GC.GCIfDefCEGID then
-    if (st='CLI') and (pos('T_NATUREAUXI="PRO"',stArg) <> 0 ) then st:='PRO' ; // si cli et PRO on force NATUREAUXI à PRO pour creation de prospect par defaut
+  //FV1 : 07/06/2018 - FS#3118 - SWEETAIR - On ne pose plus la question en création tiers : prospect ou client
+  if (st='CLI') and (pos('T_NATUREAUXI="PRO"',stArg) <> 0 ) then st:='' ; // si cli et PRO on force NATUREAUXI à '' pour poser la question en creation
 
   if (ctxScot in V_PGI.PGIContexte) and (st ='FOU') then
   begin
@@ -113,14 +113,15 @@ end;
 procedure TOF_GCTIERS_RECH.BInsert_OnClick(Sender: TObject);
 begin
 
-  if GetControlText('NATUREAUXI')='CLI' then
-  //uniquement en line
-  //  AGLLanceFiche ('BTP', 'BTTIERS_S1', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
+  if GetControlText('NATUREAUXI')='' then
+  Begin
      if PGIAsk('Voulez-vous créer un client (répondre Oui) ou un prospect (répondre Non) ?',TFFiche(ecran).Caption) = mrYes then
         AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
      else
         AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=PRO')
-
+  end
+  else if GetControlText('NATUREAUXI')='CLI' then
+    AGLLanceFiche ('GC', 'GCTIERS', '', '', 'ACTION=CREATION;T_NATUREAUXI=CLI')
   else if GetControlText('NATUREAUXI')='FOU' then
     AGLLanceFiche ('GC', 'GCFOURNISSEUR', '', '', 'ACTION=CREATION;T_NATUREAUXI=FOU');
 

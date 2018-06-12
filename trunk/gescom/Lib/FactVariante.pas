@@ -513,6 +513,7 @@ begin
     if IsFinParagraphe(TheLigne,niveau) then
     begin
       SetTypeLigne (TheLigne , Variante);
+      fgrid.InvalidateRow (Indice);
       break;
     end else if IsOuvrage (TheLigne) then
     begin
@@ -536,7 +537,7 @@ begin
         TheLigne.putValue('GL_RECALCULER','X');
       end;
       SetTypeLigne (TheLigne , Variante);
-      fgrid.InvalidateRow (Indice+1);
+      fgrid.InvalidateRow (Indice);
     end;
   end;
   SetTypeLigne (TOBL , Variante);

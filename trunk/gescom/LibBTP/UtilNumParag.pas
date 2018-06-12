@@ -98,7 +98,7 @@ begin
   if (iCompteur = -1) then iCompteur := TOBL.GetNumChamp('GLC_NUMEROTATION');
   if (iCompteurBis = -1) then iCompteurBis := TOBL.GetNumChamp('GL_NIVEAUIMBRIC');
 
-  if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') then
+  if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') or (copy(TOBL.GetString(iTypeLigne),1,2)='DV') then
   begin
     NivP := StrToInt(copy(TOBL.GetString(iTypeLigne),3,1));
   end else if (copy(TOBL.GetString(iTypeLigne),1,2)='AR') then
@@ -205,7 +205,7 @@ function TNumParag.ChangeCodeParag(TOBpiece: TOB; Arow : integer; Valeur : strin
         inc(Prof);
       end;
     until LL = '';
-    if (Copy(TypeLigne,1,2) = 'DP') and (Niveau = Prof) then result := true;
+    if ((Copy(TypeLigne,1,2) = 'DP') or ((Copy(TypeLigne,1,2) = 'DV'))) and (Niveau = Prof) then result := true;
     if (Copy(TypeLigne,1,2) = 'AR') and (Niveau = Prof-1) then result := true;
   end;
 
@@ -231,11 +231,11 @@ begin
     TOBL.SetString('GLC_NUMFORCED','X');
     if TOBL.GetString('GL_PIECEPRECEDENTE')<> '' then exit;
     fIsOneForce := true;
-    if Copy(TypeLIgne,1,2)='DP' then
+    if (Copy(TypeLIgne,1,2)='DP') or (Copy(TypeLIgne,1,2)='DV') then
     begin
       for II := Arow to TOBpiece.detail.count - 1 do
       begin
-        if TOBPiece.Detail[II].GetString(iTypeLigne) = 'TP'+IntToStr(Niveau) then
+        if (TOBPiece.Detail[II].GetString(iTypeLigne) = 'TP'+IntToStr(Niveau)) or (TOBPiece.Detail[II].GetString(iTypeLigne) = 'TV'+IntToStr(Niveau)) then
         begin
           IIFin := II;
           break;
@@ -287,7 +287,7 @@ begin
   //
   TypeLigne :=TOBL.GetString(ITypeLigne);
   Niv := TOBL.GetInteger(iCompteurBis);
-  result :=  ((Copy(TypeLigne,1,2)='DP') and (Niv=1)) or ((Copy(TypeLigne,1,2)='AR') and (niv=0));
+  result :=  ( ((Copy(TypeLigne,1,2)='DP') or (Copy(TypeLigne,1,2)='DV')) and (Niv=1)) or ((Copy(TypeLigne,1,2)='AR') and (niv=0));
 end;
 
 
@@ -312,15 +312,15 @@ begin
     begin
       if (fMaxNumP > TOBcompteur.GetInteger('PN1')) and (OkMemoriseNiv1(TOBL)) then TOBcompteur.SetInteger('PN1',fMaxNump);
       //
-      if (copy(TypeLigne,1,2)='DP') or (Copy(TypeLigne,1,2) = 'AR') then
+      if (copy(TypeLigne,1,2)='DP') or (Copy(TypeLigne,1,2) = 'DV') or (Copy(TypeLigne,1,2) = 'AR') then
       begin
         AjouteNiveau (TOBL);
-      end else if copy(TypeLigne,1,2)='TP' then
+      end else if (copy(TypeLigne,1,2)='TP') or (copy(TypeLigne,1,2)='TV') then
       begin
         RemonteNiveau(TOBL);
       end;
       TOBL.SetBoolean('GLC_NUMFORCED',false);
-    end else if (ValSaisie) and (copy(TypeLigne,1,2)='DP') then
+    end else if (ValSaisie) and ((copy(TypeLigne,1,2)='DP') or (copy(TypeLigne,1,2)='DV') ) then
     begin
       (*
       if IsNumeric (TOBL.GetString('GLC_NUMEROTATION')) then
@@ -352,7 +352,7 @@ begin
   //
   if (not fIsOneForce) and (TOBL.GetBoolean('GLC_NUMFORCED')) then fIsOneForce := true;
   if TOBL.GetBoolean('GLC_NUMFORCED') then MemoriseLigne (TOBL);
-  if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') then
+  if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') or (copy(TOBL.GetString(iTypeLigne),1,2)='DV')then
   begin
     NivP := StrToInt(copy(TOBL.GetString(iTypeLigne),3,1));
   end else if (copy(TOBL.GetString(iTypeLigne),1,2)='AR') then
@@ -399,14 +399,14 @@ begin
   IVal := TOBL.getInteger(iCompteurBis);
   TypeL := copy(TOBL.GetString(iTypeLigne),1,2);
   //
-  if (IVal > 1) and (TypeL='DP') or
+  if ((IVal > 1) and ((TypeL='DP') or (TypeL='DV'))) or
      (IVal >= 1) and (TypeL='AR') then
   begin
-    if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') then iNiv := Ival -1
+    if (copy(TOBL.GetString(iTypeLigne),1,2)='DP') or (copy(TOBL.GetString(iTypeLigne),1,2)='DV') then iNiv := Ival -1
                                                    else iNiv := Ival;
     for II := Arow-1 downto 0 do
     begin
-      if TOBPiece.Detail[II].GetString(iTypeLigne) = 'DP'+IntToStr(INiv) then
+      if (TOBPiece.Detail[II].GetString(iTypeLigne) = 'DP'+IntToStr(INiv)) or (TOBPiece.Detail[II].GetString(iTypeLigne) = 'DV'+IntToStr(INiv)) then
       begin
         IIdep := II;
         break;
@@ -414,7 +414,7 @@ begin
     end;
     for II := Arow to TOBpiece.detail.count - 1 do
     begin
-      if TOBPiece.Detail[II].GetString(iTypeLigne) = 'TP'+IntToStr(INiv) then
+      if (TOBPiece.Detail[II].GetString(iTypeLigne) = 'TP'+IntToStr(INiv)) or (TOBPiece.Detail[II].GetString(iTypeLigne) = 'TV'+IntToStr(INiv)) then
       begin
         IIFin := II;
         break;
@@ -430,7 +430,7 @@ begin
 //      MemoriseInfo(TOBPiece.Detail[IIDep]);
 //    end;
     ConstitueParag (TOBpiece,IIDep+1,IIFin-1);
-  end else if (pos(TypeL,'DP;AR')>0) then
+  end else if (pos(TypeL,'DP;AR;DV;')>0) then
   begin
     InitCompteur (0);
     TOBcompteur.PutValue('PN1',fMaxNump);

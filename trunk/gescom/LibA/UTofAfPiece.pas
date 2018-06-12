@@ -47,6 +47,10 @@ type
     TiersLivre    : string;
     Action        : TActionFiche;
     //
+    Commercial    : THCritMaskEdit;
+    LibCommercial : THLabel;
+    Oldcommercial : String;
+    //
     OkPieceAdresse: Boolean;
     //
     procedure AffichageMarge;
@@ -211,6 +215,10 @@ begin
   THEdit(GetCOntrol('GP_NADRESSELIV')).onElipsisClick := SelectionAdresseLivTiers;
 	THEdit(GetCOntrol('GP_NADRESSELIV')).onEnter        := GP_NADRESSELIV_OnEnter;
 	THEdit(GetCOntrol('GP_NADRESSELIV')).onExit         := GP_NADRESSELIV_OnExit;
+  //
+  Commercial    := THCritMaskEdit(GetControl('GP_REPRESENTANT'));;
+  LibCommercial := THLabel(GetControl('LIBREPRESENTANT'));;
+  Oldcommercial := '';
 
 	THEdit(GetCOntrol('ADL_NUMEROCONTACT')).OnElipsisClick    := NumeroContactLivClick;
   if THEdit(GetCOntrol('ADR_NUMEROCONTACT')) <> nil then

@@ -237,8 +237,8 @@ var stParamsocAffiche, stParamsocVire : String;
     //StatutAffaire : string;
     stMessage : String;
     Souche    : string;
-    Cnx : TADOConnection;
-    TheChaine : string;
+    //Cnx : TADOConnection;
+    //TheChaine : string;
 BEGIN
 	if VersionInterne then V_PGI.VersionDemo:=false;
     ReinitTOBAffaires ; // Eviter les effets de bords
