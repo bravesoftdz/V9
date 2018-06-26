@@ -610,12 +610,13 @@ begin
     begin
       Indice := 0;
       repeat
+        if Indice >= TOBLR.detail.count then Break;
         TOBDLR := TOBLR.detail[Indice];
         TOBL := FindLigne(TOBDLR.getValue('NUMORDRE'));
         if TOBL <> nil then
         begin
           Localisation := TOBL.getIndex;
-            LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,Indice,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
+          LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,Indice,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
           ZeroLigneMontant (TOBL);
         end;
         TOBDLR.free;
