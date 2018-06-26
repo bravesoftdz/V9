@@ -1081,7 +1081,7 @@ begin
       result := BtrsOK;
       QQ := OpenSQL ('SELECT * FROM BSITUATIONS WHERE '+
                      'BST_SSAFFAIRE="'+TheRefDevis+'" '+
-                     'BST_VIVANTE="X" '+
+                     '  AND BST_VIVANTE="X" '+
                      'ORDER BY BST_NUMEROFAC',true,-1,'',true);
       if not QQ.eof then
       begin
