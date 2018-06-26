@@ -737,12 +737,14 @@ BEGIN
   //
   //FV1 - 28/02/2018 : FS#2970 - RESINA - Problème de relation articles / dépots dans l'affichage de la liste des articles
   if  GP_DEPOT.Value <> '' then
-    StWhere := ' GQ_DEPOT="' + GP_DEPOT.Value + '" '
+  begin
+    StWhere := ' (GA_TENUESTOCK="-") OR (GQ_DEPOT="' + GP_DEPOT.Value + '" AND GA_TENUESTOCK="X")'
+  end
   else
     StWhere := '';
   //
-  if LaCol=SG_RefArt then Result:=GetArticleRecherche(GS,TexteMessage[1],CleDoc.NaturePiece,GP_DOMAINE.Value,StWhere) else
-   ;
+  if LaCol=SG_RefArt then Result := GetArticleRecherche(GS, TexteMessage[1], CleDoc.NaturePiece, GP_DOMAINE.Value,'', StWhere);
+
 END ;
 
 procedure TOF_MouvStkEx.GSDblClick(Sender: TObject);
