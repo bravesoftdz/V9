@@ -372,7 +372,7 @@ function GetArticleRecherche(GS: THGrid; TitreSel, NaturePieceG, DomainePiece, S
 begin
   if GetParamSocSecur('SO_GCRECHARTAV', False) then
     Result := GetArticleMul(GS, TitreSel, NaturePieceG, DomainePiece, SelectFourniss, stWhere)
-  else
+  Else
     Result := GetArticleLookUp(GS, TitreSel, NaturePieceG, DomainePiece, SelectFourniss, stWhere);
 end;
 
