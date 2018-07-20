@@ -100,6 +100,7 @@ private
     procedure CalculeLaLigneDoc(TOBL: TOB; WithRecalc: boolean=true);
     function TraiteLigneCopierCollerOuv(TOBD, TOBpiece, TOBL,TOBArticle: TOB; DEV: RDevise; memedoc: boolean): boolean;
     function FindTOBPere(TOBXX: TOB): TOB;
+    function TrouveLigneInSousDetail (Arow : integer; UniqueBLO : integer) : integer;
 
 public
     constructor create (Parent : TForm);
@@ -513,6 +514,21 @@ begin
   end;
 end;
 
+function TCopieColleDoc.TrouveLigneInSousDetail (Arow : integer; UniqueBLO : integer) : integer;
+var II : integer;
+    TOBL : TOB;
+begin
+  Result := -1;
+  for II := Arow -1  to TOBpiece.detail.count -1  do
+  begin
+    TOBL:=TOBPiece.detail[II];
+    if TOBL.GetInteger('UNIQUEBLO')=UniqueBLO then
+    begin
+      Result := TOBL.GetIndex;
+      break;
+    end;
+  end;
+end;
 
 procedure TCopieColleDoc.Collagedonnee (NewGestion : boolean=false);
 var TOBLOC,TOBL,TOBligneDoc,TOBXX: TOB;
@@ -524,6 +540,7 @@ var TOBLOC,TOBL,TOBligneDoc,TOBXX: TOB;
     DepartIns,FinIns : integer;
     FirstPass : boolean;
     ColleinSousDetail : boolean;
+    UniqueBLO,NextLig : integer;
 begin
   ColleinSousDetail := false;
   DepartIns := 0 ; FinIns := 0;
@@ -568,6 +585,7 @@ begin
         // Phase de controle
         if CopiesImportable (TOBIMP) then
         begin
+          UniqueBLO := TOBL.GetInteger('UNIQUEBLO');
           TOBligneDoc := FindTOBPere (TOBL);
           if TOBligneDoc = nil then exit;
           DepartIns := TOBligneDoc.GetIndex +1;
@@ -604,49 +622,59 @@ begin
     //NumeroteLignesGC(nil,TOBpiece);
     if ColleinSousDetail then
     begin
-      TFFacture(fform).SuppressionDetailOuvrage(TOBLignedoc.getIndex+1,true); 
-    end;
-    if TOBLR.detail.count > 0 then
+      TFFacture(FForm).GS.BeginUpdate;
+      GestionDetailOuvrage (fform,TOBPiece,DepartIns,fgrid.col);
+      NextLig := TrouveLigneInSousDetail (DepartIns,UniqueBLO);
+      if NextLig > 0 then SavRow := NextLig + 1;
+      fgrid.refresh;
+      TOBPiece.putValue('GP_RECALCULER','X');
+      TFFacture(FForm).CalculeLaSaisie (-1,-1,false,true,DepartIns,FinIns);
+      TFFacture(FF).GoToLigne(SavRow,SavCol);
+      deselectionneRows;
+      TFFacture(FForm).GS.EndUpdate;
+    end else
     begin
-      Indice := 0;
-      repeat
-        if Indice >= TOBLR.detail.count then Break;
-        TOBDLR := TOBLR.detail[Indice];
-        TOBL := FindLigne(TOBDLR.getValue('NUMORDRE'));
-        if TOBL <> nil then
-        begin
-          Localisation := TOBL.getIndex;
-          LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,Indice,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
-          ZeroLigneMontant (TOBL);
-        end;
-        TOBDLR.free;
-      until TOBLR.detail.count = 0;
-      //
-    end;
-    JustNumerote (TObpiece,DepartIns-1);
-    for II := Arow to FinIns do
-    begin
-      TTNUMP.SetInfoLigne (TOBPiece,II);
+      if TOBLR.detail.count > 0 then
+      begin
+        Indice := 0;
+        repeat
+          if Indice >= TOBLR.detail.count then Break;
+          TOBDLR := TOBLR.detail[Indice];
+          TOBL := FindLigne(TOBDLR.getValue('NUMORDRE'));
+          if TOBL <> nil then
+          begin
+            Localisation := TOBL.getIndex;
+            LoadLesLibDetOuvLig (TOBPIece,TOBOuvrage,TOBTiers,TOBAffaire,TOBL,Indice,DEV, TheMetredoc,TFFacture(fform).AffSousDetailUnitaire);
+            ZeroLigneMontant (TOBL);
+          end;
+          TOBDLR.free;
+        until TOBLR.detail.count = 0;
+        //
+      end;
+      JustNumerote (TObpiece,DepartIns-1);
+      for II := Arow to FinIns do
+      begin
+        TTNUMP.SetInfoLigne (TOBPiece,II);
+      end;
+      if TOBPiece.Detail.Count>=fgrid.RowCount-1 then
+      begin
+        fgrid.RowCount:=TOBPiece.Detail.Count+2 ;
+      end;
+      TOBPiece.putValue('GP_RECALCULER','X');
+      TFFacture(FForm).CalculeLaSaisie (-1,-1,false,true,DepartIns,FinIns);
+      TFFacture(FForm).GS.BeginUpdate;
+      for indice := DepartIns to TOBPiece.Detail.Count - 1 do TFFacture(FForm).AfficheLaLigne(Indice + 1);
+      TFFacture(FF).GoToLigne(SavRow,SavCol);
+      fGrid.row := SavRow;
+      fGRid.col := SavCol;
+      fgrid.refresh;
+      deselectionneRows;
+      TFFacture(FForm).GS.EndUpdate;
+      TFFacture(FForm).AfficheLaLigne(fgrid.row);
+      TFFacture(fform).GoToLigne (SavRow,SavCol);
+      TFFacture(fform).PosValueCell (fgrid.Cells[SavCol,SavRow]) ;
     end;
     //
-    if TOBPiece.Detail.Count>=fgrid.RowCount-1 then
-    begin
-      fgrid.RowCount:=TOBPiece.Detail.Count+2 ;
-    end;
-    TOBPiece.putValue('GP_RECALCULER','X');
-    TFFacture(FForm).CalculeLaSaisie (-1,-1,false,true,DepartIns,FinIns);
-    // --
-    TFFacture(FForm).GS.BeginUpdate;
-    for indice := DepartIns to TOBPiece.Detail.Count - 1 do TFFacture(FForm).AfficheLaLigne(Indice + 1);
-    TFFacture(FF).GoToLigne(SavRow,SavCol);
-    fGrid.row := SavRow;
-    fGRid.col := SavCol;
-    fgrid.refresh;
-    deselectionneRows;
-    TFFacture(FForm).GS.EndUpdate;
-    TFFacture(FForm).AfficheLaLigne(fgrid.row);
-    TFFacture(fform).GoToLigne (SavRow,SavCol);
-    TFFacture(fform).PosValueCell (fgrid.Cells[SavCol,SavRow]) ;
   FINALLY
     TOBIMP.free;
     TOBLR.ClearDetail;
