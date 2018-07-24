@@ -73,7 +73,7 @@ function  AlertDemandePrix (TOBPieceDemPrix : TOB; TypeTraitement : TTypeTraitPi
 //
 function  findOccurenceString(St : String; Caract : Char) : Integer;
 procedure InitDemandePrix (TOBPieceDemPrix,TOBArticleDemPrix,TOBfournDemprix,TOBDetailDemprix : TOB);
-
+Function RechLibelleTiers(CodeTiers : String) : String;
 //
 implementation
 
@@ -828,6 +828,7 @@ begin
     if TOBSource.detail.count > 0 then
     begin
 			TPADM := TOBSource.detail[0];
+      TPADM.AddChampSupValeur('LIBTIERS', RechLibelleTiers(TPADM.GetString('BD1_TIERS')));
     end;
 	until TOBSource.detail.count = 0;
 end;
@@ -865,7 +866,7 @@ begin
   // TPADM = TOB de la ligne de demande de prix
   // --------------------------------
   TOBCata := TOB.Create ('LES CATALOGUES',nil,-1);
-  TOBArt := TOB.Create ('ARTICLE',nil,-1);
+  TOBArt  := TOB.Create ('ARTICLE',nil,-1);
   TRY
     if (TPADM.getString('NEW')='X') or (TPADM.GetString('UPDATED')='X') then
     begin
@@ -898,6 +899,7 @@ begin
         begin
           TOBBF := TOB.Create ('FOURLIGDEMPRIX',TOBPFD,-1);
           TOBBF.SetString  ('BD1_TIERS',TOBCata.detail[Indice].GetValue('GCA_TIERS'));
+          TOBBF.AddChampSupValeur('LIBTIERS', RechLibelleTiers(TOBCata.detail[Indice].GetValue('GCA_TIERS')));
           TOBBF.SetString  ('BD1_NATUREPIECEG',TPADM.GetString('BDP_NATUREPIECEG'));
           TOBBF.SetString  ('BD1_SOUCHE',TPADM.GetString('BDP_SOUCHE'));
           TOBBF.SetInteger ('BD1_NUMERO',TPADM.GetInteger('BDP_NUMERO'));
@@ -906,6 +908,7 @@ begin
           TOBBF.SetInteger ('BD1_UNIQUELIG',TPADM.GetInteger('BDP_UNIQUELIG'));
           TOBBF.SetString  ('BD1_QUALIFUNITEACH',TOBCata.detail[Indice].GetString('GCA_QUALIFUNITEACH'));
           TOBBF.SetString  ('BD1_REFERENCE',TOBCata.detail[Indice].GetString('GCA_REFERENCE'));
+          TOBBF.SetString  ('LIBELLEFOU',TPADM.GetString('LIBELLEFOU'));
         end;
         TOBBF.SetDouble  ('BD1_QTEACH',0);
         TOBBF.SetString  ('BD1_COEFCONVQTEACH',TOBCata.detail[Indice].GetString('GCA_COEFCONVQTEACH'));
@@ -919,14 +922,16 @@ begin
           TOBBF := TOB.Create ('FOURLIGDEMPRIX',TOBPFD,-1);
           TOBBF.SetDouble  ('BD1_QTEACH',0);
           TOBBF.SetString  ('BD1_TIERS',TOBArt.GetString('GA_FOURNPRINC'));
+          TOBBF.AddChampSupValeur('LIBTIERS', RechLibelleTiers(TOBArt.GetString('GA_FOURNPRINC')));
           TOBBF.SetString  ('BD1_NATUREPIECEG',TPADM.GetString('BDP_NATUREPIECEG'));
           TOBBF.SetString  ('BD1_SOUCHE',TPADM.GetString('BDP_SOUCHE'));
           TOBBF.SetInteger ('BD1_NUMERO',TPADM.GetInteger('BDP_NUMERO'));
           TOBBF.SetInteger ('BD1_INDICEG',TPADM.GetInteger('BDP_INDICEG'));
           TOBBF.SetInteger ('BD1_UNIQUE',TPADM.GetInteger('BDP_UNIQUE'));
           TOBBF.SetInteger ('BD1_UNIQUELIG',TPADM.GetInteger('BDP_UNIQUELIG'));
-          TOBBF.SetString ('BD1_REFERENCE',TOBART.GetString('GA_CODEARTICLE'));
+          TOBBF.SetString  ('BD1_REFERENCE',TOBART.GetString('GA_CODEARTICLE'));
           TOBBF.SetString  ('BD1_QUALIFUNITEACH',TPADM.GetString('BDP_QUALIFUNITEVTE'));
+          TOBBF.SetString  ('LIBELLEFOU',TPADM.GetString('LIBELLEFOU'));
         end;
       end;
     end;//
@@ -958,6 +963,24 @@ begin
   	TOBCata.free;
     TOBArt.free;
 	END;
+end;
+
+Function RechLibelleTiers(CodeTiers : String) : String;
+Var StSQl : String;
+    QQ    : TQuery;
+Begin
+
+  Result := '';
+
+  StSQL := 'Select T_LIBELLE FROM TIERS WHERE T_NATUREAUXI="FOU" AND T_TIERS="' + Codetiers + '"';
+  QQ := OpenSQL(StSQL, False);
+
+  if not QQ.Eof then
+  begin
+    Result := QQ.FindField('T_LIBELLE').AsString;
+  end;
+  Ferme(QQ);
+
 end;
 
 procedure  MiseAjourInfosArticle (TOBArticles,TOBADM,TOBDetailDemprix,TOBFournDemprix : TOB);
@@ -1041,7 +1064,7 @@ begin
   OrganiseDataDetail (Tlocal,TOBDetailDemprix);
   Tlocal.ClearDetail;
   // ---
-  SQL := 'SELECT * FROM FOURLIGDEMPRIX WHERE '+WherePiece(cledoc,TtdFournDemprix,false)+' AND BD1_UNIQUE='+InttoStr(NumDemande);
+  SQL := 'SELECT * FROM FOURLIGDEMPRIX WHERE '+ WherePiece(cledoc,TtdFournDemprix,false)+' AND BD1_UNIQUE='+InttoStr(NumDemande);
   QQ := OpenSql (SQL,true,-1,'',true);
   if not QQ.eof then
   begin
@@ -1099,6 +1122,7 @@ begin
   TPADM.AddChampSupValeur('LIBFAMILLENIV1','');
   TPADM.AddChampSupValeur('LIBFAMILLENIV2','');
   TPADM.AddChampSupValeur('LIBFAMILLENIV3','');
+  TPADM.AddChampSupValeur('LIBELLEFOU','');
   TPADM.AddChampSupValeur('UPDATED','-');
   TPADM.AddChampSupValeur('NEW','X');
   TPADM.SetString  ('BDP_NATUREPIECEG',TOBL.GetString(prefixe+'_NATUREPIECEG'));
@@ -1129,6 +1153,7 @@ begin
   TPADM.SetString ('LIBFAMILLENIV1',FindLibelleFamille(1,TOBL));
   TPADM.SetString ('LIBFAMILLENIV2',FindLibelleFamille(2,TOBL));
   TPADM.SetString ('LIBFAMILLENIV3',FindLibelleFamille(3,TOBL));
+  TPADM.SetString ('LIBELLEFOU',TOBL.GetString('LIBELLEFOU'));
 
   // définition de DETAILDEMPRIX
   TOBPD := FindDetailDemPrix (TPADM,TOBdetailDemprix);
@@ -1891,7 +1916,8 @@ begin
     begin
       Fournisseur := TobArtFrs.Detail[iInd].Getstring('BD1_TIERS');
       TobDetFrs := Tob.create('FOURNISSEUR', TobFrs, -1);
-      TobDetFrs.AddChampSupValeur('BD1_TIERS',TobArtFrs.Detail[iInd].Getstring('BD1_TIERS'));
+      TobDetFrs.AddChampSupValeur('BD1_TIERS', Fournisseur);
+      TobDetFrs.AddChampSupValeur('LIBTIERS', RechLibelleTiers(Fournisseur));
       TobDetFrs.AddChampSupValeur('BD1_QTEACH',TobArtFrs.Detail[iInd].Getstring('BD1_QTEACH'));
       TobDetFrs.AddChampSupValeur('BD1_QUALIFUNITEACH',TobArtFrs.Detail[iInd].Getstring('BD1_QUALIFUNITEACH'));
       TobDetFrs.AddChampSupValeur('BD1_NATUREPIECEG',TobArtFrs.Detail[iInd].Getstring('BD1_NATUREPIECEG'));

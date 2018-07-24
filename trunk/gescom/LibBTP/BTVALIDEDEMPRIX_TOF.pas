@@ -78,6 +78,7 @@ Type
     HistoRef      : THLabel;
     LibNbLig      : THLabel;
     LibNbLig2     : THLabel;
+    TitreFrs      : THLabel;
     //
     TheAction     : String;
     LesColArticle : string;
@@ -346,6 +347,7 @@ begin
   Indice      := THEdit(ecran.FindComponent('BPP_INDICEG'));
   //
   HTitre      := THLAbel(ecran.FindComponent('TBPP_PIECEG'));
+  TitreFrs    := THLabel(ecran.FindComponent('TITREFRS'));
   //
   Unique      := THValComboBox(ecran.FindComponent('SELDEMANDEPRIX'));
   TypeArticle := THValComboBox(ecran.FindComponent('TYPEARTICLE'));
@@ -417,7 +419,7 @@ begin
   end;
   NbLigHistoPx.OnChange := NbLigOnchange;
   //
-  LibNbLig2     := THLabel.Create(TPanelEntete);
+  LibNbLig2        := THLabel.Create(TPanelEntete);
   LibNbLig2.Parent := TPanelEntete;
   //
   TPanelEntete.height := HistoFrs.height * 5;
@@ -459,7 +461,7 @@ begin
   Article := TobArtDde.Detail[GrilleArt.Row-1].GetString('BDP_ARTICLE');
   CodeFrs := TobFrsLig.Detail[GrilleFrs.Row-1].GetString('BD1_TIERS');
 
-  HistoFrs.caption     := 'Fournisseur : ' + CodeFrs + ' ' + TobFrsLig.Detail[GrilleFrs.Row-1].GetString('T_LIBELLE');
+  HistoFrs.caption     := 'Fournisseur : ' + CodeFrs + ' ' + TobFrsLig.Detail[GrilleFrs.Row-1].GetString('LIBTIERS');
   HistoRef.Caption     := 'Article  : ' + Article + ' ' + TobArtDde.Detail[GrilleArt.Row-1].GetString('BDP_LIBELLE');
 
   StSQL := 'SELECT ##TOP ' + NbLigHistoPx.Text + '##GL_DATEPIECE, GL_ARTICLE, GL_FOURNISSEUR, GL_DPA, GL_QUALIFQTEVTE ';
@@ -481,9 +483,16 @@ begin
 
   //chargement de la grille fournisseur
   if TOBHistoPx.detail.count <> 0 then
-    ChargementGrilleWithTob(TobHistoPx, GrilleHistoPx, LesColHisto)
+  Begin
+    ChargementGrilleWithTob(TobHistoPx, GrilleHistoPx, LesColHisto);
+    GrilleHistoPx.ColWidths[1] := 10 * GrilleHistoPx.Canvas.TextWidth('W');
+    GrilleHistoPx.ColWidths[2] := 10 * GrilleHistoPx.Canvas.TextWidth('W');
+    GrilleHistoPx.ColWidths[3] := 10 * GrilleHistoPx.Canvas.TextWidth('W');
+  end
   else
     GrilleHistoPx.VidePile(False);
+
+
 
   FreeAndNil(TobHistoPx);
 
@@ -1108,6 +1117,7 @@ begin
 
     GrilleFrsRowEnter(self, Arow, cancel, false);
   	GrilleFrsCellEnter(Self,Acol,Arow,cancel);
+    //
   end;
 
 end;
@@ -1116,6 +1126,8 @@ procedure TOF_BTVALIDEDEMPRIX.GrilleFrsRowEnter(Sender: TObject; Ou: Integer; va
 begin
 
   if TToolHistoPx.Visible then ChargeHistoPx;
+  
+  TitreFrs.caption := 'Fournisseur ' + TobFrsLig.Detail[GrilleFrs.Row-1].GetString('LIBTIERS');
 
 end;
 
@@ -1339,15 +1351,16 @@ begin
     begin
       TOBBF := TOB.Create ('FOURLIGDEMPRIX',TobFrsLig,-1);
       TOBBF.SetDouble  ('BD1_QTEACH',0);
-      TOBBF.SetString  ('BD1_TIERS',TOBDetailFour.Detail[Indice].GetString('T_TIERS'));
+      TOBBF.SetString  ('BD1_TIERS',    TOBDetailFour.Detail[Indice].GetString('T_TIERS'));
+      TOBBF.AddChampSupValeur('LIBTIERS', RechLibelleTiers( TOBDetailFour.Detail[Indice].GetString('T_TIERS')));
       TOBBF.SetString  ('BD1_NATUREPIECEG',TOBDemandeArticle.GetString('BDP_NATUREPIECEG'));
-      TOBBF.SetString  ('BD1_SOUCHE',TOBDemandeArticle.GetString('BDP_SOUCHE'));
-      TOBBF.SetInteger ('BD1_NUMERO',TOBDemandeArticle.GetInteger('BDP_NUMERO'));
-      TOBBF.SetInteger ('BD1_INDICEG',TOBDemandeArticle.GetInteger('BDP_INDICEG'));
-      TOBBF.SetInteger ('BD1_UNIQUE',TOBDemandeArticle.GetInteger('BDP_UNIQUE'));
+      TOBBF.SetString  ('BD1_SOUCHE',   TOBDemandeArticle.GetString('BDP_SOUCHE'));
+      TOBBF.SetInteger ('BD1_NUMERO',   TOBDemandeArticle.GetInteger('BDP_NUMERO'));
+      TOBBF.SetInteger ('BD1_INDICEG',  TOBDemandeArticle.GetInteger('BDP_INDICEG'));
+      TOBBF.SetInteger ('BD1_UNIQUE',   TOBDemandeArticle.GetInteger('BDP_UNIQUE'));
       TOBBF.SetInteger ('BD1_UNIQUELIG',TOBDemandeArticle.GetInteger('BDP_UNIQUELIG'));
       TOBBF.SetString  ('BD1_REFERENCE',TOBDemandeArticle.GetString('BDP_ARTICLE'));
-      TOBBF.SetString  ('BD1_QTEACH',TOBDemandeArticle.GetString('BDP_QTEBESOIN'));
+      TOBBF.SetString  ('BD1_QTEACH',   TOBDemandeArticle.GetString('BDP_QTEBESOIN'));
       TOBBF.SetString  ('BD1_QUALIFUNITEACH',TOBDemandeArticle.GetString('BDP_QUALIFUNITEVTE'));
     end;
   end;

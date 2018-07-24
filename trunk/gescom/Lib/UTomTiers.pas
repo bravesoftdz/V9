@@ -607,11 +607,9 @@ inherited ;
     AddRemoveItemFromPopup ('POPM','MNVTECLI',False);   // mcd 05/03/01 ne marche pas pour l'instant ...
     AddRemoveItemFromPopup ('POPM','MNTARIFGRP',False); // JT eQualité 10331
     //
-    BCodeBarre.OnClick    := BCODEBARREOnclick;
-    //
-    CodeBarre.Visible     := False;
-    TypeCodeBarre.Visible := False;
-    //BCodeBarre.Visible    := False;
+    if BCodeBarre     <> nil then BCodeBarre.OnClick    := BCODEBARREOnclick;
+    If codeBarre      <> nil then CodeBarre.Visible     := False;
+    if TypeCodeBarre  <> nil then TypeCodeBarre.Visible := False;
     SetControlVisible('TT_CODEBARRE',   False);
 
   end;
@@ -2690,9 +2688,9 @@ inherited;
     if ctxMode in V_PGI.PGIContexte then
     begin
       if GetParamsoc('SO_GCCABFOURNIS')=True then
-        SetControlEnabled('BCODEBARRE', True)
+        if BCodeBarre <> nil then BCodeBarre.enabled := True
       else
-        SetControlEnabled('BCODEBARRE', False);
+        if BCodeBarre <> nil then BCodeBarre.enabled := False;
     end;
   End;
 
@@ -4758,8 +4756,8 @@ begin
 
   if not QQ.Eof then
   begin
-    ThEdit(Getcontrol('BT1_CODEBARRE')).Text :=  QQ.FindField('BCB_CODEBARRE').AsString;
-    SetControlText ('BT1_QUALIFCODEB', QQ.FindField('BCB_QUALIFCODEBARRE').AsString);
+    if CodeBarre      <> nil then CodeBarre.text      := QQ.FindField('BCB_CODEBARRE').AsString;
+    if TypeCodeBarre  <> nil then TypeCodeBarre.text  := QQ.FindField('BCB_QUALIFCODEBARRE').AsString;
     if not (DS.State in [dsInsert, dsEdit]) then DS.edit;
  end;
 
