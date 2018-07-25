@@ -374,6 +374,7 @@ end;
 procedure TOF_BTVALIDEDEMPRIX.DefiniToolHistoPx;
 begin
 
+
   TToolHistoPx:= TToolWindow97.Create(ecran);
 
   TToolHistoPx            := TToolWindow97.Create (Ecran);
@@ -609,6 +610,8 @@ end;
 
 Procedure TOF_BTVALIDEDEMPRIX.AppelDemPrixOnClick(Sender : Tobject);
 begin
+
+  if (not assigned(TobFrsLig)) Or (TobFrsLig.detail.count = 0) then exit;
 
   TToolHistoPx.visible := True;
 
@@ -1127,7 +1130,7 @@ begin
 
   if TToolHistoPx.Visible then ChargeHistoPx;
   
-  TitreFrs.caption := 'Fournisseur ' + TobFrsLig.Detail[GrilleFrs.Row-1].GetString('LIBTIERS');
+  If TobFrsLig.detail.count > 0 then TitreFrs.caption := 'Fournisseur ' + TobFrsLig.Detail[GrilleFrs.Row-1].GetString('LIBTIERS');
 
 end;
 
@@ -1390,6 +1393,7 @@ procedure TOF_BTVALIDEDEMPRIX.SupprimeFourClick(sender: TObject);
 begin
 
 	if TobFrsLig.Detail.count = 0 Then Exit;
+  
   if (PGIAsk(TexteMessage[2], ecran.Caption) = mrYes) then
   begin
 		TobFrsLig.Detail[GrilleFrs.Row-1].Free;
