@@ -1,5 +1,7 @@
 program CBTPS5;
 
+{%File 'GCVENTES'}
+
 uses
   SysUtils,
   Forms,
