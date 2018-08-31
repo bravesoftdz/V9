@@ -3665,7 +3665,7 @@ var Indice : integer;
     ValPou : T_Valeurs;
     IndPou : integer;
     ArticleOk : string;
-    QteDetail : Integer;
+    QteDetail : Double;
 begin
   TOBO := TOBOuvrage.findfirst(['BLO_TYPEARTICLE'], ['POU'], false);
   if TOBO <> nil then
