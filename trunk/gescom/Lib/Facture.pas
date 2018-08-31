@@ -2304,17 +2304,17 @@ begin
   // Duplication provenance des factures
   if (cledoc.NaturePiece = 'FBT') and (newNat = 'FBT') then NewNat := 'FBT'
   else if (cledoc.NaturePiece = 'FBT') and (newNat <> 'FBT') then NewNat := 'ABT'
-  else if (cledoc.NaturePiece = 'FAC') and (newNat = 'FBT') then NewNat := 'FAC'
-  else if (cledoc.NaturePiece = 'FAC') and (newNat <> 'FBT') then NewNat := 'AVC'
-  else if (cledoc.NaturePiece = 'FBC') and (newNat = 'FBT') then NewNat := 'FBC'
-  else if (cledoc.NaturePiece = 'FBC') and (newNat <> 'FBT') then NewNat := 'ABC';
+  else if (cledoc.NaturePiece = 'FAC') and (newNat = 'FAC') then NewNat := 'FAC'
+  else if (cledoc.NaturePiece = 'FAC') and (newNat <> 'FAC') then NewNat := 'AVC'
+  else if (cledoc.NaturePiece = 'FBC') and (newNat = 'FBC') then NewNat := 'FBC'
+  else if (cledoc.NaturePiece = 'FBC') and (newNat <> 'FBC') then NewNat := 'ABC';
   // Duplication provenance des avoirs
   if (cledoc.NaturePiece = 'ABT') and (newNat <> 'ABT') then NewNat := 'FBT'
   else if (cledoc.NaturePiece = 'ABT') and (newNat = 'ABT') then NewNat := 'ABT'
-  else if (cledoc.NaturePiece = 'AVC') and (newNat = 'ABT') then NewNat := 'AVC'
-  else if (cledoc.NaturePiece = 'AVC') and (newNat <> 'ABT') then NewNat := 'FAC'
-  else if (cledoc.NaturePiece = 'ABC') and (newNat = 'ABT') then NewNat := 'ABC'
-  else if (cledoc.NaturePiece = 'ABC') and (newNat <> 'ABT') then NewNat := 'FBC';
+  else if (cledoc.NaturePiece = 'AVC') and (newNat = 'AVC') then NewNat := 'AVC'
+  else if (cledoc.NaturePiece = 'AVC') and (newNat <> 'AVC') then NewNat := 'FAC'
+  else if (cledoc.NaturePiece = 'ABC') and (newNat = 'ABC') then NewNat := 'ABC'
+  else if (cledoc.NaturePiece = 'ABC') and (newNat <> 'ABC') then NewNat := 'FBC';
   //
   if CleDoc.NaturePiece <> ''  then
      begin
