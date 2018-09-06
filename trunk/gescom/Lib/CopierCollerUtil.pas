@@ -165,9 +165,6 @@ begin
   if (TOBPIece.GetValue('GP_COEFFC') <> 0) and (TOBD.GetValue('BLO_NONAPPLICFC')<>'X' ) THEN TOBD.PutValue('BLO_COEFFC',TOBPIece.GetValue('GP_COEFFC'));
   if (TOBPIece.GetValue('GP_COEFFR') <> 0) and (TOBD.GetValue('BLO_NONAPPLICFRAIS')<>'X' ) THEN TOBD.PutValue('BLO_COEFFR',TOBPIece.GetValue('GP_COEFFR'));
 
-  //Why this Mother fucker area not initialize ????
-  TOBD.PutValue('BLO_COEFMARG',0);
-
   if TOBD.GetValue('BLO_NATURETRAVAIL') <> '' then
   begin
     TOBD.PutValue('BLO_NATURETRAVAIL','');
@@ -1546,13 +1543,15 @@ begin
     begin
       CalculeLigneAcOuv (TOBD,DEV,true,TOBA);
     end;
+    //Why this Mother fucker area not initialize ????
+    TOBD.PutValue('BLO_COEFMARG',0);
 
     ReajusteLigneParDoc (TOBL,TOBD,DEV,1);
   end;
-    GetValoDetail (TOBD); // pour le cas des Article en prix posés
-    TOBD.PutValue('GA_PVHT',TOBD.GetValue('BLO_PUHTDEV'));
-    if TOBL.GetValue('GL_FACTUREHT')='X' then TOBD.putvalue ('ANCPV',TOBD.Getvalue ('BLO_PUHTDEV'))
-                                         else TOBD.putvalue ('ANCPV',TOBD.Getvalue ('BLO_PUTTCDEV'));
+  GetValoDetail (TOBD); // pour le cas des Article en prix posés
+  TOBD.PutValue('GA_PVHT',TOBD.GetValue('BLO_PUHTDEV'));
+  if TOBL.GetValue('GL_FACTUREHT')='X' then TOBD.putvalue ('ANCPV',TOBD.Getvalue ('BLO_PUHTDEV'))
+                                       else TOBD.putvalue ('ANCPV',TOBD.Getvalue ('BLO_PUTTCDEV'));
 end;
 
 
