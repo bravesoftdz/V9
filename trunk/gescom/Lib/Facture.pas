@@ -23285,6 +23285,8 @@ begin
       TOBL.SetString('GL_PERTE',TOBLoc.GetValue('BLO_PERTE'));
       TOBL.SetString('GL_RENDEMENT',TOBLoc.GetValue('BLO_RENDEMENT'));
       TOBL.SetString('GL_QUALIFHEURE', TOBLoc.GetValue('BLO_QUALIFHEURE'));
+      TOBL.SetDouble('GL_COEFMARG', TOBLoc.GetValue('BLO_COEFMARG'));
+
       if TOBRef.getValue('GL_BLOQUETARIF')='X' then
       begin
         TOBL.putValue('GL_BLOQUETARIF','X');

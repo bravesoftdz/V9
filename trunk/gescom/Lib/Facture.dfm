@@ -2596,6 +2596,7 @@ object FFacture: TFFacture
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             Layout = blGlyphTop
+            NumGlyphs = 2
             Opaque = False
             ParentFont = False
             ParentShowHint = False
@@ -3177,6 +3178,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Voir les totalisations documents'
+            Glyph.Data = {00000000}
+            GlyphMask.Data = {00000000}
             ImageIndex = 0
             Images = HimgTOT
             Opaque = False
@@ -3459,6 +3462,7 @@ object FFacture: TFFacture
         '0\fnil Times New Roman;}}'
       '{\*\generator Riched20 10.0.17134}\viewkind4\uc1 '
       '\pard\f0\fs20 '
+      '\par '
       '\par '
       '\par '
       '\par '
@@ -4899,6 +4903,7 @@ object FFacture: TFFacture
         '\par '
         '\par '
         '\par '
+        '\par '
         '\par }')
     end
   end
@@ -5570,8 +5575,7 @@ object FFacture: TFFacture
       'Z0885_S16G1'
       'Z1439_S16G1'
       'Z0284_S16G1')
-    Height = 18
-    Width = 18
+    Width = 17
     Left = 651
     Top = 152
   end
@@ -5660,8 +5664,6 @@ object FFacture: TFFacture
       'Z0415_S16G1'
       'Z0397_S16G1')
     DrawingStyle = dsTransparent
-    Height = 18
-    Width = 18
     Left = 725
     Top = 150
   end
