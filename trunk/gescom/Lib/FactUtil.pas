@@ -5402,10 +5402,8 @@ begin
   TobPiedPort.PutValue('GPT_NUMPORT', 0);
   if (Pos(TypePort ,'MT;MTC')>0) then
   begin
-    TobPiedPort.PutValue('GPT_BASEHT', 0);
-    TobPiedPort.PutValue('GPT_BASETTC', 0);
-    TobPiedPort.PutValue('GPT_BASEHTDEV', 0);
-    TobPiedPort.PutValue('GPT_BASETTCDEV', 0);
+    TobPiedPort.PutValue('GPT_BASEHTDEV', TobPiedPort.GetValue('GPT_TOTALHTDEV'));
+    TobPiedPort.PutValue('GPT_BASETTCDEV', TobPiedPort.GetValue('GPT_TOTALTTCDEV'));
   end else
   begin
       Base := TOBPiece.Somme('GL_TOTALHT', ['GL_TYPELIGNE'], ['ART'], False);
