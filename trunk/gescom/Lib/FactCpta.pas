@@ -5049,11 +5049,11 @@ begin
      if Result=rcOk then Result:=CreerLigneRetenueDiv(TOBEcr,TOBPIece,TOBPorcs,TOBBases,TOBTiers,MM) ;
   //   if Result=rcOk then Result:=CreerLignesTaxesRG(TOBEcr,TOBPiece,TOBPieceRG,TOBTiers,TOBBASESGlob,TOBBasesRg,MM) ;
      end;
-  if (GetparamSocSecur('SO_BTCPTAPAIEDIRECT',false)) and (not GetparamSocSecur('SO_BTREGLSTTIERS',true)) then
+  if (Result=rcOk) and (GetparamSocSecur('SO_BTCPTAPAIEDIRECT',false)) and (not GetparamSocSecur('SO_BTREGLSTTIERS',true)) then
   begin
     Result:=CreerPaiementDirect(TOBEcr,TOBPiece,TOBEches,TOBTiers,TOBAcomptes,TOBPieceRg,TOBbasesRG,TOBpieceTrait,TOBPorcs,DEV, MM) ;
   end;
-  if (not GetParamsocSecur ('SO_BTCOMPTAREGL',false)) and (GetParamsocSecur ('SO_ACOMPTESFAC', false)) and (MM.Nature='FC') then
+  if (Result=rcOk) and (not GetParamsocSecur ('SO_BTCOMPTAREGL',false)) and (GetParamsocSecur ('SO_ACOMPTESFAC', false)) and (MM.Nature='FC') then
   begin
     // contitution de la partie d'écriture comptable correspondante à la deduction de l'acompte
     if (TOBpiece.getString('GP_ATTACHEMENT') <> '') and (tobpiece.getDouble('GP_ACOMPTE')<>0)  then ConstituRestitutionAcpt (TOBEcr,TOBPiece,TOBTiers,DEV, MM) ;
@@ -7085,6 +7085,7 @@ begin
     if TOBPiece.GetValue('GP_REFCOMPTABLE') = '' then Exit;
     // contrôle lettrage
     MM := DecodeRefGCComptable (TOBPiece.GetValue('GP_REFCOMPTABLE'));
+    SQL :='SELECT E_LETTRAGE,E_VALIDE,E_EXPORTE FROM ECRITURE WHERE '+WhereEcriture(tsGene,MM,False);
     Q:=OpenSQL('SELECT E_LETTRAGE,E_VALIDE,E_EXPORTE FROM ECRITURE WHERE '+WhereEcriture(tsGene,MM,False),True,-1, '', True) ;
     okok := not Q.Eof;
     if (result) and (okok) then
