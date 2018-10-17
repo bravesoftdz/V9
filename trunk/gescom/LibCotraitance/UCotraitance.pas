@@ -570,9 +570,11 @@ var TOBPT         : TOB;
     MtDejaFacture : double;
     NumCaution    : String;
     EcartRegl,RGSt,SommePaie,SommeAPaie,NetApayer,MtAcomptesSoc : double;
+    IsFactAcompte : Boolean;
 begin
 
   if TOBPieceTrait.detail.Count = 0 then Exit;
+  IsFactAcompte := GetParamSocSecur('SO_ACOMPTESFAC',false);
 //  if TOBPieceTrait.detail[0].GetBoolean('BPE_REGLSAISIE')= true then exit; // evite de recalculer les reglemets si deja saisi
   TOBPiecesTraitPrec := TOB.Create ('LES PIECES TRAITS',nil,-1);
   MtFrsCoTrait := 0;
@@ -601,9 +603,11 @@ begin
     //Calcul montant retenue garantie
     GetRg(TOBPieceRG, false, true, Xp, Xd, NumCaution,TOBPT.getString('BPE_FOURNISSEUR'),False);
     //chargement du montant de réglement si paiement directe
+    AP := 0;
+    AD := 0;
     if not ISSousTraitant (TOBSousTrait,TOBPT) then
     begin
-      if TOBPT.getString('BPE_FOURNISSEUR')<>'' then
+      if TOBPT.getString('BPE_FOURNISSEUR')='' then
       begin
         if lastfacture then
         begin
@@ -615,7 +619,7 @@ begin
         MtRegle := MtRegle - Xd;   // Deduction de la RG
         MtRegle := Mtregle + EcartRegl;
         MtRegle := ARRONDI(MtRegle,DEv.Decimale);
-        GetSommeReglement(TOBAcomptes, AP, AD,'',false);
+        if not IsFactAcompte then GetSommeReglement(TOBAcomptes, AP, AD,'',false);
         if (Ap = 0) and ( not TOBPT.GetBoolean('BPE_REGLSAISIE')) then
         begin
         	TOBPT.putvalue('BPE_MONTANTREGL', MtRegle);
@@ -651,7 +655,7 @@ begin
         begin
           Mtregle := TOBPT.GetValue('BPE_MONTANTREGL');
         end;
-        GetSommeReglement(TOBAcomptes, AP, AD,'',false);
+        if not IsFactAcompte then GetSommeReglement(TOBAcomptes, AP, AD,'',false);
         //
       end;
       Mtreglable := Mtreglable + EcartRegl;
@@ -700,7 +704,7 @@ begin
   MtAcomptesSoc := GetMontantEntreprisePDir (TOBPieceTrait);
   //
   NetApayer := TOBPiece.GetValue('GP_TOTALTTCDEV') - XD - RXD;
-  TOBMANDATAIRE.putvalue('MONTANTREGLABLE',Arrondi(NetAPayer - SommePaie ,DEV.Decimale));
+  if Arrondi(NetAPayer - SommePaie ,DEV.Decimale) <> 0 then TOBMANDATAIRE.putvalue('MONTANTREGLABLE',TOBMANDATAIRE.Getdouble('MONTANTREGLABLE')+Arrondi(NetAPayer - SommePaie ,DEV.Decimale));
   if ( not TOBMANDATAIRE.GetBoolean('BPE_REGLSAISIE')) then
   begin
   	TOBMANDATAIRE.putvalue('BPE_MONTANTREGL',TOBMANDATAIRE.GetDouble('MONTANTREGLABLE'));

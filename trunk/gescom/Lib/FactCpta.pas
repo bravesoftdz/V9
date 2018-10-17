@@ -2727,7 +2727,7 @@ BEGIN
   if TOBG=Nil then BEGIN Result:=rcPar ; LastMsg:=4 ; Exit ; END ;
   OkVent:=(TOBG.GetValue('G_VENTILABLE')='X') ;
   {Gestion de l'acompte}
-  NbAcc:=InsereEcheancesAcompte(TOBPiece,TOBEches,TOBAcomptes) ;
+  if not GetParamSocSecur('SO_ACOMPTESFAC',false) then NbAcc:=InsereEcheancesAcompte(TOBPiece,TOBEches,TOBAcomptes) ;
   {Gestion de la retenue de garantie si non comptabilise}
   if (TOBpieceRG.detail.count>0) and (not RGComptabilise) then CalculRgEcheances(TOBPiece,TOBEches,TOBEchesRG,TOBPieceRG,TOBBasesRG,TOBAcomptes);
   {Boucle sur les echéances}
@@ -3898,14 +3898,21 @@ BEGIN
       TOBCode:=ChargeAjouteComptaPorc(TOBCpta,TOBPiece,TOBP,TOBTiers,TOBAnaP,TOBAnaS) ;
       if TOBCode<>Nil then
       BEGIN
-        if (Pos(TOBP.GetString('GPT_TYPEPORT'),'PT;MIC;MTC;')>0) and (TOBP.GetDouble('GPT_TOTALTTCDEV')<0) then
+        if GetParamSocSecur('SO_VENTILMONTANTSURCHARGE', False) then
         begin
-          if ((MM.Nature='FC') or (MM.Nature='AC')) then CptHT:=TOBCode.GetValue('GCP_CPTEGENEACH')
-                                                    else CptHT:=TOBCode.GetValue('GCP_CPTEGENEVTE') ;
+          if (Pos(TOBP.GetString('GPT_TYPEPORT'),'PT;MIC;MTC;')>0) and (TOBP.GetDouble('GPT_TOTALTTCDEV')<0) then
+          begin
+            if ((MM.Nature='FC') or (MM.Nature='AC')) then CptHT:=TOBCode.GetValue('GCP_CPTEGENEACH')
+                                                      else CptHT:=TOBCode.GetValue('GCP_CPTEGENEVTE') ;
+          end else
+          begin
+            if ((MM.Nature='FC') or (MM.Nature='AC')) then CptHT:=TOBCode.GetValue('GCP_CPTEGENEVTE')
+                                                      else CptHT:=TOBCode.GetValue('GCP_CPTEGENEACH') ;
+          end;
         end else
         begin
-          if ((MM.Nature='FC') or (MM.Nature='AC')) then CptHT:=TOBCode.GetValue('GCP_CPTEGENEVTE')
-                                                    else CptHT:=TOBCode.GetValue('GCP_CPTEGENEACH') ;
+            if ((MM.Nature='FC') or (MM.Nature='AC')) then CptHT:=TOBCode.GetValue('GCP_CPTEGENEVTE')
+                                                      else CptHT:=TOBCode.GetValue('GCP_CPTEGENEACH') ;
         end;
       END ;
       if (TOBCode=Nil) or ((CptHT='') and (VH_GC.GCPontComptable='ATT')) then

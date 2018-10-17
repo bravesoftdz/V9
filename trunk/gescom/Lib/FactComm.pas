@@ -2762,7 +2762,7 @@ var Mode: T_ModeRegl;
   // ---
 begin
   Rp := 0; RD := 0;
-  GetSommeAcomptes(TOBAcomptes, XP, XD,'',true);
+  if not GetParamSocSecur('SO_ACOMPTESFAC',false) then GetSommeAcomptes(TOBAcomptes, XP, XD,'',true);
   // Modif BTP
   GetRg(TOBPieceRG,False,True,RGP,RGD,numcaution);
   // -- GESTION DES AVANCES ET RETENUES SUR COLECTIFS TIERS-
