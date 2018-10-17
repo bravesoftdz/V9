@@ -513,8 +513,40 @@ begin
 
   if PrixPourQte = valeur('0') then PrixPourQte := Valeur ('1');
 
-  Qte := (QtePrec * TOBDetOuv.getValue('BLO_QTEFACT')) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
-  Ratio := (QtePrec) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+  //FV1 - 28/09/2018 : FS#3265 - LB LEPIONNIER - L'analyse sur factures ne ramène pas les bons montants
+  If TobDetOuv.FieldExists('BLF_NATUREPIECEG') then
+  begin
+    if TobDetOuv.getValue('BLF_NATUREPIECEG') <> '' then
+    begin
+      if (TOBDetOuv.GetValue('BLF_NATUREPIECEG') = 'FBT') or
+         (TOBDetOuv.GetValue('BLF_NATUREPIECEG') = 'FBP') or
+         (TOBDetOuv.GetValue('BLF_NATUREPIECEG') = 'DAC') then
+      begin
+        if TOBDetOuv.GetValue('BLF_QTESITUATION') <> 0 then
+        begin
+          Qte   := TOBDetOuv.GetValue('BLF_QTESITUATION');
+          Ratio := TOBDetOuv.GetValue('BLF_QTESITUATION');
+        end
+        else
+          Exit;
+      end
+      else
+      begin
+        Qte := (QtePrec * TOBDetOuv.getValue('BLO_QTEFACT')) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+        Ratio := (QtePrec) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+      end;
+    end
+    else
+    begin
+      Qte := (QtePrec * TOBDetOuv.getValue('BLO_QTEFACT')) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+      Ratio := (QtePrec) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+    end;
+  end
+  else
+  begin
+    Qte := (QtePrec * TOBDetOuv.getValue('BLO_QTEFACT')) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+    Ratio := (QtePrec) /(PrixPourQte * QteDUdetail * QteDuDetailPrec);
+  end;
 
   //Modif FV : Dev. prioritaire DSL le 05/06/2012
   if (TOBDetOuv.GetString('BNP_TYPERESSOURCE') = 'SAL') AND (CoefFG_Param <> 0) then
@@ -782,7 +814,8 @@ for Indice := 0 to TOBOuv.detail.count - 1 do
        begin
        if TOBDetOuv.detail.count > 0 then
           begin
-          Qte := QtePrec* TOBDetOUV.GetValue('BLO_QTEFACT');
+          if (TOBDetOUV.GetValue('BLO_QTEFACT') = 0) Or (QtePrec = 0) then continue;
+          Qte := QtePrec * TOBDetOUV.GetValue('BLO_QTEFACT');
           QteDuDetail := TOBDetOuv.Getvalue('BLO_QTEDUDETAIL');
           if QteDuDetail = 0 then QteDuDetail := 1;
           QteDudetail := QteDuDetailPrec * QteDuDetail;
@@ -818,6 +851,7 @@ begin
 
   if TOBOUv <> nil then
   begin
+    if TOBPiece.getvalue('GL_QTEFACT') = 0 then Exit;
     Qte := TOBPiece.getvalue('GL_QTEFACT');
     QteDudetail := 1;
     if TOBPIece.GetValue('GL_TYPEARTICLE')='ARP' then
