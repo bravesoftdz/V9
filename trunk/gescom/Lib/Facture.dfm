@@ -55,11 +55,11 @@ object FFacture: TFFacture
       Top = 58
       Width = 61
       Height = 21
-      Caption = 'Devise'
       Alignment = taLeftJustify
       DisplayMode = dmTextOnly
       DropdownArrow = True
       DropdownMenu = PopD
+      Caption = 'Devise'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -939,7 +939,6 @@ object FFacture: TFFacture
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
-      ParentColor = False
       ParentFont = False
       TabOrder = 2
       BackGroundEffect = bdFlat
@@ -951,12 +950,12 @@ object FFacture: TFFacture
         Top = 0
         Width = 57
         Height = 21
-        ReadOnly = True
-        TabOrder = 0
         Decimals = 2
         Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ReadOnly = True
+        TabOrder = 0
         UseRounding = True
         Validate = False
       end
@@ -1450,8 +1449,8 @@ object FFacture: TFFacture
         Top = 2
         Width = 405
         Height = 101
-        Caption = 'Document '#224' recalculer'
         Anchors = [akTop, akRight]
+        Caption = 'Document '#224' recalculer'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -13
@@ -2142,15 +2141,15 @@ object FFacture: TFFacture
         Width = 87
         Height = 21
         Ctl3D = True
-        ParentCtl3D = False
-        TabOrder = 0
-        OnExit = GP_ESCOMPTEExit
         Decimals = 2
         Digits = 15
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentCtl3D = False
+        TabOrder = 0
         UseRounding = True
         Validate = False
+        OnExit = GP_ESCOMPTEExit
       end
       object GP_REMISEPIED: THNumEdit
         Left = 287
@@ -2158,15 +2157,15 @@ object FFacture: TFFacture
         Width = 87
         Height = 21
         Ctl3D = True
-        ParentCtl3D = False
-        TabOrder = 1
-        OnExit = GP_REMISEPIEDExit
         Decimals = 2
         Digits = 15
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentCtl3D = False
+        TabOrder = 1
         UseRounding = True
         Validate = False
+        OnExit = GP_REMISEPIEDExit
       end
       object INFOSLIGNE: THGrid
         Left = 2
@@ -2204,21 +2203,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 7
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 7
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object GP_TOTALREMISEDEV: THNumEdit
         Tag = 1
@@ -2227,21 +2226,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 8
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 8
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object HTOTALTAXESDEV: THNumEdit
         Tag = 1
@@ -2250,21 +2249,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 9
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 9
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object GP_TOTALESCDEV: THNumEdit
         Tag = 1
@@ -2273,21 +2272,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 10
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 10
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object GP_TOTALTTCDEV: THNumEdit
         Tag = 1
@@ -2296,21 +2295,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 11
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 11
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object GP_ACOMPTEDEV: THNumEdit
         Tag = 1
@@ -2319,21 +2318,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 3
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 3
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object TOTALPORTSDEV: THNumEdit
         Tag = 1
@@ -2342,21 +2341,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 12
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 12
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object NETAPAYERDEV: THNumEdit
         Tag = 1
@@ -2365,21 +2364,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 13
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 13
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object TOTALRGDEV: THNumEdit
         Tag = 1
@@ -2388,21 +2387,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 14
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 14
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object HTTCDEV: THNumEdit
         Tag = 1
@@ -2411,21 +2410,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 15
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 15
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object TTYPERG: TEdit
         Left = 148
@@ -2466,21 +2465,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 18
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 18
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object TOTALRETENUHT: THNumEdit
         Tag = 1
@@ -2489,21 +2488,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 19
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 19
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
       object TOTALRETENUTTC: THNumEdit
         Tag = 1
@@ -2512,21 +2511,21 @@ object FFacture: TFFacture
         Width = 36
         Height = 21
         Color = clYellow
+        Decimals = 2
+        Digits = 12
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ParentFont = False
-        TabOrder = 20
-        Visible = False
-        OnChange = AfficheZonePied
-        Decimals = 2
-        Digits = 12
         Masks.PositiveMask = '#,##0.00'
         Debit = False
+        ParentFont = False
+        TabOrder = 20
         UseRounding = True
         Validate = False
+        Visible = False
+        OnChange = AfficheZonePied
       end
     end
     object PButtons: TPanel
@@ -2562,10 +2561,10 @@ object FFacture: TFFacture
             Width = 40
             Height = 27
             Hint = 'Menu zoom'
-            Caption = 'Zoom'
             DisplayMode = dmGlyphOnly
             DropdownArrow = True
             DropdownMenu = POPZ
+            Caption = 'Zoom'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2588,8 +2587,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Ech'#233'ances'
-            Caption = 'Ech'#233'ances'
             DisplayMode = dmGlyphOnly
+            Caption = 'Ech'#233'ances'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2611,10 +2610,10 @@ object FFacture: TFFacture
             Width = 40
             Height = 27
             Hint = 'Actions compl'#233'mentaires'
-            Caption = 'Actions'
             DisplayMode = dmGlyphOnly
             DropdownArrow = True
             DropdownMenu = POPY
+            Caption = 'Actions'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2638,8 +2637,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Rechercher dans la pi'#232'ce'
-            Caption = 'Rechercher'
             DisplayMode = dmGlyphOnly
+            Caption = 'Rechercher'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2662,9 +2661,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Ins'#233'rer un sous-total'
-            Caption = 'Sous-total'
             AllowAllUp = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Sous-total'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2687,9 +2686,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Acomptes/R'#232'glements'
-            Caption = 'Acomptes/R'#232'glements'
             AllowAllUp = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Acomptes/R'#232'glements'
             Enabled = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2713,10 +2712,10 @@ object FFacture: TFFacture
             Width = 40
             Height = 27
             Hint = 'Actions lignes'
-            Caption = 'Actions'
             DisplayMode = dmGlyphOnly
             DropdownArrow = True
             DropdownMenu = PopL
+            Caption = 'Actions'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2748,9 +2747,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Edition bureautique'
-            Caption = 'Bureautique'
             AllowAllUp = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Bureautique'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2774,10 +2773,10 @@ object FFacture: TFFacture
             Width = 40
             Height = 27
             Hint = 'Ventilations analytiques'
-            Caption = 'Analytiques'
             DisplayMode = dmGlyphOnly
             DropdownArrow = True
             DropdownMenu = PopV
+            Caption = 'Analytiques'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2800,10 +2799,10 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Descriptif d'#233'taill'#233' de l'#39'article'
-            Caption = 'Descriptif'
             AllowAllUp = True
             GroupIndex = 1
             DisplayMode = dmGlyphOnly
+            Caption = 'Descriptif'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2825,8 +2824,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Supprimer la pi'#232'ce'
-            Caption = 'Supprimer'
             DisplayMode = dmGlyphOnly
+            Caption = 'Supprimer'
             Layout = blGlyphTop
             Opaque = False
             ParentShowHint = False
@@ -2841,8 +2840,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Imprimer'
-            Caption = 'Imprimer'
             DisplayMode = dmGlyphOnly
+            Caption = 'Imprimer'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2865,9 +2864,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Ports et frais'
-            Caption = 'Acompte'
             AllowAllUp = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Acompte'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2889,8 +2888,8 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Saisie par codes barres'
-            Caption = 'Saisie code barre'
             DisplayMode = dmGlyphOnly
+            Caption = 'Saisie code barre'
             Enabled = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2913,8 +2912,8 @@ object FFacture: TFFacture
             Width = 29
             Height = 27
             Hint = 'Nouvel article'
-            Caption = 'Nouvel article'
             DisplayMode = dmGlyphOnly
+            Caption = 'Nouvel article'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -2959,9 +2958,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Application d'#39'un prix marche'
-            Caption = 'Application d'#39'un prix marche'
             Anchors = [akRight, akBottom]
             DisplayMode = dmGlyphOnly
+            Caption = 'Application d'#39'un prix marche'
             Opaque = False
             ParentShowHint = False
             ShowHint = True
@@ -2975,10 +2974,10 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Liste des paragraphes du document'
-            Caption = 'Arborescence Paragraphes'
             AllowAllUp = True
             GroupIndex = 1
             DisplayMode = dmGlyphOnly
+            Caption = 'Arborescence Paragraphes'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3000,10 +2999,10 @@ object FFacture: TFFacture
             Width = 39
             Height = 27
             Hint = 'Affecte les quantit'#233's automatiquement'
-            Caption = 'Affecte les quantit'#233's automatiquement'
             DisplayMode = dmGlyphOnly
             DropdownArrow = True
             DropdownMenu = PopA
+            Caption = 'Affecte les quantit'#233's automatiquement'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -12
@@ -3039,9 +3038,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Recalcul du document'
-            Caption = 'Recalcul du document'
             AllowAllUp = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Recalcul du document'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3064,10 +3063,10 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Calcul Automatique'
-            Caption = 'Calcul Automatique'
             AllowAllUp = True
             GroupIndex = 2
             DisplayMode = dmGlyphOnly
+            Caption = 'Calcul Automatique'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3178,8 +3177,6 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Voir les totalisations documents'
-            Glyph.Data = {00000000}
-            GlyphMask.Data = {00000000}
             ImageIndex = 0
             Images = HimgTOT
             Opaque = False
@@ -3276,9 +3273,9 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Enregistrer la pi'#232'ce'
-            Caption = 'Enregistrer'
             Anchors = [akTop, akRight]
             DisplayMode = dmGlyphOnly
+            Caption = 'Enregistrer'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3358,10 +3355,10 @@ object FFacture: TFFacture
             Width = 28
             Height = 27
             Hint = 'Fermer'
-            Caption = 'Annuler'
             Anchors = [akTop, akRight]
             Cancel = True
             DisplayMode = dmGlyphOnly
+            Caption = 'Annuler'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3385,9 +3382,9 @@ object FFacture: TFFacture
             Height = 27
             Hint = 'Aide'
             HelpContext = 119000017
-            Caption = 'Aide'
             Anchors = [akTop, akRight]
             DisplayMode = dmGlyphOnly
+            Caption = 'Aide'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -3460,8 +3457,9 @@ object FFacture: TFFacture
       
         '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
         '0\fnil Times New Roman;}}'
-      '{\*\generator Riched20 10.0.17134}\viewkind4\uc1 '
+      '{\*\generator Riched20 6.3.9600}\viewkind4\uc1 '
       '\pard\f0\fs20 '
+      '\par '
       '\par '
       '\par '
       '\par '
@@ -4047,11 +4045,11 @@ object FFacture: TFFacture
       Top = 26
       Width = 61
       Height = 21
-      Caption = 'Devise'
       Alignment = taLeftJustify
       DisplayMode = dmTextOnly
       DropdownArrow = True
       DropdownMenu = PopD
+      Caption = 'Devise'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -4584,8 +4582,9 @@ object FFacture: TFFacture
         
           '{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f' +
           '0\fnil Times New Roman;}}'
-        '{\*\generator Riched20 10.0.17134}\viewkind4\uc1 '
+        '{\*\generator Riched20 6.3.9600}\viewkind4\uc1 '
         '\pard\f0\fs20 '
+        '\par '
         '\par '
         '\par '
         '\par '
