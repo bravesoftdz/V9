@@ -8719,12 +8719,14 @@ begin
         begin
           result := GereMetre (TOBL,TOBMetres,Action,'GL');
           if (SauveQte <> 0) and ((Result = 0) OR (Result = 1)) then
-          Begin
+            Result := SauveQte
+          else
             Result := Arrondi(Result,V_PGI.OkDecQ);
-            TOBL.putValue('GL_QTEFACT',  FloatToStr(Result));
-            TOBL.putValue('GL_QTESTOCK', FloatToStr(Result));
-            TOBL.putValue('GL_QTERESTE', FloatToStr(Result));
-          end;
+          //
+          TOBL.putValue('GL_QTEFACT',  FloatToStr(Result));
+          TOBL.putValue('GL_QTESTOCK', FloatToStr(Result));
+          TOBL.putValue('GL_QTERESTE', FloatToStr(Result));
+          //
           GS.row := SaveLig;
           GS.Col := Savecol;
         end;
