@@ -33,6 +33,7 @@ type
     MajCodetarifs : Boolean;
     PartageFamillesTarifs : Boolean;
     Situationreajuste : Boolean;
+    FactureSansOuvPlat : boolean;
     constructor create;
   end;
 
@@ -69,6 +70,7 @@ type
     procedure AjoutPartageFamillesTarifs;
     procedure ReajusteSituationAnterieure;
     procedure MAJTableCodeBarre;
+    procedure ReajusteFactureSansOuvP;
   end;
 
 {$IFNDEF EAGLCLIENT}
@@ -78,7 +80,7 @@ function RecupVersionbase : String;
 {$ENDIF}
 Procedure ChangeTabletteCompta;
 
-    function VerificationCodeBarre: Boolean;
+function VerificationCodeBarre: Boolean;
 implementation
 {$R *.DFM}
 
@@ -87,7 +89,9 @@ uses HEnt1,
 	DB, {$IFNDEF DBXPRESS} dbTables, {$ELSE} uDbxDataSet, {$ENDIF} MajStruc, HQry,DBCtrls,
 {$ENDIF}
   ParamSoc,
-  Ent1, HmsgBox,UtilSoc,uBTPVerrouilleDossier,TarifUtil,UtilTOBPiece,BTRechargeFamTarif; (*,STKMoulinette, yTarifsBascule,Wjetons  ;*)
+  Ent1, HmsgBox,UtilSoc,uBTPVerrouilleDossier,TarifUtil,UtilTOBPiece,BTRechargeFamTarif
+  ,UtilsOuvragesPlat
+  ; (*,STKMoulinette, yTarifsBascule,Wjetons  ;*)
 
 Function RecupVersionBase : String;
 var QQ : Tquery;
@@ -123,13 +127,16 @@ begin
            (P.UpdateEdition7CEGID) or
            (P.ReajusteUA) or
            (P.PartageFamillesTarifs) or
-           (P.Situationreajuste);
+           (P.Situationreajuste) or
+           (P.FactureSansOuvPlat)
+           ;
 end;
 
 
 function TestChangeVersion ( P : TMajParam; VersionBase : String): boolean;
 var QQ : Tquery;
 		Nbr : integer;
+    SQL  : string;
 begin
   QQ := OpenSql ('SELECT SOC_DATA FROM PARAMSOC WHERE SOC_NOM="SO_RECALCPRIO" AND SOC_DATA="X"',true);
   P.LanceMajRecalcPrio := QQ.eof;
@@ -222,6 +229,21 @@ begin
   if ExisteSQL('SELECT 1 FROM LIGNE WHERE GL_NATUREPIECEG="FBT" and SUBSTRING(GL_PIECEORIGINE,10,3)="ETU"') then P.Situationreajuste := true;
 
   P.OkMAJCodeBarre := VerificationCodeBarre;
+
+  P.FactureSansOuvPlat := False;
+  SQL := 'SELECT COUNT(*) FROM LIGNE '+
+          'WHERE '+
+          'GL_NATUREPIECEG="FBT" AND '+
+          'GL_TYPEARTICLE IN ("OUV","ARP") AND '+
+          '(NOT EXISTS (SELECT * FROM LIGNEOUVPLAT WHERE BOP_NATUREPIECEG=GL_NATUREPIECEG AND BOP_SOUCHE=GL_SOUCHE AND BOP_NUMERO=GL_NUMERO AND BOP_NUMORDRE=GL_NUMORDRE))';
+  TRY
+    P.FactureSansOuvPlat  := ExisteSql (SQL);
+  except
+    ON e: Exception do
+    begin
+      PGIInfo(E.message);
+    end;
+  end;
 
 end;
 
@@ -389,6 +411,7 @@ begin
       XX.AjoutPartageFamillesTarifs;
       XX.ReajusteSituationAnterieure;
       XX.MAJTableCodeBarre;
+      XX.ReajusteFactureSansOuvP;
       FINALLY
         XX.free;
       END;
@@ -1242,5 +1265,54 @@ begin
 end;
 
 
+
+procedure TFMajVerBtp.ReajusteFactureSansOuvP;
+var QQ : TQuery;
+    SQL : String;
+    CC : R_CLEDOC;
+    XX : TGenOuvPlat;
+    Okok : Boolean;
+begin
+  if not param.FactureSansOuvPlat then Exit;
+  Titre.Caption := 'Réajustement Factures';
+  Titre.visible := true;
+  Titre.Refresh;
+  PB.Visible := true;
+  PB.MinValue := 0;
+  PB.MaxValue  := 20;
+  self.Refresh;
+  OKOK := True;
+  XX := TGenOuvPlat.create;
+  //
+  SQL := 'SELECT DISTINCT GL_NATUREPIECEG,GL_SOUCHE,GL_NUMERO,GL_INDICEG '+
+         'FROM LIGNE WHERE GL_NATUREPIECEG="FBT" AND '+
+         'GL_TYPEARTICLE IN ("OUV","ARP") AND '+
+         'NOT EXISTS (SELECT * FROM LIGNEOUVPLAT WHERE BOP_NATUREPIECEG=GL_NATUREPIECEG AND BOP_SOUCHE=GL_SOUCHE AND BOP_NUMERO=GL_NUMERO AND BOP_NUMORDRE=GL_NUMORDRE)';
+  QQ := OpenSQL(SQL,True,-1,'',true);
+  TRY
+    if not QQ.Eof then
+    begin
+      QQ.First;
+      While not QQ.Eof do
+      begin
+        FillChar(CC,SizeOf(CC),#0);
+        CC.NaturePiece := QQ.Fields[0].AsString;
+        CC.Souche := QQ.Fields[1].AsString;
+        CC.NumeroPiece  := QQ.Fields[2].AsInteger;
+        CC.NumOrdre := QQ.fields[3].AsInteger;
+        if not XX.TraitePiece(CC) Then okok := false;
+        QQ.Next;
+        PB.Progress := PB.Progress + 1;
+        if PB.Progress > PB.MaxValue then PB.Progress := 1;
+      end;
+    end;
+  finally
+    Ferme(QQ);
+    XX.Free;
+    if not OKOK then PGIInfo('ATTENTION : Certains documents n''ont pu être traités','Regen. Ouvrages Plat');
+    PB.visible := false;
+    Titre.visible := false;
+  END;
+end;
 
 end.

@@ -528,7 +528,8 @@ uses
   UdefServices in '..\..\CONNECTWS\UdefServices.pas',
   UCryptage in '..\..\WebServices\Commun\Lib\UCryptage.pas',
   URapport in '..\LibBTP\URapport.pas' {FBTRapport},
-  UspecifPOC in '..\SpecifPOC\UspecifPOC.pas';
+  UspecifPOC in '..\SpecifPOC\UspecifPOC.pas',
+  UtilsOuvragesPlat in '..\LibBTP\UtilsOuvragesPlat.pas';
 
 {$R *.RES}
 

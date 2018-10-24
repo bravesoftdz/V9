@@ -1177,7 +1177,7 @@ if TOBRG.GetValue('PRG_TAUXRG') <> 0 then
      ValInterm := arrondi ((TOBPIece.getValue('GP_TOTALHTDEV') - XporcHt)*(TauxRg /100),DEV.decimale);
      TOBRG.putvalue('PRG_MTHTRGDEV',ValInterm);
      // Element TTC
-     XPorcTTC := CalculPort (False,TOBPorcs);
+//     XPorcTTC := CalculPort (False,TOBPorcs);
      ValInterm := arrondi ((TOBPIece.getValue('GP_TOTALTTCDEV') - XPorcTTC)*(TauxRg /100),DEV.decimale);
      TOBRG.putvalue('PRG_MTTTCRGDEV',ValInterm);
      //
