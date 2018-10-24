@@ -57,7 +57,8 @@ procedure CumuleprevufactureAutre (TOBTMP: TOB; NaturePiece : string; MontantPa,
 var LocNaturePiece : string;
 begin
 
-  if (Pos(NaturePiece ,'FBT;B00;ABT;FAC;AVC;FBC;FBP;ABC;')>0) Then
+  //if (Pos(NaturePiece ,'FBT;B00;ABT;FAC;AVC;FBC;FBP;ABC;')>0) Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_AUTRE', TOBTMP.GetValue('FACTURE_AUTRE')+MontantPV);
   end
@@ -78,9 +79,11 @@ var LocNaturePiece  : string;
     TotalMoSal      : Double;
 begin
 
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (NaturePiece = 'FAC') Then
-     TOBTMP.PutValue('FACTURE_SALARIE', TOBTMP.GetValue('FACTURE_SALARIE')+MontantPV)
-  else if (Pos(NaturePiece,'ABT;AVC;ABC')>0) or (NaturePiece = 'ABP')  then
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (NaturePiece = 'FAC') Then
+  //   TOBTMP.PutValue('FACTURE_SALARIE', TOBTMP.GetValue('FACTURE_SALARIE')+MontantPV)
+  //else if (Pos(NaturePiece,'ABT;AVC;ABC')>0) or (NaturePiece = 'ABP')  then
+  //   TOBTMP.PutValue('FACTURE_SALARIE', TOBTMP.GetValue('FACTURE_SALARIE')+MontantPV)
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
      TOBTMP.PutValue('FACTURE_SALARIE', TOBTMP.GetValue('FACTURE_SALARIE')+MontantPV)
   else
   begin
@@ -125,7 +128,8 @@ procedure CumuleprevufactureInterimaire (TOBTMP : TOB ; NaturePiece : string; Mo
 var LocNaturePiece : string;
 begin
 
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_INTERIM', TOBTMP.GetValue('FACTURE_INTERIM')+MontantPV);
   end
@@ -142,7 +146,8 @@ procedure CumuleprevufactureLocation (TOBTMP : TOB ; NaturePiece : string; Monta
 var LocNaturePiece : string;
 begin
 
-  if (Pos(NaturePiece ,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  //if (Pos(NaturePiece ,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_LOCATION', TOBTMP.GetValue('FACTURE_LOCATION')+MontantPV);
   end
@@ -157,7 +162,8 @@ end;
 procedure CumuleprevufactureMateriel (TOBTMP : TOB; NaturePiece : string; MontantPa,MontantPr,MontantPV : double);
 var LocNaturePiece : string;
 begin
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_MATERIEL', TOBTMP.GetValue('FACTURE_MATERIEL')+MontantPV);
   end else
@@ -171,7 +177,8 @@ end;
 procedure CumuleprevufactureOutillage (TOBTMP : TOB; NaturePiece : string; MontantPa,MontantPr,MontantPV : double);
 var LocNaturePiece : string;
 begin
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_OUTIL', TOBTMP.GetValue('FACTURE_OUTIL')+MontantPV);
   end else
@@ -185,7 +192,8 @@ end;
 procedure CumuleprevufactureSousTraitance (TOBTMP : TOB; NaturePiece : string ;MontantPa,MontantPr,MontantPV,TpsPrevu : double);
 var LocNaturePiece : string;
 begin
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_ST', TOBTMP.GetValue('FACTURE_ST')+MontantPV);
   end
@@ -218,7 +226,8 @@ end;
 procedure CumuleprevufactureFourniture (TOBTMP : TOB; NaturePiece : string ; MontantPa,MontantPr,MontantPV : double);
 var LocNaturePiece : string;
 begin
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_FOURNITURE', TOBTMP.GetValue('FACTURE_FOURNITURE')+MontantPV);
   end else
@@ -246,7 +255,9 @@ end;
 procedure CumuleprevufactureFrais (TOBTMP : TOB; NaturePiece : string ; MontantPa,MontantPr,MontantPV : double);
 var LocNaturePiece : string;
 begin
-  if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+
+  //if (Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC') Then
+  if (Pos(NaturePiece,'FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
      TOBTMP.PutValue('FACTURE_FRAIS', TOBTMP.GetValue('FACTURE_FRAIS')+MontantPV);
   end
@@ -384,7 +395,7 @@ begin
   TOBTMP.addchampsup('REALISE_AUTRE_PA', false); TOBTMP.PutValue('REALISE_AUTRE_PA', 0.0);
   TOBTMP.addchampsup('REALISE_AUTRE_PR', false); TOBTMP.PutValue('REALISE_AUTRE_PR', 0.0);
   TOBTMP.addchampsup('REALISE_AUTRE_PV', false); TOBTMP.PutValue('REALISE_AUTRE_PV', 0.0);
-  
+
   // Fourniture deja definie
   TOBTMP.addchampsup('REALISE_SAL_PA', false); TOBTMP.PutValue('REALISE_SAL_PA', 0.0);
   TOBTMP.addchampsup('REALISE_SAL_PR', false); TOBTMP.PutValue('REALISE_SAL_PR', 0.0);
@@ -844,7 +855,6 @@ Begin
 }
   end;
 
-
   if TOBL.GetValue(Prefixe + '_TYPEARTICLE')='POU' then
   begin
     // Article de type pourcentage
@@ -893,13 +903,15 @@ Begin
 
   ChargeCumulPrevuFacture(TypeRes, NaturePiece, TOBTMP,MontantPa,MontantPr,MontantPV,Tps_Prevu);
 
-  if not ((Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC')) Then
+  //if not ((Pos(NaturePiece,'FBT;B00;FBP;FBC')>0) or (Pos(NaturePiece,'ABT;ABP;ABC')>0) or (NaturePiece = 'FAC') or (NaturePiece = 'AVC')) Then
+  if (Pos(NaturePiece,'FPR;FBT;FBP;FBC;FAC')>0) or (Pos(NaturePiece,'ABT;ABC;AVC')>0) Then
   begin
     if (TypeRes <> 'FOU') and (TOBTMP.GetValue('CEclatNatPrest') = 'X') then
     begin
       Charge_Repartition_Eclatement(NaturePiece + '_' + TypeRes + '_' + NaturePres,MontantPA, MontantPR, MontantPV, TOBTMP)
     end;
   end;
+
 end;
 
 procedure TraiteLigneDetailOuvrageTB (Prefixe : String; TOBTMP,TOBL : TOB;Qte,QteDuDetail : double);
@@ -985,7 +997,7 @@ begin
   for II := depart to TOBOuvragePlat.detail.count -1 do
   begin
     TOBTT := TOBOuvragePlat.detail[II];
-    if TOBTT.GetValue('BOP_NUMORDRE')<> TOBL.GetInteger('GL_NUMORDRE') then break;
+    if TOBTT.GetValue('BOP_NUMORDRE') <> TOBL.GetInteger('GL_NUMORDRE') then break;
     TraiteDetailOuvrageTBPLAT (TOBTMP,TOBTT);
   end;
 end;
@@ -1002,13 +1014,14 @@ begin
     TOBL := TOBPiece.detail[Indice];
     if (Pos (TOBL.GetValue('GL_TYPEARTICLE'),'OUV;OU1;ARP') > 0) and (TOBL.GetValue('GL_INDICENOMEN')>0) then
     begin
-      If (TOBL.GetString('GL_NATUREPIECEG') = 'FBT') OR
-         (TOBL.GetString('GL_NATUREPIECEG') = 'B00') OR
+      If (TOBL.GetString('GL_NATUREPIECEG') = 'FPR') OR
+         (TOBL.GetString('GL_NATUREPIECEG') = 'FBT') OR
+         //(TOBL.GetString('GL_NATUREPIECEG') = 'B00') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'FBP') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'FBC') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'ABC') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'ABT') OR
-         (TOBL.GetString('GL_NATUREPIECEG') = 'ABP') OR
+         //(TOBL.GetString('GL_NATUREPIECEG') = 'ABP') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'FAC') OR
          (TOBL.GetString('GL_NATUREPIECEG') = 'AVC') then
         TraiteOuvrageTBPlat(TOBTMP,TOBL,TOBOuvrage)
@@ -1032,13 +1045,14 @@ begin
 
   ChargelesLignesTB (TOBLIgnes,TOBPiece);
   //
-  If  (NaturePiece = 'FBT') OR
-      (NaturePiece = 'B00') OR
+  If  (NaturePiece = 'FPR') OR
+      (NaturePiece = 'FBT') OR
+      //(NaturePiece = 'B00') OR
       (NaturePiece = 'FBC') OR
       (NaturePiece = 'ABC') OR
       (NaturePiece = 'FBP') OR
       (NaturePiece = 'ABT') OR
-      (NaturePiece = 'ABP') OR
+      //(NaturePiece = 'ABP') OR
       (NaturePiece = 'FAC') OR
       (NaturePiece = 'AVC') then
     ChargelesOuvragesTBPlat (TOBOuvrages,TOBLignes)
@@ -1050,7 +1064,7 @@ begin
   TOBLIgnes.free;
   TOBOuvrages.free;
 end;
-                                                    
+
 procedure SetPrevuAvanceADetaille (TOBTMP : TOB; NaturePiece : string; OptionChoixPrevuAvanc: TChoixPrevuAvanc; WherePiece : String);
 var Req : String;
     TOBPieces   : TOB;

@@ -140,6 +140,7 @@ Type
     Bannul 		      : TToolbarButton97;
     BSelectAff1  	  : TToolBarButton97;
     BEffaceAff1  	  : TToolBarButton97;
+    BeffaceRess     : TToolBarButton97;
     BRechPhase 	 	  : TToolbarButton97;
     BChangeEtat     : TToolbarButton97;
     BEffaceCha      : TToolbarButton97;
@@ -279,6 +280,7 @@ Type
     procedure DefiniGrilles;
     procedure EventGrilles(Active: boolean);
     procedure EffaceAffaireClick(Sender: TObject);
+    procedure EffaceRessourceClick(Sender : TObject);
     procedure FONCTIONChange(Sender: Tobject);
     procedure GetComponents;
     procedure GetConso;
@@ -1592,6 +1594,13 @@ begin
   PHASE.Text        := '';
 end;
 
+Procedure TOF_BTSAISIECONSO.EffaceRessourceClick(Sender : TObject);
+begin
+
+  
+
+end;
+
 procedure TOF_BTSAISIECONSO.GetComponents;
 begin
 
@@ -1640,6 +1649,7 @@ begin
   BEffaceCha      := TToolbarButton97 (GetControl('BEFFACECHA'));
   BValider        := TToolbarButton97 (GetControl('BValider'));
   Bannul          := TToolbarButton97 (GetControl('BANNUL'));
+  BeffaceRess     := TToolbarButton97 (GetControl('BEffaceRess'));
   Bannul.onclick  := BannulClick;
   //LLIBELLE := THLabel(GetControl('LLIBELLE'));
   //
@@ -1877,6 +1887,7 @@ begin
   BEffaceAff1.onClick         := EffaceAffaireClick;
   BCherche.onclick            := BChercheClick;
   BChangeEtat.OnClick         := BChangeEtatClick;
+  BeffaceRess.OnClick         := EffaceRessourceClick;
 
 	Ecran.OnKeyDown             := FormKeyDown;
 
