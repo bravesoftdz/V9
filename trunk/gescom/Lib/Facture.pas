@@ -20596,11 +20596,8 @@ begin
       if not okok then
       begin
         V_PGI.IoError := oeUnknown;
-      end else
-      begin
-        TOBOuvragesP.ClearDetail;
       end;
-      if EstAvoir then InverseLesPieces(TOBOuvragesP, 'LIGNEOUVPLAT');    // Surtout bien le laisser avant ecriture
+      if (okok) and (EstAvoir) then InverseLesPieces(TOBOuvragesP, 'LIGNEOUVPLAT');    // Surtout bien le laisser avant ecriture
     end else
     begin
       TOBOuvragesP.ClearDetail;
