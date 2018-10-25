@@ -2497,7 +2497,8 @@ begin
 
   //if TOBTMP.GetValue('BCO_AFFAIRE0')='A' then
   //begin
-  WherePiece := ' (GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR","DAC","DAP") AND (GP_VIVANTE="X"))) ';
+  //WherePiece := ' (GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR","DAC","DAP") AND (GP_VIVANTE="X"))) ';
+  WherePiece := ' (GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR") AND (GP_VIVANTE="X"))) ';
   //end
   //else
   //Begin
@@ -2582,7 +2583,7 @@ begin
   else
      Coef := 1;
 
-//Récupération facturé détaillé
+  //Récupération facturé détaillé
 	if (OptDetailFAC in OptionChoixPrevuAvanc) then
     begin
     // Clause Where à transmettre à la fonction pour prise en compte

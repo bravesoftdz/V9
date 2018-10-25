@@ -1,6 +1,6 @@
 object FFacture: TFFacture
-  Left = 24
-  Top = 42
+  Left = 25
+  Top = 43
   Width = 1011
   Height = 698
   HelpContext = 119000017
