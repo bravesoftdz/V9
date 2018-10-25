@@ -1887,7 +1887,7 @@ begin
   BEffaceAff1.onClick         := EffaceAffaireClick;
   BCherche.onclick            := BChercheClick;
   BChangeEtat.OnClick         := BChangeEtatClick;
-  BeffaceRess.OnClick         := EffaceRessourceClick;
+  //BeffaceRess.OnClick         := EffaceRessourceClick;
 
 	Ecran.OnKeyDown             := FormKeyDown;
 

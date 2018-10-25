@@ -606,7 +606,9 @@ begin
          'AND GL_SOUCHE="' + TOBPiece.GetValue('GP_SOUCHE') + '" ' +
          'AND GL_NUMERO=' + IntToStr(TOBPiece.GetValue('GP_NUMERO')) + ' '+
          'AND GL_INDICEG=' + IntToStr(TOBPiece.GetValue('GP_INDICEG')) + ' '+
+         'AND GL_TOTALHTDEV <> 0' +
          'ORDER BY GL_NUMLIGNE';
+
   QQ := OpenSql (req,true);
   TOBLigne.loadDetailDb ('LIGNE','','',QQ,false);
   ferme (QQ);
@@ -685,10 +687,11 @@ begin
   			 'LEFT JOIN ARTICLE     ON GA_ARTICLE=BLO_ARTICLE '+
          'LEFT JOIN NATUREPREST ON BNP_NATUREPRES=GA_NATUREPRES '+
          'WHERE '+
-         'AND BLO_NATUREPIECEG = "'+TOBPiece.getValue('GP_NATUREPIECEG')+'" '+
+         'AND BLO_NATUREPIECEG = "'+ TOBPiece.getValue('GP_NATUREPIECEG')+'" '+
          'AND BLO_SOUCHE="' + TOBPiece.GetValue('GP_SOUCHE') + '" ' +
-         'AND BLO_NUMERO=' + IntToStr(TOBPiece.GetValue('GP_NUMERO')) + ' '+
+         'AND BLO_NUMERO='  + IntToStr(TOBPiece.GetValue('GP_NUMERO')) + ' '+
          'AND BLO_INDICEG=' + IntToStr(TOBPiece.GetValue('GP_INDICEG')) + ' '+
+         'AND BLO_PUHTDEV <> 0 ' +
          'ORDER BY BLO_NUMLIGNE,BLO_N1,BLO_N2,BLO_N3,BLO_N4,BLO_N5';
   QQ := OpenSql (req,true);
   TOBLocOuvrage.loadDetailDb ('LIGNEOUV','','',QQ,false);
@@ -712,6 +715,7 @@ begin
          'AND BOP_SOUCHE="' + TOBPiece.GetValue('GP_SOUCHE') + '" ' +
          'AND BOP_NUMERO=' + IntToStr(TOBPiece.GetValue('GP_NUMERO')) + ' '+
          'AND BOP_INDICEG=' + IntToStr(TOBPiece.GetValue('GP_INDICEG')) + ' '+
+         'AND BOP_TOTALHTDEV <> 0 ' +
          'ORDER BY BOP_NUMORDRE';
 
   QQ := OpenSql (req,true);
@@ -1038,23 +1042,26 @@ end;
 procedure DefiniPrevuDetail (TOBTMP,TOBPiece: TOB ; NaturePiece : string; OptionChoixPrevuAvanc: TChoixPrevuAvanc);
 var TOBLignes       : TOB;
     TOBOuvrages     : TOB;
+    NaturePieceG    : String;
 begin
 	TOBLignes := TOB.Create ('LA PIECE',nil,-1);
   TOBLignes.Dupliquer (TOBPiece,false,true);
   TOBOuvrages := TOB.Create ('LES OUVRAGES',nil,-1);
 
   ChargelesLignesTB (TOBLIgnes,TOBPiece);
+
+  NaturePieceg := TOBPiece.getValue('GP_NATUREPIECEG');
   //
-  If  (NaturePiece = 'FPR') OR
-      (NaturePiece = 'FBT') OR
+  If  (NaturePieceg = 'FPR') OR
+      (NaturePieceg = 'FBT') OR
       //(NaturePiece = 'B00') OR
-      (NaturePiece = 'FBC') OR
-      (NaturePiece = 'ABC') OR
-      (NaturePiece = 'FBP') OR
-      (NaturePiece = 'ABT') OR
+      (NaturePieceg = 'FBC') OR
+      (NaturePieceg = 'ABC') OR
+      (NaturePieceg = 'FBP') OR
+      (NaturePieceg = 'ABT') OR
       //(NaturePiece = 'ABP') OR
-      (NaturePiece = 'FAC') OR
-      (NaturePiece = 'AVC') then
+      (NaturePieceg = 'FAC') OR
+      (NaturePieceg = 'AVC') then
     ChargelesOuvragesTBPlat (TOBOuvrages,TOBLignes)
   else
     ChargelesOuvragesTB (TOBOuvrages,TOBLignes);
@@ -1097,9 +1104,10 @@ begin
   begin
     if NaturePiece = 'FBT' then
     begin
-      WherePiece := '(GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR","DAC","DAP") AND (GP_VIVANTE="X"))) ' +
+      //WherePiece := ' (GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR","DAC","DAP") AND (GP_VIVANTE="X"))) ' +
       //WherePiece := ' ((GP_NATUREPIECEG="'+NaturePiece+'") OR (GP_NATUREPIECEG="B00") OR ((GP_NATUREPIECEG="FBP") AND (GP_VIVANTE="X"))) '+
-      'AND GP_AFFAIRE="'+TOBTMP.GetValue('BCO_AFFAIRE') + '"';
+      WherePiece := ' (GP_NATUREPIECEG IN ("FBT","ABT","FAC","AVC","FBC","ABC") OR (GP_NATUREPIECEG In ("FBP","FPR") AND (GP_VIVANTE="X"))) ' +
+                    'AND GP_AFFAIRE="'+TOBTMP.GetValue('BCO_AFFAIRE') + '"';
     end else
     begin
   	  WherePiece := ' GP_NATUREPIECEG="'+NaturePiece+'" '+'AND GP_AFFAIRE="'+TOBTMP.GetValue('BCO_AFFAIRE') + '"';

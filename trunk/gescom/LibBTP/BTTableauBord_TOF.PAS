@@ -2583,7 +2583,7 @@ begin
   else
      Coef := 1;
 
-//Récupération facturé détaillé
+  //Récupération facturé détaillé
 	if (OptDetailFAC in OptionChoixPrevuAvanc) then
     begin
     // Clause Where à transmettre à la fonction pour prise en compte
