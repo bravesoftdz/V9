@@ -164,6 +164,7 @@ end;
 function TGenOuvPlat.GenOuvPlat: boolean;
 var TOBL,TOBPlat : TOB;
     i : Integer;
+    Article : string;
 begin
   Result := True;
   TRY
@@ -180,6 +181,7 @@ begin
         // --------
         if IsOuvrage (TOBL) and (TOBL.GetInteger('GL_INDICENOMEN')<>0) then
         begin
+          Article := TOBL.GetString('GL_CODEARTICLE');
           TOBPlat := AddMereLignePlat (fTOBOuvragesPlat,TOBL.GetValue('GL_NUMORDRE'));
           GetOuvragePlat (fTOBpiece,TOBL,fTOBOuvrages,TOBPlat,fTOBTiers,DEV,(fTOBPiece.getvalue('GP_NATUREPIECEG')<>'DBT'));
         end;

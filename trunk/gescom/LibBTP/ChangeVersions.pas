@@ -229,7 +229,6 @@ begin
   if ExisteSQL('SELECT 1 FROM LIGNE WHERE GL_NATUREPIECEG="FBT" and SUBSTRING(GL_PIECEORIGINE,10,3)="ETU"') then P.Situationreajuste := true;
 
   P.OkMAJCodeBarre := VerificationCodeBarre;
-
   P.FactureSansOuvPlat := False;
   SQL := 'SELECT COUNT(*) FROM LIGNE '+
           'WHERE '+
