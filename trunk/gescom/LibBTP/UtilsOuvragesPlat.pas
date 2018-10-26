@@ -198,13 +198,14 @@ end;
 
 procedure TGenOuvPlat.Reset;              
 begin
-  fTOBPiece.ClearDetail; fTOBPiece.InitValeurs(false);
+  fTOBPiece.InitValeurs(false);
+  fTOBPiece.ClearDetail;
   fTOBTiers.InitValeurs(false);
   fTOBarticles.ClearDetail;
   fTOBOuvrages.ClearDetail;
   fTOBOuvragesPlat.ClearDetail;
-  IndiceOuv := 1;
   OptimizeOuv.initialisation;
+  IndiceOuv := 1;
 end;
 
 function TGenOuvPlat.TraitePiece(cledoc: R_CLEDOC): boolean;

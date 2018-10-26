@@ -33,7 +33,7 @@ Uses StdCtrls,
      EntGc,
      RECALCPIECE_RAP_TOF,
      FactTob,
-     Ent1,uEntCommun,UtilTOBPiece,UtilsRapport,SaisUtil ;
+     Ent1,uEntCommun,UtilTOBPiece,UtilsRapport,SaisUtil,UtilsOuvragesPlat ;
 
 Type
   TOF_BTREAJPIECE_MUL = Class (TOF_AFBASECODEAFFAIRE)
@@ -50,6 +50,7 @@ Type
   	TOBPieces : TOB;
     TheSituations : TOB;
     OneRapport : TGestionRapport;
+    GenOUvPlat : TGenOuvPlat;
     procedure AddPieceAtraiter(Cledoc: r_cledoc; lesPieces : TOB);
     procedure Reajusteanterieurs;
     procedure Controlechamp(Champs, valeur: string);
@@ -87,6 +88,7 @@ var CC : THValComboBox;
     i : Integer;
 begin
   Inherited ;
+  GenOUvPlat := TGenOuvPlat.create;
 
   TOBPieces := TOB.create ('LES PIECES',nil,-1);
   TheSituations := TOB.Create ('LES SITUATIONS',nil,-1);
@@ -128,6 +130,7 @@ begin
   TheSituations.free;
 	OneRapport.Free;
   FreeAndNil(TOBPieces);
+  GenOUvPlat.Free;
   Inherited ;
 end ;
 
@@ -586,7 +589,7 @@ function TOF_BTREAJPIECE_MUL.TraiteRecupAvancPrec(TOBPiece: TOB): Boolean;
     end;
   end;
 
-
+var cledoc : R_CLEDOC;
 begin
   Result := false;
   TRY
@@ -614,6 +617,8 @@ begin
     try
       EcritLigneFac (TOBPiece);
       COMMITTRANS;
+      cledoc := TOB2CleDoc(TOBPiece);
+      GenOUvPlat.TraitePiece(cledoc);
       Result := True;
     except
       OneRapport.SauveLigMemo('Document '+TOBPiece.GetString('GP_NUMERO')+ ' -> Erreur : écritures des avancements ');
