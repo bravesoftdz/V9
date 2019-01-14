@@ -5641,9 +5641,7 @@ begin
   end;
 end;
 
-
-
-
+                           
 procedure AjouteSousDetail (TOBL,TOBOuvrage,TOBArticle : TOB;MarchandiseUniquement : boolean);
 var TOBTMP,TOBARt,TOBREf,TOBGroupeN : TOB;
     TypeRessource : string;

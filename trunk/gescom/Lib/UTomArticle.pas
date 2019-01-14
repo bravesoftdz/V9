@@ -1370,32 +1370,32 @@ begin
   DecPrix := '';
   for i := 1 to NBDecPrix do DecPrix := DecPrix + '0';
 
-  SetControlProperty('GA_POIDSNET', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_POIDSBRUT', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_VOLUME', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_SURFACE', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_LINEAIRE', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_POIDSDOUA', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QTEDEFAUT', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QECOACH', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QPCBACH', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QECOVEN', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QECOPROD', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_QPCBPROD', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_PRIXPOURQTE', 'DisplayFormat', '#,##0.' + DecQte);
-  SetControlProperty('GA_PRIXPOURQTEAC', 'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_POIDSNET',       'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_POIDSBRUT',      'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_VOLUME',         'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_SURFACE',        'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_LINEAIRE',       'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_POIDSDOUA',      'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QTEDEFAUT',      'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QECOACH',        'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QPCBACH',        'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QECOVEN',        'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QECOPROD',       'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_QPCBPROD',       'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_PRIXPOURQTE',    'DisplayFormat', '#,##0.' + DecQte);
+  SetControlProperty('GA_PRIXPOURQTEAC',  'DisplayFormat', '#,##0.' + DecQte);
   //FV1 : 08/02/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
-  SetControlProperty('GA_PAUA','DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PAUA',           'DisplayFormat', '#,##0.' + DecPrix);
   //
-  SetControlProperty('GA_DPA', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_DPR', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PVHT', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PVTTC', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PAHT', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PRHT', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PMAP', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PMRP', 'DisplayFormat', '#,##0.' + DecPrix);
-  SetControlProperty('GA_PRIXSIMULACH', 'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_DPA',            'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_DPR',            'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PVHT',           'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PVTTC',          'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PAHT',           'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PRHT',           'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PMAP',           'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PMRP',           'DisplayFormat', '#,##0.' + DecPrix);
+  SetControlProperty('GA_PRIXSIMULACH',   'DisplayFormat', '#,##0.' + DecPrix);
   if Assigned(GetControl('GA_QUALIFUNITESTO')) then SetControlEnabled ('GA_QUALIFUNITESTO',false);
   //SetControlEnabled('TGA_QUALIFUNITESTO',false);
 
@@ -1410,27 +1410,34 @@ begin
   // Gestion des decimale de prix et quantité
   if (copy (ecran.name,1,13)<> 'BTARTPOURCENT') and (copy(ecran.name,1,9)<>'BTARTPARC') then
   begin
-    SetControlProperty('CMARGE','Decimals',4);
-    THNumEdit(GetControl('CMARGE')).NumericType := ntDecimal;
-    SetControlProperty('MMARGE','Decimals',NBDecPrix);
-    THNumEdit(GetControl('MMARGE')).NumericType := ntDecimal;
+    if GetControl('CMARGE') <> nil then
+    begin
+      THNumEdit(GetControl('CMARGE')).NumericType := ntDecimal;
+      SetControlProperty('CMARGE','Decimals', 4);
+    end;
+    if GetControl('MMARGE') <> nil then
+    Begin
+      THNumEdit(GetControl('MMARGE')).NumericType := ntDecimal;
+      SetControlProperty('MMARGE','Decimals', NBDecPrix);
+    end;
   End;
 
   if copy (ecran.name,1,9)= 'BTARTICLE' then
   begin
-    SetControlProperty('TPAMO','Decimals',NBDecPrix);
-    THNumEdit(GetControl('TPAMO')).NumericType := ntDecimal;
-    SetControlProperty('TPRMO','Decimals',NBDecPrix);
-    THNumEdit(GetControl('TPRMO')).NumericType := ntDecimal;
-    SetControlProperty('TPVHTMO','Decimals',NBDecPrix);
-    THNumEdit(GetControl('TPVHTMO')).NumericType := ntDecimal;
-    SetControlProperty('TPVTTCMO','Decimals',NBDecPrix);
+    SetControlProperty('TPAMO',     'Decimals', NBDecPrix);
+    SetControlProperty('TPVHTMO',   'Decimals', NBDecPrix);
+    SetControlProperty('TPRMO',     'Decimals', NBDecPrix);
+    SetControlProperty('TPVTTCMO',  'Decimals', NBDecPrix);
+    //
+    THNumEdit(GetControl('TPAMO')).NumericType    := ntDecimal;
+    THNumEdit(GetControl('TPRMO')).NumericType    := ntDecimal;
+    THNumEdit(GetControl('TPVHTMO')).NumericType  := ntDecimal;
     THNumEdit(GetControl('TPVTTCMO')).NumericType := ntDecimal;
     //
-    SetControlProperty('GA_PAHT1','DisplayFormat', '#,##0.' + DecPrix);
-    SetControlProperty('GA_DPR1','DisplayFormat', '#,##0.' + DecPrix);
-    SetControlProperty('GA_PVHT1','DisplayFormat', '#,##0.' + DecPrix);
-    SetControlProperty('GA_PVTTC1','DisplayFormat', '#,##0.' + DecPrix);
+    SetControlProperty('GA_PAHT1',  'DisplayFormat', '#,##0.' + DecPrix);
+    SetControlProperty('GA_DPR1',   'DisplayFormat', '#,##0.' + DecPrix);
+    SetControlProperty('GA_PVHT1',  'DisplayFormat', '#,##0.' + DecPrix);
+    SetControlProperty('GA_PVTTC1', 'DisplayFormat', '#,##0.' + DecPrix);
     //
     //FV1 : 08/02/2018 - FS#2929 - SES_ETANCHEITE SERVICE : En création article, ne prend pas 3 décimales pour le PU en UA
     SetControlProperty('GA_DPR_',     'Decimals',NBDecPrix);

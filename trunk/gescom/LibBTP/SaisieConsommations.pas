@@ -494,6 +494,7 @@ uses  BtpUtil,
       Paramsoc,
       uTOFComm,
       DateUtils,
+      AGLInitGC,
       UdateUtils;
 
 procedure SaisieConsommation;
@@ -2994,11 +2995,16 @@ end;
 
 procedure TOF_BTSAISIECONSO.MATERIAUXRECH (Sender : TObject);
 var stchamps  : string;
+    StWhere   : string;
     NoErreur  : Single;
 begin
-  stChamps := 'XX_WHERE=GA_CODEARTICLE LIKE "'+MATERIAUX.text+'%" AND ((GA_TYPEARTICLE="MAR") OR (GA_TYPEARTICLE="ARP"))';
-	stChamps := stChamps + ';FIXEDTYPEART';
-  MATERIAUX.Text    := AGLLanceFiche('BTP', 'BTARTICLE_RECH', '', '', StChamps);
+  stwhere := 'GA_CODEARTICLE LIKE "'+MATERIAUX.text+'%" AND ((GA_TYPEARTICLE="MAR") OR (GA_TYPEARTICLE="ARP"))';
+	//stChamps := stWhere + ';FIXEDTYPEART';
+  stChamps := 'GA_TYPEARTICLE IN ("MAR";"ARP")';
+  //MATERIAUX.Text    := AGLLanceFiche('BTP', 'BTARTICLE_RECH', '', '', '');
+
+  DispatchRecherche(MATERIAUX, 1, StWhere, stchamps,'');
+
   ARTICLE.text  := Trim(Copy(MATERIAUX.Text ,1,18));
 end;
 

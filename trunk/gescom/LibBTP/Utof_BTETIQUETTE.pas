@@ -749,7 +749,7 @@ begin
     StSQl := 'SELECT "' + NatureCAB.Value + '" AS NATURECAB, BCB_IDENTIFCAB AS CODECAB, ';
     StSQL := StSQL + 'BCB_QUALIFCODEBARRE AS QUALIFCAB, BCB_CODEBARRE as CODEBARRE, ';
     StSQL := StSQL + 'GA_LIBELLE AS LIBELLE,GA_LIBCOMPL AS LIBCOMPL,GA_PVHT AS PVHT, ';
-    StSQL := StSQL + 'GA_PVTTC AS PVTTC, GA_CODEARTICLE,GA_STATUTART ';
+    StSQL := StSQL + 'GA_PVTTC AS PVTTC, GA_CODEARTICLE,GA_STATUTART, GA_QUALIFUNITESTO ';
     StSQL := StSQL + 'FROM ARTICLE LEFT JOIN BTCODEBARRE ON GA_ARTICLE=BCB_IDENTIFCAB ';
     StSQL := StSQL + ' WHERE ' + Stwhere; 
   end
@@ -791,7 +791,7 @@ begin
         StSQL := Stsql + '(BZD_UTILISATEUR, BZD_CODE,      BZD_LIBELLE, BZD_LIBCOMPL, ';
         StSQL := StSQL + ' BZD_REGIMEPRIX,  BZD_NBETIQ,    BZD_PVHT,    BZD_PVTTC, ';
         StSQL := StSQL + ' BZD_DEVISEPRINC, BZD_CODEBARRE, BZD_INDICE, ';
-        StSQL := StSQL + ' BZD_NATURECAB,   BZD_QUALIFCAB) values (';
+        StSQL := StSQL + ' BZD_NATURECAB,   BZD_QUALIFCAB, BZD_QUALIFUNITESTO) values (';
         StSQL := StSQL + ' "' + V_PGI.User                + '",'; //Utilisateur
         StSQL := StSQL + ' "' + TOBL.GetString('CODECAB');        //code...
         //
@@ -829,7 +829,8 @@ begin
         //
         StSQL := StSQL   + '"' + IntToStr(indice+1) + '", ';
         StSQL := StSQL   + '"' + NatureCAB.Value    + '",';
-        StSQL := StSQL   + '"' + TOBL.GetString('QUALIFCAB') + '")';
+        StSQL := StSQL   + '"' + TOBL.GetString('QUALIFCAB') + '",';
+        StSQL := StSQL   + '"' + TOBL.GetString('GA_QUALIFUNITESTO') + '")';
         //
         if ExecuteSQL(StSQL) = 0 then PGIError('Enreg N°' + IntToStr(i) + '  ' + StSQL);
       end;

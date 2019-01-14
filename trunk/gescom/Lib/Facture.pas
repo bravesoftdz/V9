@@ -17827,7 +17827,7 @@ begin
   end;
   {$ENDIF}
   IndiceNomen := TOBL.GetValue('GL_INDICENOMEN');
-//if IndiceNomen <= 0 then Exit;
+  if IndiceNomen <= 0 then Exit;
   if TOBL.getValue('GL_TYPEARTICLE') = 'NOM' then
   begin
     TOBNomen := TOBNomenclature.Detail[IndiceNomen - 1];
